@@ -17,14 +17,13 @@ sudo blkid|grep -v /loop
 echo
 
 if [ -z ${_UEFI+x} ]; then
-	anstmp=$( sudo blkid|grep -i vfat.*EFI|cut -d: -f1 )
-	_askno "If UEFI are enabled, give partition name for UEFI (${anstmp})"
-	_UEFI=${_ANSWER:-${anstmp}}
+	_menu "Select a device for system installation" none $( sudo blkid | grep -i 'TYPE="vfat"' | cut -d':' -f1 | sort | xargs )
+	_UEFI=${_ANSWER/none/}
 	_confset _UEFI "${_UEFI}"
 fi
 
 if [ -z ${_DEVICE_SYS+x} ]; then
-	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop' | xargs )
+	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop'  | sort| xargs )
 	_DEVICE_SYS=${_ANSWER}
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
@@ -74,7 +73,7 @@ sudo btrfs subvolume list .
 # mv system
 [ -d "${_SYSNAME}" ] && ! [ -d "${_SYSNAME}.keep" ] && sudo mv "${_SYSNAME}" "${_SYSNAME}.keep"
 [ -d "${_SYSNAME}" ] && sudo btrfs subvolume delete "${_SYSNAME}"
-[ -d '@' ] && sudo mv '@' "${_SYSNAME}"
+sudo mv '@' "${_SYSNAME}" || _exite "Unable to move @ to ${_SYSNAME}"
 
 # create home
 ! [ -d home ] && sudo btrfs subvolume create home
@@ -83,7 +82,8 @@ sudo btrfs subvolume list .
 [ -d "user-${_SYSNAME}" ] && sudo btrfs subvolume delete "user-${_SYSNAME}"
 sudo btrfs subvolume create user-${_SYSNAME}
 # move data user to user-$user
-[ -d "@home/${_USERNAME}" ] && sudo mv @home/${_USERNAME}/{.??,}* user-${_SYSNAME}/ 2>/dev/null
+sudo sh -c "mv @home/${_USERNAME}/* user-${_SYSNAME}/ 2>/dev/null"
+sudo sh -c "mv @home/${_USERNAME}/.??* user-${_SYSNAME}/ 2>/dev/null"
 # create path for binding user-${user}
 [ -d "home/${_USERNAME}" ] || sudo mkdir home/${_USERNAME}
 sudo chown 1000.1000 -R home/${_USERNAME} user-${_SYSNAME}
