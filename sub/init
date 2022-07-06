@@ -25,14 +25,14 @@ paths+=" ext/backup ext/ovh ext/shared"
 paths+=" /home/shared"
 for path in ${paths}; do
 	[ -d "${path}" ] || sudo mkdir -p ${path}
-	sudo chown :1000 ${path}
+	sudo chown :${USER} ${path}
 	sudo chmod g+rwx ${path}
 done
 
 _echot "------------------ create /ext paths"
 paths="ext/backup ext/ovh ext/shared /home/shared"
 for path in ${paths}; do
-	sudo chown 1000:1000 ${path}
+	sudo chown ${USER}:${USER} ${path}
 done
 
 _echot "------------------ create user paths"
