@@ -492,9 +492,10 @@ __data() {
 	_FILE_DONE=${_FILE_DONE:-${_PATH_CONF}/install.done}
 	_FILE_PCK=${_PATH_CONF}/install.pck
 
+	PATH="${HOME}/.local/bin:${PATH}"
+
 	[ -d "${HOME}/Soft/linux" ] && _PATH_SOFT="${HOME}/Soft/linux"
 	_PATH_SOFT_BACKUP=${_PATH_SOFT}/backup
-
 }
 
 ########################  MAIN

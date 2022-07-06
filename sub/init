@@ -41,9 +41,6 @@ for path in ${paths}; do
 	[ -d "${path}" ] || mkdir -p ${path}
 done
 
-_echot "------------------ PATH"
-PATH="${HOME}/.local/bin:${PATH}"
-
 _echot "------------------ root user"
 _ask "Give the password for root" && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
 
