@@ -36,7 +36,6 @@ part_install=system
 _echot "------------------  ${part_install}"
 packages="curl gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
-packages+=" openjdk-17-jre"
 # oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
