@@ -6,6 +6,10 @@ _echoT "\n==========================================  ${_PART}"
 
 ########################  MAIN
 
+########################  REPOSITORIES
+
+sudo apt-add-repository -yn ppa:boamaod/nautilus-compare # nautilus_compare
+
 _echot "------------------  install"
 packages="geany git gitg gitk gtkhash openssh-server"
 packages+=" lnav mkisofs net-tools pv xsysinfo"

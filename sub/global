@@ -11,7 +11,6 @@ file=/etc/apt/sources.list
 _keepcpts ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
-sudo apt-add-repository -yn ppa:boamaod/nautilus-compare # nautilus_compare
 sudo add-apt-repository -yn ppa:ubuntuhandbook1/audacity # audacity
 sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser
 sudo apt-add-repository -yn ppa:vincent-vandevyvre/vvv # qarte
