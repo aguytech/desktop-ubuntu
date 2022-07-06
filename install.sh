@@ -15,11 +15,16 @@ file=${_PATH_BASE}/sub/inc
 
 if [ -z ${_BTRFS+x} ]; then
 	_askyn "BTRFS are used for system?"
-	_BTRFS=${_ANSWER:-${anstmp}}
 	_BTRFS=${_BTRFS/n/}
 	_confset _BTRFS "${_BTRFS}"
 fi
 [ "${_BTRFS}" ] && part_fs="btrfs1 btrfs2" || part_fs="nobtrfs"
+
+f [ -z ${_HALT+x} ]; then
+	_askyn "Enable halt between each parts?"
+	_HALT=${_HALT/n/}
+	_confset _HALT "${_HALT}"
+fi
 
 ########################  MANDATORY
 
@@ -29,8 +34,7 @@ for _PART in ${_PARTS_MAN}; do
 	if ! _parthave ${_PART} ${_FILE_DONE}; then
 		grep -q "^# ${_PART}" ${_FILE_CONF} || echo "# ${_PART}" >> ${_FILE_CONF}
 		_source "${_PATH_BASE}/sub/${_PART}"
-		_echoA "Valid to continue"
-		_askno
+		[ "${_HALT}" ] && _echoA "Valid to continue" && _askno
 	fi
 done
 
