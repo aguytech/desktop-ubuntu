@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# write by Aguy
+
+######################## CONF
+_TRACE=debug
+_PATH_BASE=$( readlink -f ${0%/*} )
+_CMD_INS="sudo apt install -y"
+
+_FILE_CONF=${HOME}/.config/desktop-install/dev.conf
+_FILE_DONE=${HOME}/.config/desktop-install/dev.done
+
+file=${_PATH_BASE}/sub/inc
+! [ -f ${file} ] && echo "Unable to find file: ${file}" && exit 1
+! . ${file} && echo "Errors while importing ${file}" && exit 1
+
+########################  MANDATORY
+
+_PARTS_MAN="global python"
+
+for _PART in ${_PARTS_MAN}; do
+	if ! _parthave ${_PART} ${_FILE_DONE}; then
+		grep -q "^# ${_PART}" ${_FILE_CONF} || echo "# ${_PART}" >> ${_FILE_CONF}
+		_source "${_PATH_BASE}/dev/${_PART}"
+	fi
+done
+
+########################  MENU
+
+_PARTS_ALL="binary db network"
+
+while [ "${_PART}" != "quit" ]; do
+
+	_SDATE=$(date +%s) # renew _SDATE
+	parts_made=" $( cat "${_FILE_DONE}" | xargs ) "
+	
+	parts2do=" "
+	for part in ${_PARTS_ALL}; do
+		[ "${parts_made/ ${part} }" = "${parts_made}" ] && parts2do+="$part "
+	done
+
+	_echod "parts_made='${parts_made}'"
+	_echod "parts2do='${parts2do}'"
+
+	[ "${parts_made}" ] && _echo "Part already made: ${cyanb}${parts_made}${cclear}"
+	PS3="Give your choice: "
+	select _PART in quit ${parts2do}; do
+		if [ "${parts2do/ ${_PART} /}" != "${parts2do}" ] ; then
+			_source "${_PATH_BASE}/dev/${_PART}"
+			break
+		elif [ "${_PART}" = quit ]; then
+			break
+		else
+			_echoe "Wrong option"
+		fi
+	done
+done
+
+_exit
