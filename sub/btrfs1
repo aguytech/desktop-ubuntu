@@ -17,14 +17,14 @@ sudo blkid|grep -v /loop
 echo
 
 if [ -z ${_UEFI+x} ]; then
-	anstmp=$( blkid|grep -i vfat.*EFI|cut -d: -f1 )
+	anstmp=$( sudo blkid|grep -i vfat.*EFI|cut -d: -f1 )
 	_askno "If UEFI are enabled, give partition name for UEFI (${anstmp})"
 	_UEFI=${_ANSWER:-${anstmp}}
 	_confset _UEFI "${_UEFI}"
 fi
 
 if [ -z ${_DEVICE_SYS+x} ]; then
-	_menu "Select a device for system installation" $( blkid -o device|grep -v '/loop' | xargs )
+	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop' | xargs )
 	_DEVICE_SYS=${_ANSWER}
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
@@ -38,7 +38,7 @@ fi
 
 if [ -z ${_DEVICE_GRUB+x} ]; then
 	anstmp=
-	_askno "Give a device for grub installation": "$( blkid -o device | grep -v '/loop' | xargs ) (${anstmp})"
+	_askno "Give a device for grub installation": "$( sudo blkid -o device | grep -v '/loop' | xargs ) (${anstmp})"
 	_DEVICE_GRUB=${_ANSWER:-${anstmp}}
 	_confset _DEVICE_GRUB "${_DEVICE_GRUB}"
 fi
