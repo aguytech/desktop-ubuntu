@@ -15,7 +15,7 @@ file=${_PATH_BASE}/sub/inc
 
 if [ -z ${_BTRFS+x} ]; then
 	_askyn "BTRFS are used for system?"
-	_BTRFS=${_ANSWER:-$anstmp}
+	_BTRFS=${_ANSWER:-${anstmp}}
 	_BTRFS=${_BTRFS/n/}
 	_confset _BTRFS "${_BTRFS}"
 fi
@@ -29,6 +29,7 @@ for _PART in ${_PARTS_MAN}; do
 	if ! _parthave ${_PART} ${_FILE_DONE}; then
 		grep -q "^# ${_PART}" ${_FILE_CONF} || echo "# ${_PART}" >> ${_FILE_CONF}
 		_source "${_PATH_BASE}/sub/${_PART}"
+		_askno "Valid to continue"
 	fi
 done
 
