@@ -86,18 +86,6 @@ packages+=" aegisub gnome-subtitles gnome-video-effects-extra handbrake mkvtooln
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-#part_install=languages
-#_echot "------------------ ${part_install}"
-#packages="language-pack-fr language-pack-fr-base language-pack-gnome-fr language-pack-gnome-fr-base hunspell-fr hunspell-fr-classical hyphen-fr mythes-fr firefox-locale-fr thunderbird-locale-fr libreoffice-help-fr libreoffice-l10n-fr tesseract-ocr-fra gimp-help-fr"
-#${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-#	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
-# part_install=msttcorefonts
-# _echot "------------------ ${part_install}"
-# packages="ttf-mscorefonts-installer"
-# ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-# 	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
 # pidgin-blinklight pidgin-extprefs pidgin-twitter # skype gtk2-engines-murrine:i386 gtk2-engines-pixbuf:i386 gimp-dcraw gimp-gluas gimp-plugin-registry gegldropbox mkv-extractor-qt5 xia
 # d4x easymp3gain-gtk mp3splt-gtk vlc-plugin-sdl vlc-plugin-pulse gnome-media-profiles pitivi ffmpeg gimp-dcraw gimp-plugin-registry pidgin-audacious
 # ogmrip

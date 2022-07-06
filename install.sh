@@ -11,18 +11,20 @@ file=${_PATH_BASE}/sub/inc
 ! [ -f ${file} ] && echo "Unable to find file: ${file}" && exit 1
 ! . ${file} && echo "Errors while importing ${file}" && exit 1
 
-########################  FILESYSTEM
+########################  DATA
 
+# btrfs
 if [ -z ${_BTRFS+x} ]; then
 	_askyn "BTRFS are used for system?"
-	_BTRFS=${_BTRFS/n/}
+	_BTRFS=${_ANSWER/n/}
 	_confset _BTRFS "${_BTRFS}"
 fi
 [ "${_BTRFS}" ] && part_fs="btrfs1 btrfs2" || part_fs="nobtrfs"
 
+# halt
 if [ -z ${_HALT+x} ]; then
 	_askyn "Enable halt between each parts?"
-	_HALT=${_HALT/n/}
+	_HALT=${_ANSWER/n/}
 	_confset _HALT "${_HALT}"
 fi
 
