@@ -133,7 +133,7 @@ _echot "------------------ copy log"
 _keepmv ${path}
 [ -d "${path}" ] || sudo mkdir -p ${path}
 sudo cp -a /var/log/desktop-install/* ${path}/
-sudo chown 1000:syslog -R ${path}
+sudo chown 1000:0 -R ${path}
 sudo chmod 664 ${path}/*
 
 if grep -q "${_DEVICE_SYS} */mnt" /proc/mounts; then

@@ -23,7 +23,7 @@ if [ -z ${_UEFI+x} ]; then
 fi
 
 if [ -z ${_DEVICE_SYS+x} ]; then
-	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop'  | sort| xargs )
+	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop\|/sr' | sort| xargs )
 	_DEVICE_SYS=${_ANSWER}
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
@@ -37,7 +37,7 @@ fi
 
 if [ -z ${_DEVICE_GRUB+x} ]; then
 	anstmp=
-	_askno "Give a device for grub installation": "$( sudo blkid -o device|grep -v '/loop' | sed 's|[0-9]$||' | sort -u | xargs ) (${anstmp})"
+	_askno "Give a device for grub installation": "$( sudo blkid -o device|grep -v '/loop\|/sr' | sed 's|[0-9]$||' | sort -u | xargs ) (${anstmp})"
 	_DEVICE_GRUB=${_ANSWER:-${anstmp}}
 	_confset _DEVICE_GRUB "${_DEVICE_GRUB}"
 fi
@@ -172,11 +172,6 @@ done
 
 sudo umount /mnt
 
-########################  END
-
-_echoT "===================== ${_PART} end"
-_partadd "${_PART}" "${_FILE_DONE}"
-
 ########################  EXPORT
 
 _echot "------------------ mount $_DEVICE_SYS"
@@ -194,11 +189,16 @@ path="/mnt/${_SYSNAME}/var/log/desktop-install"
 _keepmv ${path}
 [ -d "${path}" ] || sudo mkdir -p ${path}
 sudo cp -a /var/log/desktop-install/* ${path}/
-sudo chown 1000:syslog -R ${path}
+sudo chown 1000:0 -R ${path}
 sudo chmod 664 ${path}/*
 
 _echot "------------------ umount $_DEVICE_SYS"
 sudo umount /mnt
+
+########################  END
+
+_echoT "===================== ${_PART} end"
+_partadd "${_PART}" "${_FILE_DONE}"
 
 _echot "------------------ reboot $_DEVICE_SYS"
 _echoA "You have to start the global installation script after the reboot"
