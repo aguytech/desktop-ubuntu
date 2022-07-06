@@ -216,7 +216,7 @@ _echoT "END
 #VirtFrom="$VirtFrom/export"
 #VirtTo="${path_backup}/.virt-manager-"$"ddate
 #if ! [ -d "$VirtTo"" ]; then mkdir "$VirtTo"; fi
-#sudo chown .1000 -R "$VirtBase"
+#sudo chown .${USER} -R "$VirtBase"
 #sudo chmod g+rw -R "$VirtBase"
 #echo "---> copy virt-manager"
 #sudo cp -R "$VirtFrom/*" "$VirtTo"
