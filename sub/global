@@ -11,7 +11,7 @@ file=/etc/apt/sources.list
 _keepcpts ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
-sudo add-apt-repository -yn ppa:ubuntuhandbook1/audacity # audacity
+#sudo add-apt-repository -yn ppa:ubuntuhandbook1/audacity # audacity # wait version
 sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser
 sudo apt-add-repository -yn ppa:vincent-vandevyvre/vvv # qarte
 sudo add-apt-repository -yn ppa:alex-p/aegisub # aegisub
@@ -44,9 +44,9 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 part_install=tools
 _echot "------------------ ${part_install}"
 packages="baobab dconf-editor font-manager gnome-sushi meld qt5ct"
-packages+="  gnome-system-monitor gnome-system-tools gnome-tweak-tool"
+packages+="  gnome-system-monitor gnome-system-tools gnome-tweaks"
 # gnome-activity-journal boot-repair backintime-gnome y-ppa-manager numlockx multisystem
-packages+=" easytag-nautilus nautilus-actions nautilus-compare nautilus-image-converter nautilus-script-audio-convert nautilus-sendto"
+packages+=" easytag-nautilus nautilus-image-converter nautilus-script-audio-convert nautilus-sendto"
 
 # nautilus-columns nautilus-image-manipulator filemanager-actions nautilus-emblems
 packages+=" gedit-plugins gedit-source-code-browser-plugin stopwatch"
