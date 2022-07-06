@@ -17,13 +17,13 @@ sudo blkid|grep -v /loop
 echo
 
 if [ -z ${_UEFI+x} ]; then
-	_menu "Select a device for system installation" none $( sudo blkid | grep -i 'TYPE="vfat"' | cut -d':' -f1 | xargs )
+	_menu "Select a device for system installation" none $( sudo blkid | grep -i 'TYPE="vfat"' | cut -d':' -f1 | sort | xargs )
 	_UEFI=${_ANSWER/none/}
 	_confset _UEFI "${_UEFI}"
 fi
 
 if [ -z ${_DEVICE_SYS+x} ]; then
-	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop' | xargs )
+	_menu "Select a device for system installation" $( sudo blkid -o device|grep -v '/loop'  | sort| xargs )
 	_DEVICE_SYS=${_ANSWER}
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
