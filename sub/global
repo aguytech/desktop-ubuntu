@@ -36,7 +36,6 @@ part_install=system
 _echot "------------------  ${part_install}"
 packages="curl gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
-packages+=" openjdk-17-jre"
 # oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
@@ -46,7 +45,7 @@ _echot "------------------ ${part_install}"
 packages="baobab dconf-editor font-manager gnome-sushi meld qt5ct"
 packages+="  gnome-system-monitor gnome-system-tools gnome-tweak-tool"
 # gnome-activity-journal boot-repair backintime-gnome y-ppa-manager numlockx multisystem
-packages+=" easytag-nautilus nautilus-actions nautilus-compare nautilus-image-converter nautilus-script-audio-convert nautilus-sendto"
+packages+=" easytag-nautilus nautilus-image-converter nautilus-script-audio-convert nautilus-sendto"
 
 # nautilus-columns nautilus-image-manipulator filemanager-actions nautilus-emblems
 packages+=" gedit-plugins gedit-source-code-browser-plugin stopwatch"
