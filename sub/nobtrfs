@@ -12,25 +12,22 @@ echo
 sudo blkid|grep -v /loop
 echo
 
+if [ -z ${_UEFI+x} ]; then
+	_menu "Select a device for system installation" none $( sudo blkid | grep -i 'TYPE="vfat"' | cut -d':' -f1 | sort | xargs )
+	_UEFI=${_ANSWER/none/}
+	_confset _UEFI "${_UEFI}"
+fi
+
 if [ -z ${_DEVICE_SYS+x} ]; then
-	_menu "Select the SYSTEM device of installation" $( blkid -o device|grep -v '/loop' | xargs )
+	_menu "Select the SYSTEM device of installation" $( blkid -o device|grep -v '/loop' | sort | xargs )
 	_DEVICE_SYS=${_ANSWER}
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
-path_sys=$( grep "${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
-[ -z "${path_sys}" ] && _exite "${path_sys} not mounted ?"
 
 if [ -z ${_DEVICE_HOME+x} ]; then
-	anstmp=
-	_askno "Give the HOME device of installation (${anstmp})"
-	_DEVICE_HOME=${_ANSWER}
+	_menu "Select the dedicated HOME device of installation" none $( blkid -o device|grep -v '/loop' | sort | xargs )
+	_DEVICE_HOME=${_ANSWER/none/}
 	_confset _DEVICE_HOME "${_DEVICE_HOME}"
-fi
-if [ "${_DEVICE_HOME}" ]; then
-	path_home=$( grep "${_DEVICE_HOME}" /proc/mounts | cut -d' ' -f2 )
-	[ -z "${path_home}" ] && _exite "${path_home} not mounted ?"
-else
-	path_home=${path_sys}/home
 fi
 
 if [ -z ${_DEVICE_EXT+x} ]; then
@@ -55,6 +52,28 @@ if [ -z ${_USERNAME+x} ]; then
 fi
 
 ########################  MAIN
+
+# sys
+if ! grep -q "${_DEVICE_SYS}" /proc/mounts; then
+	path=/mnt_sys
+	[ -d "${path}" ] || sudo mkdir -p${path}
+	sudo mount ${_DEVICE_SYS} ${path} || _exite "Unable to mount ${_DEVICE_SYS} in ${path}"
+fi
+path_sys=$( grep "${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
+[ -z "${path_sys}" ] && _exite "${path_sys} not mounted ?"
+
+# home
+if [ "${_DEVICE_HOME}" ]; then
+	if ! grep -q "${_DEVICE_HOME}" /proc/mounts; then
+		path=/mnt_home
+		[ -d "${path}" ] || sudo mkdir -p${path}
+		sudo mount ${_DEVICE_HOME} ${path} || _exite "Unable to mount ${_DEVICE_HOME} in ${path}"
+	fi
+	path_home=$( grep "${_DEVICE_HOME}" /proc/mounts | cut -d' ' -f2 )
+	[ -z "${path_home}" ] && _exite "${path_home} not mounted ?"
+else
+	path_home=${path_sys}/home
+fi
 
 _echot "------------------ create paths"
 for path in /save /ext /vm; do
