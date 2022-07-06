@@ -38,7 +38,7 @@ fi
 
 if [ -z ${_DEVICE_GRUB+x} ]; then
 	anstmp=
-	_askno "Give a device for grub installation": "$( sudo blkid -o device | grep -v '/loop' | xargs ) (${anstmp})"
+	_askno "Give a device for grub installation": "$( sudo blkid -o device|grep -v '/loop' | sed 's|[0-9]$||' | sort -u | xargs ) (${anstmp})"
 	_DEVICE_GRUB=${_ANSWER:-${anstmp}}
 	_confset _DEVICE_GRUB "${_DEVICE_GRUB}"
 fi
@@ -84,7 +84,7 @@ sudo btrfs subvolume list .
 sudo btrfs subvolume create user-${_SYSNAME}
 # move data user to user-$user
 [ -d "@home/${_USERNAME}" ] && sudo mv @home/${_USERNAME}/{.??,}* user-${_SYSNAME}/ 2>/dev/null
-# create path for binding user-$user
+# create path for binding user-${user}
 [ -d "home/${_USERNAME}" ] || sudo mkdir home/${_USERNAME}
 sudo chown 1000.1000 -R home/${_USERNAME} user-${_SYSNAME}
 
