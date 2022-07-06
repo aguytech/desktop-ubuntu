@@ -211,7 +211,7 @@ __function_common() {
 		shift
 		local ansmenu="valid $* "
 		local anstmp=
-		while [ "$anstmp" != valid ]; do
+		while [ "${anstmp}" != valid ]; do
 			echo "——————————————————————"
 			select anstmp in ${ansmenu}; do [ "${anstmp::2}" == -- ] && ansmenu=${ansmenu/ ${anstmp} / ${anstmp#--} } || ansmenu=${ansmenu/ ${anstmp} / --${anstmp} }; break; done
 			_echod

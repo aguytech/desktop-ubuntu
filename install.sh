@@ -15,7 +15,7 @@ file=${_PATH_BASE}/sub/inc
 
 if [ -z ${_BTRFS+x} ]; then
 	_askyn "BTRFS are used for system?"
-	_BTRFS=${_ANSWER:-$anstmp}
+	_BTRFS=${_ANSWER:-${anstmp}}
 	_BTRFS=${_BTRFS/n/}
 	_confset _BTRFS "${_BTRFS}"
 fi
