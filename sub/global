@@ -78,7 +78,7 @@ part_install=media
 _echot "------------------ ${part_install}"
 packages="audacity cheese easytag gmusicbrowser pulseaudio-equalizer qarte simplescreenrecorder soundconverter sound-juicer"
 # flashplugin-installer chrome-gnome-shell mozplugger isomaster mixxx tesseract-ocr-fra lightzone darktable vlc tangerine amule amule-gnome-support gnome-xcf-thumbnailer chromium-browser
-packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread7 ubuntu-restricted-extras"
+packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread8 ubuntu-restricted-extras"
 # gmusicbrowser gmusicbrowser-art gstreamer1.0-plugins-bad-faad gpodder goobox kid3-cli cdrdao cue2toc bchunk ccd2iso mdf2iso nrg2iso clipgrab lollypop
 packages+=" aegisub gnome-subtitles gnome-video-effects-extra handbrake mkvtoolnix-gui mpv totem totem-plugins"
 # gnome-do gnome-do-plugins totem-plugins-extra dpluzz

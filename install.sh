@@ -20,7 +20,7 @@ if [ -z ${_BTRFS+x} ]; then
 fi
 [ "${_BTRFS}" ] && part_fs="btrfs1 btrfs2" || part_fs="nobtrfs"
 
-f [ -z ${_HALT+x} ]; then
+if [ -z ${_HALT+x} ]; then
 	_askyn "Enable halt between each parts?"
 	_HALT=${_HALT/n/}
 	_confset _HALT "${_HALT}"
