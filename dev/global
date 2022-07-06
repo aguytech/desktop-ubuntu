@@ -16,7 +16,7 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------------------  install nautilus"
-packages="nautilus-admin nautilus-extension-fma nautilus-gtkhash nautilus-hide nautilus-ideviceinfo"
+packages="nautilus-admin nautilus-gtkhash nautilus-hide nautilus-ideviceinfo"
 packages+=" nautilus-script-debug nautilus-scripts-manager nautilus-wipe seahorse-nautilus"
 # pgadmin4 percona-toolkit mytop
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
