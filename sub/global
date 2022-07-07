@@ -33,7 +33,7 @@ sudo apt update
 ########################  MAIN
 
 _echot "------------------  system"
-packages="curl gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
+packages="curl exfatprogs gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
 # oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
