@@ -19,7 +19,12 @@ _confset _DESKTOP "${_DESKTOP}"
 
 ########################  MAIN
 
-_echot "------------------ create /btrfs paths"
+_echot "------------------ conf sources"
+file=/etc/apt/sources.list
+_keepcp ${file}
+sudo sed -i '/# deb .*partner$/ s|# *||' ${file}
+
+_echot "------------------ create paths"
 paths=" /btrfs/sys /btrfs/ext"
 paths+=" ext/backup ext/ovh ext/shared"
 paths+=" /home/shared"
@@ -85,20 +90,13 @@ grep -q ".bash_env" ${file} || echo "
 [ -f \${HOME}/.bash_env ] && . \${HOME}/.bash_env
 
 # functions
-[ -f \${HOME}/.bash_functions ] && . \${HOME}/.bash_functions
-" >> ${file}
+[ -f \${HOME}/.bash_functions ] && . \${HOME}/.bash_functions" >> ${file}
 # aliases
 grep -q ". \${HOME}/.bash_aliases" ${file} || echo "
 # bash_aliases
-[ -f \${HOME}/.bash_aliases ] && . \${HOME}/.bash_aliases
-"  >> ${file}
+[ -f \${HOME}/.bash_aliases ] && . \${HOME}/.bash_aliases"  >> ${file}
 
 . ${file}
-
-_echot "------------------ conf mirror sources"
-file=/etc/apt/sources.list
-_keepcp ${file}
-sudo sed -i '/# deb .*partner$/ s|# *||' ${file}
 
 ########################  END
 
