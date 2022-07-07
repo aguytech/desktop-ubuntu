@@ -32,16 +32,14 @@ sudo apt update
 
 ########################  MAIN
 
-part_install=system
-_echot "------------------  ${part_install}"
+_echot "------------------  system"
 packages="curl gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
 # oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-part_install=tools
-_echot "------------------ ${part_install}"
+_echot "------------------ tools"
 packages="baobab dconf-editor font-manager gnome-sushi meld qt5ct"
 packages+="  gnome-system-monitor gnome-system-tools gnome-tweaks"
 # gnome-activity-journal boot-repair backintime-gnome y-ppa-manager numlockx multisystem
@@ -55,8 +53,7 @@ packages+=" gedit-plugins gedit-source-code-browser-plugin stopwatch"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-part_install=libreoffice
-_echot "------------------ ${part_install}"
+_echot "------------------ libreoffice"
 packages="libreoffice libreoffice-calc libreoffice-draw libreoffice-gnome libreoffice-impress libreoffice-math"
 packages+=" libreoffice-mysql-connector libreoffice-pdfimport libreoffice-templates libreoffice-wiki-publisher libreoffice-writer"
 # scribus scribus-template
@@ -64,18 +61,17 @@ packages+=" libreoffice-mysql-connector libreoffice-pdfimport libreoffice-templa
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-part_install=python
-_echot "------------------ ${part_install}"
+_echot "------------------ python"
 packages="python3 python3-pip"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
+_echot "------------------ pip"
 packages="pip yt-dlp"
 python3 -m pip install -U ${packages} \
 	|| { _echoE "Unable to install pip: ${packages}"; return 1; }
 
-part_install=media
-_echot "------------------ ${part_install}"
+_echot "------------------ media"
 packages="audacity cheese easytag gmusicbrowser pulseaudio-equalizer qarte simplescreenrecorder soundconverter sound-juicer"
 # flashplugin-installer chrome-gnome-shell mozplugger isomaster mixxx tesseract-ocr-fra lightzone darktable vlc tangerine amule amule-gnome-support gnome-xcf-thumbnailer chromium-browser
 packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread8 ubuntu-restricted-extras"
