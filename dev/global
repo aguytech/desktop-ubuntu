@@ -9,6 +9,7 @@ _echoT "\n==========================================  ${_PART}"
 ########################  REPOSITORIES
 
 sudo apt-add-repository -yn ppa:boamaod/nautilus-compare # nautilus-compare
+sudo apt update
 
 _echot "------------------  install"
 packages="geany git gitg gitk gtkhash openssh-server"
