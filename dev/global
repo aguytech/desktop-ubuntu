@@ -6,17 +6,21 @@ _echoT "\n==========================================  ${_PART}"
 
 ########################  MAIN
 
+########################  REPOSITORIES
+
+sudo apt-add-repository -yn ppa:boamaod/nautilus-compare # nautilus-compare
+
 _echot "------------------  install"
 packages="geany git gitg gitk gtkhash openssh-server"
 packages+=" lnav mkisofs net-tools pv squashfs-tools xsysinfo"
-packages+=" openjdk-18-jre"
+packages+=" openjdk-17-jre"
 # sysstat
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------------------  install nautilus"
-packages="nautilus-admin nautilus-gtkhash nautilus-hide nautilus-ideviceinfo"
-packages+=" nautilus-script-debug nautilus-scripts-manager nautilus-wipe seahorse-nautilus"
+packages="nautilus-admin nautilus-extension-fma nautilus-gtkhash nautilus-hide nautilus-ideviceinfo"
+packages+=" nautilus-actions nautilus-compare nautilus-script-debug nautilus-scripts-manager nautilus-wipe seahorse-nautilus"
 # pgadmin4 percona-toolkit mytop
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
