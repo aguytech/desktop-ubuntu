@@ -13,7 +13,7 @@ sudo apt update
 
 _echot "------------------  install"
 packages="geany git gitg gitk gtkhash openssh-server"
-packages+=" lnav mkisofs net-tools pv squashfs-tools xsysinfo"
+packages+=" lnav mkisofs pv squashfs-tools xsysinfo"
 packages+=" openjdk-17-jre"
 # sysstat
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
