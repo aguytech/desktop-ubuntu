@@ -5,6 +5,7 @@
 ######################## CONF
 _TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
+_CMD="sudo pacman --noconfirm"
 _CMD_INS="sudo apt install -y"
 
 _FILE_CONF=${HOME}/.config/desktop-install/dev.conf
@@ -37,7 +38,7 @@ done
 
 ########################  MENU
 
-_PARTS_ALL="binary db network"
+_PARTS_ALL=$( ls ${_PATH_BASE}/dev -I ${_PARTS_MAN// / -I } )
 
 while [ "${_PART}" != "quit" ]; do
 
