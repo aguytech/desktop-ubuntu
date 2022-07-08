@@ -54,22 +54,9 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------------------ libreoffice"
-packages="libreoffice libreoffice-calc libreoffice-draw libreoffice-gnome libreoffice-impress libreoffice-math"
-packages+=" libreoffice-mysql-connector libreoffice-pdfimport libreoffice-templates libreoffice-wiki-publisher libreoffice-writer"
-# scribus scribus-template
-# libreoffice-dmaths libreoffice-librelogo libreoffice-style-breeze libreoffice-style-elementary libreoffice-style-sifr
+packages="libreoffice"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
-_echot "------------------ python"
-packages="python3 python3-pip"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
-_echot "------------------ pip"
-packages="pip yt-dlp"
-python3 -m pip install -U ${packages} \
-	|| { _echoE "Unable to install pip: ${packages}"; return 1; }
 
 _echot "------------------ media"
 packages="audacity cheese easytag gmusicbrowser pulseaudio-equalizer qarte simplescreenrecorder soundconverter sound-juicer"
