@@ -5,7 +5,7 @@
 ######################## CONF
 _TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
-_CMD="sudo pacman --noconfirm"
+_CMD="sudo apt"
 _CMD_INS="sudo apt install -y"
 
 _FILE_CONF=${HOME}/.config/desktop-install/dev.conf
