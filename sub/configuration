@@ -15,7 +15,7 @@ for path in ${paths}; do
 done
 _echot "------------------ grub"
 file=/etc/default/grub
-_keepcpts ${file}
+_keepcp ${file}
 sudo sed -i "/^GRUB_TIMEOUT=/ s|=.*|=2|" ${file}
 sudo sed -i "/^GRUB_TIMEOUT_STYLE=hidden/ s|^|#|" ${file}
 sudo sed -i "/^GRUB_HIDDEN_TIMEOUT_QUIET=/ s|=.*|=false|" ${file}
@@ -71,7 +71,7 @@ for str in conf install; do
 	sudo sed -i 's|^\(syntax \).*|\1"'${str}'" "\.'${str}'$"|' /usr/share/nano/${str}.nanorc
 done
 file=/etc/nanorc
-_keepcpts ${file}
+_keepcp ${file}
 sudo sed -i 's|^.*\(set tabsize\).*|\1 4|' ${file}
 sudo sed -i 's|^\(set cut.*\)$|# \1|' ${file}
 sudo sed -i 's|^\(set linenumbers.*\)$|# \1|' ${file}
