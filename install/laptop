@@ -13,6 +13,11 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 _echot "------------------ tlp"
 _service enable tlp
 
+_echot "------------------ enable acpid"
+service=acpid
+_service enable ${service}
+_service start ${service}
+
 ########################  END
 
 _echoT "===================== ${_PART} end"
