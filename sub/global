@@ -8,7 +8,7 @@ _echoT "\n==========================================  ${_PART}"
 
 _echot "------------------ apt repository"
 file=/etc/apt/sources.list
-_keepcpts ${file}
+_keepcp ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
 #sudo add-apt-repository -yn ppa:ubuntuhandbook1/audacity # audacity # wait version
