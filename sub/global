@@ -11,7 +11,6 @@ file=/etc/apt/sources.list
 _keepcp ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
-#sudo add-apt-repository -yn ppa:ubuntuhandbook1/audacity # audacity # wait version
 sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser
 sudo apt-add-repository -yn ppa:vincent-vandevyvre/vvv # qarte
 sudo apt-add-repository -yn ppa:kdenlive/kdenlive-stable
