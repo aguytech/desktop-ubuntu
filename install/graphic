@@ -6,13 +6,18 @@ _echoT "\n==========================================  ${_PART}"
 
 _echot "------------------ apt repository"
 sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
-#sudo apt-add-repository -yn ppa:lightzone-team/lightzone # lightzone
+
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/graphics:/darktable/xUbuntu_22.04/ /' > /etc/apt/sources.list.d/graphics:darktable.list"
+curl -fsSL https://download.opensuse.org/repositories/graphics:darktable/xUbuntu_22.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/graphics_darktable.gpg > /dev/null
+
+sudo apt update
 
 _echot "------------------ install"
-packages=" gimp gimp-gap gimp-cbmplugs gimp-gluas gimp-data gimp-gmic gimp-texturize"
+packages="inkscape ink-generator scribus"
+packages+=" gimp gimp-gap gimp-cbmplugs gimp-gluas gimp-data gimp-gmic gimp-texturize"
 packages+=" gimp-data-extras gimp-gutenprint gimp-dds gimp-lensfun gtkam-gimp create-resources"
-packages+=" inkscape ink-generator scribus"
-#packages+=" lightzone"
+packages+=" darktable krita"
+# darkroom shotwell
 # ijsgutenprint gimp-save-for-web gimp-normal-map gimp-plugin-registry gimp-dbg gimp-ufraw sozi pandora xsane
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }

@@ -5,7 +5,6 @@
 _echoT "\n==========================================  ${_PART}"
 
 _echot "------------------ apt repository"
-sudo apt-add-repository -yn ppa:kdenlive/kdenlive-stable
 sudo apt-add-repository -yn https://cinelerra-gg.org/download/pkgs/ub20
 file=/etc/apt/sources.list
 file2=/etc/apt/sources.list.d/cinelerra.list
@@ -16,7 +15,7 @@ sudo sed -i '/^deb http.*cinelerra-gg.org/ s|^deb |deb [trusted=yes] |' ${file2}
 sudo apt update
 
 _echot "------------------ install"
-packages=" kdenlive cin" 
+packages="cin" 
 # flowblade lightworks Natron shotcut DaVinci Resolve
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
