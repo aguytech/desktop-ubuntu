@@ -22,6 +22,3 @@ _service start ${service}
 #	 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s|\"$|${str}\"|" ${file}
 #fi
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

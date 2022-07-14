@@ -21,6 +21,3 @@ if [ -f "${file}" ]; then
 	sudo systemctl restart sshd.service
 fi
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

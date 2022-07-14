@@ -15,6 +15,3 @@ ${_CMD} -y autoremove
 ${_CMD} clean
 ${_CMD} autoclean
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

@@ -12,6 +12,3 @@ packages="pip yt-dlp"
 python3 -m pip install -U ${packages} \
 	|| { _echoE "Unable to install pip: ${packages}"; return 1; }
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

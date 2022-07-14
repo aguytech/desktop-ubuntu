@@ -15,6 +15,3 @@ packages="freecad freecad-extras-drawing-dimensioning freecad-extras-lattice2 fr
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
     || { _echoE "Unable to install: ${packages}"; return 1; }
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

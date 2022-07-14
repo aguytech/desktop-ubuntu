@@ -94,9 +94,5 @@ X-GNOME-Autostart-enabled=false" > $file
 chmod +x "$file"
 
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"
-
 
 
