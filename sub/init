@@ -4,18 +4,18 @@
 
 ########################  MAIN
 
-_echot "------------------ update grub"
+_echot "------- update grub"
 if [ "${_BTRFS}" ];then
 	sudo grub-install ${_DEVICE_GRUB}
 	sudo update-grub
 fi
 
-_echot "------------------ conf sources"
+_echot "------- conf sources"
 file=/etc/apt/sources.list
 _keepcp ${file}
 sudo sed -i '/# deb .*partner$/ s|# *||' ${file}
 
-_echot "------------------ create paths"
+_echot "------- create paths"
 paths=" /btrfs/sys /btrfs/ext"
 paths+=" ext/backup ext/ovh ext/shared"
 paths+=" /home/shared"
@@ -27,42 +27,42 @@ done
 sudo chown root:${USER} /btrfs/sys /btrfs/ext
 sudo chmod g+rwx /btrfs/sys /btrfs/ext
 
-_echot "------------------ permissions ${_PATH_LOG}"
+_echot "------- permissions ${_PATH_LOG}"
 sudo chown ${USER}:syslog ${_PATH_LOG}
 sudo chmod g+rw ${_PATH_LOG}
 
-_echot "------------------ permissions /ext"
+_echot "------- permissions /ext"
 sudo chown ${USER}:${USER} ext/backup ext/ovh ext/shared /home/shared
 
-_echot "------------------ create user paths"
+_echot "------- create user paths"
 paths="${HOME}/.local/bin ${HOME}/.local/share/icons ${HOME}/.local/share/applications"
 for path in ${paths}; do
 	[ -d "${path}" ] || mkdir -p ${path}
 done
 
-_echot "------------------ root user"
+_echot "------- root user"
 _ask "Give the password for root" && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
 
-_echot "------------------ conf user"
+_echot "------- conf user"
 sudo adduser ${USER} users
 sudo adduser ${USER} www-data
 sudo adduser ${USER} audio
 sudo adduser ${USER} video
 
-_echot "------------------  .bash_aliases"
+_echot "------- .bash_aliases"
 file=${HOME}/.bash_aliases
 file_from=${_PATH_BS}/conf/.bash_aliases
 _keepmv ${file}
 _eval ln -s ${file_from} ${file}
 
-_echot "------------------  .bash_env"
+_echot "------- .bash_env"
 file=${HOME}/.bash_env
 file_from=${_PATH_BS}/conf/.bash_env
 _keepmv ${file}
 _eval ln -s ${file_from} ${file}
 sudo sed -i "s|_PATH_BS|${_PATH_BS}|" ${file_from}
 
-_echot "------------------  .bashrc"
+_echot "------- .bashrc"
 file=${HOME}/.bashrc
 _keepcp ${file}
 _eval "sed -i 's|^\(HISTSIZE\)=.*$|\1=20000|' ${file}"
