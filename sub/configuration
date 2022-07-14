@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-_echoT "\n==========================================  ${_PART}"
-
 grep -q "^# ${_PART}" "${_FILE_CONF}" || echo -e "# ${_PART}" >> "${_FILE_CONF}"
 
 ########################  MAIN
@@ -184,5 +182,4 @@ fi
 
 ########################  END
 
-_echoT "===================== ${_PART} end"
 _partadd ${_PART} ${_FILE_DONE}

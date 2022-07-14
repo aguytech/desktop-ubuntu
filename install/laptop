@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-_echoT "\n==========================================  ${_PART}"
-
 _echot "------------------ tlp"
 packages="tlp tlp-rdw"
 # acpi
@@ -26,5 +24,4 @@ _service start ${service}
 
 ########################  END
 
-_echoT "===================== ${_PART} end"
 _partadd "${_PART}" "${_FILE_DONE}"
