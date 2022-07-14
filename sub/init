@@ -62,6 +62,3 @@ grep -q ". \${HOME}/.bash_aliases" ${file} || echo "
 
 . ${file}
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"

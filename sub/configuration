@@ -180,6 +180,3 @@ if [ -d "${path}" ]; then
 	chown ${USER}:${USER} ${path}
 fi
 
-########################  END
-
-_partadd ${_PART} ${_FILE_DONE}

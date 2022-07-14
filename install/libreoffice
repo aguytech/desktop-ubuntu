@@ -13,6 +13,3 @@ packages=" libreoffice-mysql-connector libreoffice-pdfimport libreoffice-templat
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-########################  END
-
-_partadd "${_PART}" "${_FILE_DONE}"
