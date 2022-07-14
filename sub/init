@@ -19,6 +19,12 @@ _confset _DESKTOP "${_DESKTOP}"
 
 ########################  MAIN
 
+_echot "------------------ update grub"
+if [ "${_BTRFS}" ];then
+	sudo grub-install ${_DEVICE_GRUB}
+	sudo update-grub
+fi
+
 _echot "------------------ conf sources"
 file=/etc/apt/sources.list
 _keepcp ${file}
