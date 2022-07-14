@@ -6,13 +6,13 @@
 
 _echoT "\n==========================================  ${_PART}"
 
-_echot "-------  update"
+_echot "------- update"
 ${_CMD} update
 
-_echot "-------  dist-upgrade"
+_echot "------- dist-upgrade"
 ${_CMD} -y dist-upgrade
 
-_echot "-------  clean"
+_echot "------- clean"
 ${_CMD} -y autoremove
 ${_CMD} clean
 ${_CMD} autoclean
