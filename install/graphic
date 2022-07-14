@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-_echoT "\n==========================================  ${_PART}"
-
 _echot "------- apt repository"
 sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
 
@@ -24,5 +22,4 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 
 ########################  END
 
-_echoT "===================== ${_PART} end"
 _partadd "${_PART}" "${_FILE_DONE}"

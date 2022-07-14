@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-_echoT "\n==========================================  ${_PART}"
-
 ########################  DATA
 
 if [ -z ${_QEMU_SHARE+x} ]; then
@@ -41,5 +39,4 @@ sudo update-initramfs -u
 
 ########################  END
 
-_echoT "===================== ${_PART} end"
 _partadd "${_PART}" "${_FILE_DONE}"
