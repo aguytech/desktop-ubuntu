@@ -62,7 +62,7 @@ sudo cp ${_PATH_BASE}/icons/* ${path}/
 
 _echot "------------------ wp"
 _evalr cp -a ${_PATH_BASE}/xtra/wp/* /usr/share/backgrounds/
-_evalr chmod 644 /usr/share/backgrounds/xfce/*
+_evalr chmod 644 /usr/share/backgrounds/*
 
 ########################  USER
 
