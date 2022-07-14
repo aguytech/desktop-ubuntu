@@ -4,7 +4,7 @@
 
 _echoT "\n==========================================  ${_PART}"
 
-_echot "------------------ apt repository"
+_echot "-------  apt repository"
 sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
 
 sudo sh -c "echo 'deb http://download.opensuse.org/repositories/graphics:/darktable/xUbuntu_22.04/ /' > /etc/apt/sources.list.d/graphics:darktable.list"
@@ -12,7 +12,7 @@ curl -fsSL https://download.opensuse.org/repositories/graphics:darktable/xUbuntu
 
 sudo apt update
 
-_echot "------------------ install"
+_echot "-------  install"
 packages="inkscape ink-generator scribus"
 packages+=" gimp gimp-gap gimp-cbmplugs gimp-gluas gimp-data gimp-gmic gimp-texturize"
 packages+=" gimp-data-extras gimp-gutenprint gimp-dds gimp-lensfun gtkam-gimp create-resources"

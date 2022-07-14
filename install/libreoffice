@@ -4,12 +4,12 @@
 
 _echoT "\n==========================================  ${_PART}"
 
-_echot "------------------ parts"
+_echot "-------  parts"
 packages="libreoffice-calc libreoffice-draw libreoffice-gnome libreoffice-impress libreoffice-math"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------------------ tools"
+_echot "-------  tools"
 packages=" libreoffice-mysql-connector libreoffice-pdfimport libreoffice-templates libreoffice-wiki-publisher libreoffice-writer"
 # libreoffice-dmaths libreoffice-librelogo libreoffice-style-breeze libreoffice-style-elementary libreoffice-style-sifr
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \

@@ -4,11 +4,11 @@
 
 _echoT "\n==========================================  ${_PART}"
 
-_echot "------------------ apt repository"
+_echot "-------  apt repository"
 sudo apt-add-repository -yn ppa:freecad-maintainers/freecad-stable # freecad
 sudo apt-add-repository -yn ppa:freecad-community/ppa # freecad addons
 
-_echot "------------------ install"
+_echot "-------  install"
 packages="freecad freecad-extras-drawing-dimensioning freecad-extras-lattice2 freecad-extras-eaglepcb2freecad"
  packages+=" freecad-extras-macroparttovrml freecad-doc freecad-extras-fasteners freecad-extras-sheetmetal"
  packages+=" freecad-extras-animation freecad-extras-idfimporter freecad-extras-timber freecad-extras-assembly2"
