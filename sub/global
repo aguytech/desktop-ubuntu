@@ -32,14 +32,14 @@ sudo apt update
 ########################  MAIN
 
 _echot "------- system"
-packages="curl exfat-utils gdebi gnupg2 gparted hfsprogs htop kpartx most pv testdisk tmux tree"
+packages="curl exfat-utils gdebi gnupg2 gparted hfsprogs htop kpartx most ncdu pv testdisk tmux tree"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
 # oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------- tools"
-packages="baobab dconf-editor font-manager gnome-sushi meld qt5ct"
+packages="dconf-editor font-manager gnome-sushi meld qt5ct"
 packages+="  gnome-system-monitor gnome-system-tools gnome-tweak-tool"
 # gnome-activity-journal boot-repair backintime-gnome y-ppa-manager numlockx multisystem
 packages+=" easytag-nautilus nautilus-image-converter nautilus-script-audio-convert nautilus-sendto"
