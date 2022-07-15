@@ -19,4 +19,3 @@ packages+=" darktable krita"
 # ijsgutenprint gimp-save-for-web gimp-normal-map gimp-plugin-registry gimp-dbg gimp-ufraw sozi pandora xsane
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
-

@@ -14,4 +14,3 @@ _echot "------- clean"
 ${_CMD} -y autoremove
 ${_CMD} clean
 ${_CMD} autoclean
-

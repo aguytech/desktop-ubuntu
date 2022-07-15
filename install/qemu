@@ -36,4 +36,3 @@ grep -q ^9p ${file} || sudo sh -c "echo '
 9pnet
 9pnet_virtio' >> ${file}"
 sudo update-initramfs -u
-

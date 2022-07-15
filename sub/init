@@ -61,4 +61,3 @@ grep -q ". \${HOME}/.bash_aliases" ${file} || echo "
 [ -f \${HOME}/.bash_aliases ] && . \${HOME}/.bash_aliases"  >> ${file}
 
 . ${file}
-

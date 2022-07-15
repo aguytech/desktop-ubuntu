@@ -21,4 +21,3 @@ _service start ${service}
 #if [ "${str}" ] && ! grep -q '^GRUB_CMDLINE_LINUX=.*${str}' ${file}; then
 #	 sudo sed -i "/^GRUB_CMDLINE_LINUX=/ s|\"$|${str}\"|" ${file}
 #fi
-

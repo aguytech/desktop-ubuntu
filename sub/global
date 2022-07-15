@@ -73,4 +73,3 @@ packages+=" aegisub gnome-subtitles gnome-video-effects-extra handbrake mkvtooln
 packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread8 ubuntu-restricted-extras"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
-

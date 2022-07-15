@@ -179,4 +179,3 @@ if [ -d "${path}" ]; then
 	ln -sv "${_PATH_BASE}/conf/user.js" ${path}
 	chown ${USER}:${USER} ${path}
 fi
-

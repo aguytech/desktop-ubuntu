@@ -4,7 +4,7 @@
 
 _echot "------- apt repository"
 sudo add-apt-repository -y ppa:wireshark-dev/stable
-sudo apt update
+${_CMD} update
 
 _echot "------- install"
 packages="tshark wireshark"
@@ -12,5 +12,4 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------- wireshark"
-cp ${_PATH_BASE}/xtra/org.wireshark.Wireshark.desktop ~/.local/share/applications/
-
+_eval cp ${_PATH_BASE}/xtra/org.wireshark.Wireshark.desktop ~/.local/share/applications/
