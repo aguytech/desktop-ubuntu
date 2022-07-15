@@ -13,4 +13,3 @@ _echot "------- pip"
 packages="pip grip"
 python3 -m pip install -U ${packages} \
 	|| { _echoE "Unable to install pip: ${packages}"; return 1; }
-

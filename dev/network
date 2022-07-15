@@ -7,4 +7,3 @@ packages="dnsutils net-tools netcat traceroute whois xinetd"
 packages+=" bmon darkstat dstat hping3 iftop ifstat tcpdump vnstat"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
