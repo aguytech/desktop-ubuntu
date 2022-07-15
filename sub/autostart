@@ -2,9 +2,8 @@
 #
 # write by Aguy
 
-
-# xprop WM_CLASS
 ########################  MAIN
+# xprop WM_CLASS
 
 dir=~/.config/autostart
 ! [ -d $dir ] && mkdir $dir
@@ -92,7 +91,3 @@ DBusActivatable=true
 X-GNOME-Autostart-Delay=6
 X-GNOME-Autostart-enabled=false" > $file
 chmod +x "$file"
-
-
-
-

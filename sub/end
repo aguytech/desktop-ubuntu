@@ -6,7 +6,7 @@
 
 _echot "------- languages"
 _echoA "Select 'Region & language' & 'Manage installed languages' to update required files & close windows,"
-_askno "Valid to continue"
+_askno "Validate to continue"
 sudo gnome-control-center
 
 _echot "------- upgrade"
