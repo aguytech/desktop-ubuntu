@@ -70,6 +70,6 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 _echot "------- video"
 packages="cheese qarte simplescreenrecorder "
 packages+=" aegisub gnome-subtitles gnome-video-effects-extra handbrake mkvtoolnix-gui mpv totem totem-plugins"
-packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread8 ubuntu-restricted-extras"
+packages+=" gstreamer1.0-plugins-bad libavcodec-extra libdvdnav4 libdvd-pkg libdvdread7 ubuntu-restricted-extras"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
