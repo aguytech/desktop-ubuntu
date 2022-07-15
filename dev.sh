@@ -34,7 +34,7 @@ for _PART in ${_PARTS_MAN}; do
 	if ! _parthave ${_PART} ${_FILE_DONE}; then
 		grep -q "^# ${_PART}" ${_FILE_CONF} || echo "# ${_PART}" >> ${_FILE_CONF}
 		_source "${_PATH_BASE}/dev/${_PART}"
-		[ "${_HALT}" ] && _askno "Valid to continue"
+		[ "${_HALT}" ] && _askno "Validate to continue"
 	fi
 done
 
