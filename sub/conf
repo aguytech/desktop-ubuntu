@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# write by Aguy
 
 ########################  SYSTEM
 
@@ -22,10 +20,13 @@ sudo sh -c 'echo vm.swappiness=40 > /etc/sysctl.d/99-swappiness.conf' # limit sw
 sudo swapon -v
 
 _echot "------- profile"
+export PATH="${PATH}:${_PATH_BS}"
 sudo sh -c "echo '# PATH
-export PATH=\${PATH}:${_PATH_BS}
-# QT
-export QT_QPA_PLATFORMTHEME=qt5ct' > /etc/profile.d/desktop.sh"
+export PATH=\${PATH}:${_PATH_BS}' > /etc/profile.d/desktop.sh"
+
+_echot "------- QT_QPA_PLATFORMTHEME"
+export QT_QPA_PLATFORMTHEME=qt5ct
+sudo grep 'export QT_QPA_PLATFORMTHEME' /etc -rl|xargs sudo sed -i '/export QT_QPA_PLATFORMTHEME=/ s|=.*$|=qt5ct|'
 
 _echot "------- bash-completion"
 _evalr "cp -a ${_PATH_BASE}/xtra/bash-completion/* /usr/share/bash-completion/completions/"
@@ -63,6 +64,10 @@ _evalr chmod 644 ${path}/*
 
 ########################  USER
 
+_echot "------- user icons"
+path=${HOME}/.local/share/icons
+_eval cp ${_PATH_BASE}/icons/* ${path}/
+
 _echot "------- user conf"
 for file in .nanorc .tmux.conf .vimrc; do
 	path=${HOME}/${file}
@@ -71,8 +76,6 @@ for file in .nanorc .tmux.conf .vimrc; do
 done
 
 _echot "------- gtk styles"
-path=${HOME}/.local/share/gtksourceview-3.0
-[ -d "${path}" ] || mkdir -p ${path}
 path=${HOME}/.local/share/gtksourceview-3.0/styles
 # link or copy
 path_repo=/home/shared/.local/share/gtksourceview-3.0/styles
@@ -88,9 +91,16 @@ cd ${HOME}/.local/share
 path=gtksourceview-4
 [ -e "${path}" ] || ln -sv gtksourceview-3.0 ${path}
 
-_echot "------- tmux"
-_keepmv .tmux
-tar xzf ${_PATH_BASE}/conf/user.tmux.tar.gz -C ${HOME}/
+_echot "------- user conf"
+paths=".tmux"
+for path in ${paths}; do
+	_keepmv ${path}
+done
+for file in ${_PATH_BASE}/conf/user.tmux.tar.gz; do
+	tar xzf ${file} -C ${HOME}/
+done
+
+_echot "------- tmux desktop"
 _eval cp ${_PATH_BASE}/xtra/org.gnome.Terminal-tmux.desktop ${HOME}/.local/share/applications/
 
 _echot "------- nano"
@@ -168,6 +178,7 @@ unzip master.zip
 rm master.zip
 mv gedit-plugin-markdown_preview-master ${path}
 
-_echot "------- user icons"
-path=${HOME}/.local/share/icons
-_eval cp ${_PATH_BASE}/icons/* ${path}/
+_echot "------- QT5"
+_echoA "After validation, adjust settings for qt5 and close qt5ct window"
+_askno "Validate to continue"
+qt5ct 2>/dev/null
