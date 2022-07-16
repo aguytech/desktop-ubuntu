@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-########################  MAIN
-
 ########################  REPOSITORIES
 
 sudo apt-add-repository -yn ppa:boamaod/nautilus-compare # nautilus-compare
