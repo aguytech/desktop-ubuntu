@@ -1,7 +1,6 @@
 #!/bin/bash
 
-_echot "------- root user"
-_ask "Give the password for root" && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
+########################  SYSTEM
 
 _echot "------- update grub"
 if [ "${_BTRFS}" ];then
@@ -18,17 +17,21 @@ _echot "------- permissions ${_PATH_LOG}"
 _evalr chown ${USER}:syslog ${_PATH_LOG}
 _evalr chmod g+rw ${_PATH_LOG}
 
+if ! [ -d home/shared/repo/bs ]; then
+	_echot "------- rsync ${_PATH_BS}"
+	_evalr rsync -rlt ${_PATH_BASE}/bs/ ${_PATH_BS}/
+fi
+
+########################  USER
+
+_echot "------- root user"
+_ask "Give the password for root" && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
+
 _echot "------- user paths"
 paths="${HOME}/.local/bin ${HOME}/.local/share/icons ${HOME}/.local/share/applications"
 for path in ${paths}; do
 	[ -d "${path}" ] || mkdir -p ${path}
 done
-
-_echot "------- conf user"
-sudo adduser ${USER} users
-sudo adduser ${USER} www-data
-sudo adduser ${USER} audio
-sudo adduser ${USER} video
 
 _echot "------- .bash_aliases"
 file=${HOME}/.bash_aliases
@@ -56,12 +59,14 @@ grep -q ". \${HOME}/.bash_aliases" ${file} || echo "
 # bash_aliases
 [ -f \${HOME}/.bash_aliases ] && . \${HOME}/.bash_aliases"  >> ${file}
 
+_echot "------- .bashrc source"
 . ${file}
 
 _echot "------- profile"
 [ -f "${HOME}/.profile" ] && . ${HOME}/.profile
 
-if ! [ -d home/shared/repo/bs ]; then
-	_echot "------- rsync ${_PATH_BS}"
-	_evalr rsync -rlt ${_PATH_BASE}/bs/ ${_PATH_BS}/
-fi
+_echot "------- conf user"
+sudo adduser ${USER} users
+sudo adduser ${USER} www-data
+sudo adduser ${USER} audio
+sudo adduser ${USER} video
