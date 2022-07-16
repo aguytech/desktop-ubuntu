@@ -2,8 +2,6 @@
 #
 # write by Aguy
 
-########################  MAIN
-
 _echot "------- install"
 packages="geany git gitg gitk gtkhash openssh-server"
 packages+=" lnav mkisofs pv squashfs-tools xsysinfo"
