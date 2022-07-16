@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# write by Aguy
 
 ########################  SYSTEM
 
@@ -22,6 +20,8 @@ sudo sh -c 'echo vm.swappiness=40 > /etc/sysctl.d/99-swappiness.conf' # limit sw
 sudo swapon -v
 
 _echot "------- profile"
+export PATH="${PATH}:${_PATH_BS}"
+export QT_QPA_PLATFORMTHEME=qt5ct
 sudo sh -c "echo '# PATH
 export PATH=\${PATH}:${_PATH_BS}
 # QT
@@ -63,6 +63,10 @@ _evalr chmod 644 ${path}/*
 
 ########################  USER
 
+_echot "------- user icons"
+path=${HOME}/.local/share/icons
+_eval cp ${_PATH_BASE}/icons/* ${path}/
+
 _echot "------- user conf"
 for file in .nanorc .tmux.conf .vimrc; do
 	path=${HOME}/${file}
@@ -71,8 +75,6 @@ for file in .nanorc .tmux.conf .vimrc; do
 done
 
 _echot "------- gtk styles"
-path=${HOME}/.local/share/gtksourceview-3.0
-[ -d "${path}" ] || mkdir -p ${path}
 path=${HOME}/.local/share/gtksourceview-3.0/styles
 # link or copy
 path_repo=/home/shared/.local/share/gtksourceview-3.0/styles
@@ -167,7 +169,3 @@ curl -o master.zip https://codeload.github.com/maoschanz/gedit-plugin-markdown_p
 unzip master.zip
 rm master.zip
 mv gedit-plugin-markdown_preview-master ${path}
-
-_echot "------- user icons"
-path=${HOME}/.local/share/icons
-_eval cp ${_PATH_BASE}/icons/* ${path}/
