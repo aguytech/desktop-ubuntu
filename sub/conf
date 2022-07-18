@@ -175,6 +175,11 @@ unzip master.zip
 rm master.zip
 mv gedit-plugin-markdown_preview-master ${path}
 
+_echot "------- languages"
+_echoA "Close language window after validation."
+_askno "Validate to continue"
+_eval gnome-language-selector
+
 _echot "------- QT5"
 _echoA "After validation, adjust settings for qt5 and close qt5ct window"
 _askno "Validate to continue"

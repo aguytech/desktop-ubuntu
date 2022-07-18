@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# write by Aguy
 
 _echot "------- apt repository"
 sudo apt-add-repository -yn ppa:freecad-maintainers/freecad-stable # freecad
