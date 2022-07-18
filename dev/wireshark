@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# write by Aguy
 
 _echot "------- apt repository"
 sudo add-apt-repository -y ppa:wireshark-dev/stable
