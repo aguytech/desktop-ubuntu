@@ -3,9 +3,10 @@
 ########################  MAIN
 
 _echot "------- install"
-packages="bless ghex wxhexeditor"
-packages+=" lnav mkisofs net-tools pv xsysinfo"
-# sysstat
+packages="ghex wxhexeditor"
+packages+=" lnav genisoimage net-tools pv xsysinfo"
+# for bless SEE https://miloserdov.org/?p=5666
+# sysstat mkisofs bless
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 

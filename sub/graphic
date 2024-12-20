@@ -10,8 +10,8 @@ sudo apt update
 
 _echot "------- install"
 packages="inkscape ink-generator scribus"
-packages+=" gimp gimp-gap gimp-cbmplugs gimp-gluas gimp-data gimp-gmic gimp-texturize"
-packages+=" gimp-data-extras gimp-gutenprint gimp-dds gimp-lensfun gtkam-gimp create-resources"
+packages+=" gimp gimp-gap gimp-cbmplugs gimp-data gimp-gmic gimp-texturize"
+packages+=" gimp-data-extras gimp-gutenprint gimp-lensfun gtkam-gimp create-resources"
 packages+=" darktable krita"
 # darkroom shotwell
 # ijsgutenprint gimp-save-for-web gimp-normal-map gimp-plugin-registry gimp-dbg gimp-ufraw sozi pandora xsane

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+########################  REPOSITORIES
+
+_echot "------- apt repository"
+file=/etc/apt/sources.list
+_keepcp ${file}
+
+sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
+sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser
+sudo apt-add-repository -yn ppa:vincent-vandevyvre/vvv # qarte
+sudo apt-add-repository -yn ppa:kdenlive/kdenlive-stable
+sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
+#sudo apt-add-repository -yn ppa:yannubuntu/boot-repair # boot-repair
+#sudo apt-add-repository -yn ppa:nilarimogard/webupd8 # youtube-dl, pulseaudio-equalizer & more
+#sudo apt-add-repository -yn ppa:webupd8team/y-ppa-manager # y-ppa-manager
+#sudo apt-add-repository -yn ppa:mc3man/mpv-tests # mpv
+#sudo apt-add-repository -yn ppa:otto-kesselgulasch/gimp # gimp gmic
+
+sudo apt update
+
+########################  MAIN
+
+_echot "------- libdvd"
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo apt install libdvdnav4 libdvd-pkg libdvdread8t64"
+_askno "After it, Validate to continue"
+
+_echot "------- libdvd conf"
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo dpkg-reconfigure libdvd-pkg"
+_askno "After it, Validate to continue"
+
+_echot "------- ttf"
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo apt install -y ttf-mscorefonts-installer"
+_askno "After it, Validate to continue"

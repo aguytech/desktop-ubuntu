@@ -1,0 +1,49 @@
+#!/bin/bash
+
+########################  DATA
+
+_echot "------------------ data"
+
+# firefoxdev
+anstmp="20241031" && _askno "Give a version of cinelerra-gg to download ($anstmp)" && ver=${_ANSWER:-$anstmp}
+
+path_opt="/opt/cinelerra"
+link_opt="/opt/cinelerra/CinGG.AppImage"
+path_desk=~/.local/share/applications
+file_desk=${path_desk}/cinelerra.desktop
+file_bin=/usr/bin/cinelerra
+
+file_desk_conf=${_PATH_BASE}/conf/cinelerra/cinelerra.desktop
+file_icon_conf=${_PATH_BASE}/conf/cinelerra/cinelerra.png
+_require ${file_desk_conf} ${file_icon_conf}
+
+########################  MAIN
+
+_echot "------------------ libfuse2"
+
+sudo apt install -y libfuse2t64
+
+_echot "------------------ get"
+
+file="CinGG-${ver}-x86_64.AppImage"
+url="https://cinelerra-gg.org/download/images/${file}"
+
+[ -f "${path_opt}" ] || _evalr mkdir ${path_opt}
+
+if ! [ -f "${path_opt}/${file}" ]; then
+	_ANSWER=${file}
+	while ! sudo curl -o "${path_opt}/${file}" "${url}"; do
+		_ask "Unable to donwload:\n$url\nGive a good url to download ${file}\nConfirm"
+	done
+fi
+
+[ -e "${link_opt}" ] && _evalr rm ${link_opt}
+_evalr chmod +x "${path_opt}/${file}"
+_evalr ln -sf "${path_opt}/${file}" "${link_opt}"
+
+_echot "------------------ conf"
+
+_evalr cp ${file_icon_conf} "${path_opt}/"
+
+_evalr cp ${file_desk_conf} "${path_desk}/"
+_evalr chown 1000:1000 "${path_desk}/${file_desk_conf##*/}"

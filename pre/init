@@ -11,16 +11,11 @@ if [ "${_BTRFS}" ];then
 	_evalr update-grub
 fi
 
-_echot "------- conf sources"
-file=/etc/apt/sources.list
-_keepcp ${file}
-sudo sed -i '/# deb .*partner$/ s|# *||' ${file}
-
 _echot "------- permissions ${_PATH_LOG}"
 _evalr chown ${USER}:syslog ${_PATH_LOG}
 _evalr chmod g+rw ${_PATH_LOG}
 
-if ! [ -d home/shared/repo/bs ]; then
+if ! [ -d /home/shared/repo/bs ]; then
 	_echot "------- rsync ${_PATH_BS}"
 	_evalr rsync -rlt ${_PATH_BASE}/bs/ ${_PATH_BS}/
 fi

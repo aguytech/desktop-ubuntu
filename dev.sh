@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ######################## CONF
+
 _TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
 _PATH_CONF=${HOME}/.config/desktop-install
@@ -12,8 +13,8 @@ _FILE_CONF=${HOME}/.config/desktop-install/dev.conf
 _FILE_DONE=${HOME}/.config/desktop-install/dev.done
 
 file=${_PATH_BASE}/bs/inc
-! [ -f ${file} ] && echo "Unable to find file: ${file}" && exit 1
-! . ${file} && echo "Errors while importing ${file}" && exit 1
+! [ -f "${file}" ] && echo "Unable to find file: ${file}" && exit 1
+! . ${file} && echo "Errors while sourcing file: ${file}" && exit 1
 
 ########################  DATA
 

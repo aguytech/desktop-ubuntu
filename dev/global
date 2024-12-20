@@ -1,17 +1,19 @@
 #!/bin/bash
 
+########################  GLOBAL
+
 _echot "------- install"
 packages="geany git gitg gitk gtkhash openssh-server"
 packages+=" lnav mkisofs pv squashfs-tools xsysinfo"
-packages+=" openjdk-18-jre"
+packages+=" openjdk-21-jre"
 # sysstat
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------- install nautilus"
-packages="nautilus-admin nautilus-gtkhash nautilus-hide nautilus-ideviceinfo"
-packages+=" nautilus-script-debug nautilus-scripts-manager nautilus-wipe seahorse-nautilus"
+packages="nautilus-admin nautilus-script-debug nautilus-scripts-manager nautilus-wipe"
 # pgadmin4 percona-toolkit mytop
+# nautilus-gtkhash nautilus-hide nautilus-ideviceinfo seahorse-nautilus
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
