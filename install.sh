@@ -29,7 +29,7 @@ parts_install=$( ls ${_PATH_BASE}/sub )
 
 while [ "${_PART}" != "quit" ]; do
 	_SDATE=$(date +%s) # renew _SDATE
-	parts_made=" $( cat "${_FILE_DONE}" | cut -d' ' -f1 | xargs ) "
+	parts_made=" $( cat "${S_FILE_INSTALL_DONE}" | cut -d' ' -f1 | xargs ) "
 	parts2do=" "
 	for part in ${parts_install}; do
 		[ "${parts_made/ ${part} }" = "${parts_made}" ] && parts2do+="$part "

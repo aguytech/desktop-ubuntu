@@ -4,7 +4,6 @@
 
 _echot "------------------ data"
 
-# firefoxdev
 anstmp="20241031" && _askno "Give a version of cinelerra-gg to download ($anstmp)" && ver=${_ANSWER:-$anstmp}
 
 path_opt="/opt/cinelerra"

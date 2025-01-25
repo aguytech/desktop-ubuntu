@@ -11,7 +11,7 @@ sudo sed -i "/^GRUB_DEFAULT=/ s|=.*|=0|" ${file}
 sudo sed -i "/^GRUB_SAVEDEFAULT=/ s|=.*|=false|" ${file} # manjaro
 file=/etc/grub.d/00_header
 _keepcp ${file}
-_evalr chmod -x ${file}
+_evalr chmod -x ${file}.keep
 sudo sed -i "s|30|2|g" ${file}
 _evalr update-grub
 

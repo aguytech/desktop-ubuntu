@@ -56,7 +56,7 @@ fi
 ########################  MAIN
 
 _echot "------- --------"
-cat "${_FILE_CONF}"
+cat "${S_FILE_INSTALL_CONF}"
 _echot "------- --------"
 _askyn "Confirm installation" && [ "${_ANSWER}" == n ] && _exit 1
 
@@ -86,9 +86,9 @@ fi
 
 _echot "------- user"
 user_uid=$( grep ^${_USERNAME} ${path_sys}/etc/passwd | cut -d: -f3 )
-[ -z "${user_uid}" ] && _exite "Unable to find ${_USERNAME} in /etc/passwd"
+[ -z "${user_uid}" ] && user_uid=1000 && _echo "user_uid set to 1000" 
 user_gid=$( grep ^${_USERNAME} ${path_sys}/etc/group | cut -d: -f3 )
-[ -z "${user_gid}" ] && _exite "Unable to find ${_USERNAME} in /etc/group"
+[ -z "${user_gid}" ] && user_gid=1000 && _echo "user_gid set to 1000" 
 
 _echot "------- create paths"
 for path in ${path_sys}/save ${path_sys}/ext ${path_sys}/vm; do
@@ -141,11 +141,11 @@ else
 fi
 sudo sh -c "echo '
 # bind
-/home/shared/repo/bs   ${_PATH_BS}    none    bind                    0    0' >> ${file}"
+/home/shared/repo/bs   ${_PATH_BS}    none    defaults,bind                    0    0' >> ${file}"
 
 ########################  END
 
-_partadd "${_PART}" "${_FILE_DONE}"
+_partadd "${_PART}" "${S_FILE_INSTALL_DONE}"
 
 ########################  EXPORT
 

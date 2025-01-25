@@ -57,7 +57,8 @@ _echot "------- .bashrc source"
 . ${file}
 
 _echot "------- profile"
-[ -f "${HOME}/.profile" ] && . ${HOME}/.profile
+[ -f "${HOME}/.profile" ] || _evalr cp -a /root/.profile ${HOME}/
+. ${HOME}/.profile
 
 _echot "------- conf user"
 sudo adduser -q ${USER} users

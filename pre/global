@@ -11,7 +11,7 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 
 _echot "------- tools"
 packages="dconf-editor font-manager gnome-sushi meld qt6ct"
-packages+="  gnome-activity-journal gnome-system-monitor gnome-system-tools gnome-tweaks"
+packages+="  gnome-activity-journal gnome-system-monitor gnome-system-tools gnome-tweaks gnome-shell-extension-manager"
 # boot-repair backintime-gnome y-ppa-manager numlockx multisystem
 packages+=" nautilus-image-converter nautilus-sendto"
 # easytag-nautilus nautilus-script-audio-convert

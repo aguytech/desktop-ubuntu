@@ -46,7 +46,7 @@ if [ -z ${_SSD_SYS+x} ]; then
 fi
 
 if [ -z ${_SYSNAME+x} ]; then
-	anstmp=$( sed -n 's|^DISTRIB_CODENAME=\(.*\)$|\1|p' /etc/lsb-release|sed 's/.*/\L&/g' )
+	eval anstmp=$( sed -n 's|^DISTRIB_CODENAME=\(.*\)$|\1|p' /etc/lsb-release|sed 's/.*/\L&/g' )
 	_askno "Give a NAME for system btrfs volume: ${_DEVICE_SYS} (${anstmp})"
 	_SYSNAME=${_ANSWER:-${anstmp}}
 	_confset _SYSNAME "${_SYSNAME}"
@@ -70,7 +70,7 @@ fi
 ########################  MAIN
 
 _echo "------- --------"
-cat "${_FILE_CONF}"
+cat "${S_FILE_INSTALL_CONF}"
 _echo "------- --------"
 _askyn "Confirm installation" && [ "${_ANSWER}" == n ] && _exit 1
 
@@ -114,12 +114,12 @@ _evalr chown ${user_uid}:${user_gid} -R home/${_USERNAME} user-${_SYSNAME}
 
 _echot "------- btrfs/sys"
 path=btrfs/sys
-[ -d "${path}"] || _evalr mkdir -p "${path}"
+[ -d "${path}" ] || _evalr mkdir -p "${path}"
 
 if [ "${_DEVICE_EXT}" ]; then
 	_echot "------- btrfs/ext"
 	path=btrfs/ext
-	[ -d "${path}"] || _evalr mkdir -p "${path}"
+	[ -d "${path}" ] || _evalr mkdir -p "${path}"
 fi
 
 _echot "------- save"
@@ -217,9 +217,9 @@ fi
 [ "${_SSD_SYS}" ] && sudo sed -i "/^UUID=${uuidsys}.*\sbtrfs\s/ s|noatime,|noatime,ssd,|" ${file}
 
 # bs
-[ -d "home/shared/repo/bs" ] && sudo sh -c "echo '
+[ -d "/home/shared/repo/bs" ] && sudo sh -c "echo '
 # bind
-/home/shared/repo/bs   ${_PATH_BS}    none    bind                    0    0' >> ${file}"
+/home/shared/repo/bs   ${_PATH_BS}    none    defaults,bind                    0    0' >> ${file}"
 
 _echot "------- ${file}"
 echo
@@ -270,7 +270,7 @@ _evalr umount ${path_sys}
 
 ########################  END
 
-_partadd "${_PART}" "${_FILE_DONE}"
+_partadd "${_PART}" "${S_FILE_INSTALL_DONE}"
 
 ########################  EXPORT
 
