@@ -4,13 +4,12 @@
 
 _echot "------- install"
 packages="ghex wxhexeditor"
-packages+=" lnav genisoimage net-tools pv xsysinfo"
 # for bless SEE https://miloserdov.org/?p=5666
 # sysstat mkisofs bless
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- bless"
-path=${HOME}/.config/bless/layouts/
-[ -d "${path}" ] || mkdir -p ${path}
-cp ${_PATH_BASE}/conf/bless/* ${path}/
+#_echot "------- bless"
+#path=${HOME}/.config/bless/layouts/
+#[ -d "${path}" ] || mkdir -p ${path}
+#cp ${_PATH_BASE}/conf/bless/* ${path}/

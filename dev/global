@@ -1,23 +1,34 @@
 #!/bin/bash
 
-########################  GLOBAL
+########################  INSTALL
 
-_echot "------- install"
-packages="geany git gitg gitk gtkhash openssh-server"
-packages+=" lnav mkisofs pv squashfs-tools xsysinfo"
+_echot "------- tools"
+packages="jq lnav kpartx openssh-server pv squashfs-tools"
+packages+=" genisoimage net-tools xsysinfo"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- softs"
+packages=" geany git gitg gitk gtkhash vim"
+# bless mkisofs sysstat
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- extra"
 packages+=" openjdk-21-jre"
 # sysstat
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- install nautilus"
-packages="nautilus-admin nautilus-script-debug nautilus-scripts-manager nautilus-wipe"
-# pgadmin4 percona-toolkit mytop
-# nautilus-gtkhash nautilus-hide nautilus-ideviceinfo seahorse-nautilus
+_echot "------- nautilus"
+packages="nautilus-admin nautilus-script-manager nautilus-scripts-manager nautilus-share"
+packages+=" nautilus-extension-gnome-terminal nautilus-wipe nautilus-hide"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- geany"
+########################  CONF
+
+_echot "------- conf geany"
 path=${HOME}/.config/geany/colorschemes
 [ -d "${path}" ] || mkdir -p ${path}
 cp ${_PATH_BASE}/conf/geany/* ${path}/

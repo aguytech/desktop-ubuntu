@@ -2,7 +2,7 @@
 
 ########################  DATA
 
-_echot "------------------ data"
+_echot "------- data"
 
 anstmp="20241031" && _askno "Give a version of cinelerra-gg to download ($anstmp)" && ver=${_ANSWER:-$anstmp}
 
@@ -18,11 +18,11 @@ _require ${file_desk_conf} ${file_icon_conf}
 
 ########################  MAIN
 
-_echot "------------------ libfuse2"
+_echot "------- libfuse2"
 
 sudo apt install -y libfuse2t64
 
-_echot "------------------ get"
+_echot "------- get"
 
 file="CinGG-${ver}-x86_64.AppImage"
 url="https://cinelerra-gg.org/download/images/${file}"
@@ -40,7 +40,7 @@ fi
 _evalr chmod +x "${path_opt}/${file}"
 _evalr ln -sf "${path_opt}/${file}" "${link_opt}"
 
-_echot "------------------ conf"
+_echot "------- conf"
 
 _evalr cp ${file_icon_conf} "${path_opt}/"
 

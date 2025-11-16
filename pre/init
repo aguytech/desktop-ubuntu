@@ -1,17 +1,65 @@
 #!/bin/bash
 
+########################  REQUIRED
+
+_echot "------- required paths"
+path_install_bash_completion=${_PATH_BASE}/xtra/bash-completion
+_requirep ${path_install_bash_completion}
+
+_echot "------- required files"
+file_env=${S_PATH_SCRIPT_CONF}/.bash_env
+file_bash_aliases=${S_PATH_SCRIPT_CONF}/.bash_aliases
+file_bash_functions=${S_PATH_SCRIPT_CONF}/.bash_functions
+
+file_rsyslog_cron=${path_install_conf}/rsyslog/cron.conf
+file_rsyslog_client_auth=${path_install_conf}/rsyslog/client-auth.conf
+file_logrotate_server=${path_install_conf}/logrotate/server
+
+_require ${file_env} ${file_bash_aliases} ${file_bash_functions}
+_require ${file_rsyslog_cron} ${file_rsyslog_client_auth} ${file_logrotate_server}
+
+
 ########################  SYSTEM
 
 _echot "------- root user"
-_ask "Give the password for root" && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
+_askno "Give the password for root or leave blank to let unset"
+[ "${_ANSWER}" ] && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
 
-_echot "------- update grub"
+_echot "------- grub"
+file=/etc/default/grub
+_keepcpts ${file}
+sudo sed -i "/^GRUB_DEFAULT=/ s|=.*|=0|" ${file}
+sudo sed -i "s|^.\?\(GRUB_TIMEOUT_STYLE\)=.*|\1=menu|" ${file}
+sudo sed -i "/^GRUB_TIMEOUT=/ s|=.*|=2|" ${file}
+
+file=/etc/grub.d/00_header
+_evalr cp -a ${file} ${file}.${_SDATE} && _evalr chmod -x ${file}.${_SDATE}
+sudo sed -i "s|30|2|g" ${file}
+
 if [ "${_BTRFS}" ];then
+	_echot "------- grub install"
 	_evalr grub-install ${_DEVICE_GRUB}
-	_evalr update-grub
 fi
 
+_echot "------- grub update"
+_evalr update-grub
 
+_echot "------- conf mirror sources"
+# Change the mirror of software sources
+_evalr software-properties-gtk
+
+_echot "------- export"
+export PATH="${PATH}:${_PATH_BS}"
+export QT_QPA_PLATFORMTHEME=qt6ct
+
+_echot "------- profile"
+sudo sh -c "echo '# PATH
+export PATH=\${PATH}:${S_PATH_SCRIPT}
+# QT
+export QT_QPA_PLATFORMTHEME=qt6ct' > /etc/profile.d/desktop.sh"
+
+_echot "------- QT_QPA_PLATFORMTHEME"
+sudo grep 'export QT_QPA_PLATFORMTHEME' /etc -rl|xargs sudo sed -i '/export QT_QPA_PLATFORMTHEME=/ s|=.*$|=qt6ct|'
 
 ########################  USER
 
@@ -21,37 +69,74 @@ for path in ${paths}; do
 	[ -d "${path}" ] || mkdir -p ${path}
 done
 
+_echot "------- .profile"
+file=${HOME}/.profile
+_keepmv ${file}
+[ -f ${file} ] || touch ${file}
+sed -i '/export QT_QPA_PLATFORMTHEME=/ s|=.*$|=qt6ct|' ${file}
+grep -q ${S_PATH_SCRIPT} ${file} || echo "export PATH=\${PATH}:${S_PATH_SCRIPT}" >> ${file}
+grep -q QT_QPA_PLATFORMTHEME ${file} || echo "export QT_QPA_PLATFORMTHEME=qt6ct" >> ${file}
+
+_echot "------- .bash_profile"
+# load .bashrc from tmux
+file=${HOME}/.bash_profile
+_keepmvts ${file}
+echo "[ -f ~/.bashrc ] && . ~/.bashrc" > ${file}
+
+_echot "------- .bash_env"
+file=${HOME}/.bash_env
+_keepmvts ${file}
+_eval ln -s ${file_env} ${file}
+
 _echot "------- .bash_aliases"
 file=${HOME}/.bash_aliases
-_keepmv ${file}
-_eval ln -s ${_PATH_BS}/conf/.bash_aliases ${file}
+_keepmvts ${file}
+_eval ln -s ${file_bash_aliases} ${file}
+
+_echot "-------  .bash_functions"
+file=~/.bash_functions
+_keepmvts ${file}
+_eval ln -s ${file_bash_functions} ${file}
 
 _echot "------- .bashrc"
-file=${HOME}/.bashrc
-_keepcp ${file}
-_eval "sed -i 's|^\(HISTSIZE\)=.*$|\1=50000|' ${file}"
-_eval "sed -i 's|^\(HISTFILESIZE\)=.*$|\1=50000|' ${file}"
-_eval "sed -i '/^#force_color_prompt/ s|^#||' ${file}"
+file=~/.bashrc
+if [ -f "${file}" ]; then
+	_keepcpts ${file}
+else
+	_eval cp /etc/skel/.bashrc ~/
+fi
+color='\[\033[01;34m\]'
+color_root='\[\033[01;31m\]'
+grep -q '####  PERSO' ${file} || echo "
 
-_echot "------- color prompt"
-sed -i 's|^#\?\(force_color_prompt\).*$|\1=yes|' ${file}
+_echot "-------  bash-completion"
+_evalr "cp -a ${path_install_bash_completion}/* /usr/share/bash-completion/completions/"
 
-_echot "------- .bashrc PS1"
-color='\\[\\033[01;34m\\]' # '\\[\\033[01;32m\\]'
-sed -i 's|^\(\s*PS1=\).*00m.*$|\1"\${debian_chroot:+(\$debian_chroot)}'${color}'\\u@\\h\\[\\033[00m\\] \\W'${color}'\\$\\[\\033[00m\\] "|' ${file}
-sed -i "/^\s*PS1=.*01;34m/ s|\"|'|g" ${file}
+########################  PERSO
 
-_echot "------- .bashrc aliases"
-grep -q ". \${HOME}/.bash_aliases" ${file} || echo "
-# bash_aliases
-[ -f \${HOME}/.bash_aliases ] && . \${HOME}/.bash_aliases"  >> ${file}
+# PS1
+if [[ \${EUID} == 0 ]] ; then
+PS1='${color_root}\\u@\\h \\[\\033[1;37m\\]\\W${color_root}\\$\\[\\033[00m\\] '
+else
+PS1='${color}\\u@\\h\\[\\033[01;37m\\] \\[\\033[1;37m\\]\\W${color}\\$\\[\\033[00m\\] '
+fi
 
-_echot "------- .bashrc source"
+# HISTORY
+HISTSIZE=50000
+HISTFILESIZE=50000
+
+# source global variables
+[ -f ~/.bash_env ] && . ~/.bash_env
+
+# aliases
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+# functions
+[ -f ~/.bash_functions ] && . ~/.bash_functions
+" >> ${file}
+
+_echot "------- source .bashrc"
 . ${file}
-
-_echot "------- profile"
-[ -f "${HOME}/.profile" ] || _evalr cp -a /root/.profile ${HOME}/
-. ${HOME}/.profile
 
 _echot "------- conf user"
 sudo adduser -q ${USER} users

@@ -18,7 +18,7 @@ file=${_PATH_BASE}/bs/inc
 
 _source_sub data pre
 
-parts_sub="${part_fs} init ssh upgrade hack global conf end"
+parts_sub="${part_fs} init ssh upgrade repo global conf end"
 for _PART in ${parts_sub}; do
 	_source_sub "${_PART}" pre
 done

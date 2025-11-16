@@ -1,21 +1,38 @@
 #!/bin/bash
 
+########################  PRE OUTSIDE
+
+_echot "------- libdvd"
+_echo "Launch this following command in an other terminal:"
+_echoA "${_CMD_INS} libdvdnav4 libdvd-pkg libdvdread8t64"
+_askno "After it, Validate to continue"
+
+_echot "------- libdvd conf"
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo dpkg-reconfigure libdvd-pkg"
+_askno "After it, Validate to continue"
+
+_echot "------- ttf"
+_echo "Launch this following command in an other terminal:"
+_echoA "${_CMD_INS} -y ttf-mscorefonts-installer"
+_askno "After it, Validate to continue"
+
 ########################  MAIN
 
 _echot "------- system"
-packages="curl duf exfatprogs gdebi gnupg gparted hfsprogs htop kpartx most ncdu pv testdisk tmux tree vim"
+packages="curl wget duf exfatprogs gnupg hfsprogs htop most ncdu pv testdisk tree"
+packages+=" git gparted tmux vim"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
-# oracle-java7-installer ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
+# kpartx ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+	|| { _echoE "Unable to install packages: ${packages}"; return 1; }
 
 _echot "------- tools"
 packages="dconf-editor font-manager gnome-sushi meld qt6ct"
-packages+="  gnome-activity-journal gnome-system-monitor gnome-system-tools gnome-tweaks gnome-shell-extension-manager"
-# boot-repair backintime-gnome y-ppa-manager numlockx multisystem
+packages+=" gnome-activity-journal gnome-system-monitor gnome-system-tools gnome-tweaks gnome-shell-extension-manager"
+# boot-repair backintime-gnome y-ppa-manager numlockx multisystem baobab
 packages+=" nautilus-image-converter nautilus-sendto"
 # easytag-nautilus nautilus-script-audio-convert
-
 # nautilus-columns nautilus-image-manipulator filemanager-actions nautilus-emblems
 packages+=" gedit-plugins gedit-source-code-browser-plugin stopwatch"
 # gedit-developer-plugins
@@ -24,25 +41,25 @@ packages+=" gedit-plugins gedit-source-code-browser-plugin stopwatch"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- libreoffice"
-packages="libreoffice"
+_echot "------- office"
+packages="libreoffice  libreoffice-gtk4 libreoffice-math libreoffice-numbertext libreoffice-qt6"
+packages+=" libreoffice-style-breeze libreoffice-style-sifr libreoffice-sdbc-mysql"
+packages+=" scribus"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 _echot "------- graphic"
-packages="inkscape gimp"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+packages="inkscape"
+# inkscape-speleo inkscape-textext inkscape-tutorials inkscape-open-symbols inkscape-survex-export"
+packages+=" gimp gimp-lensfun gimp-texturize"
+# gimp-plugin-registry
 
-_echot "------- audio"
-packages="audacity easytag gmusicbrowser soundconverter sound-juicer"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
-_echot "------- video"
-packages="cheese obs-studio simplescreenrecorder "
-packages+=" aegisub gnome-subtitles gnome-video-effects-extra handbrake mkvtoolnix-gui mpv totem totem-plugins"
-packages+=" gstreamer1.0-plugins-bad libavcodec-extra  ubuntu-restricted-extras"
-# qarte
+_echot "------- media"
+packages+=" aegisub cheese gnome-subtitles handbrake mkvtoolnix-gui mpv totem totem-plugins"
+packages+=" obs-studio simplescreenrecorder"
+packages+=" audacity easytag gmusicbrowser soundconverter sound-juicer"
+packages+=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
+packages+=" libavcodec-extra ubuntu-restricted-extras"
+# chrome-gnome-shell
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }

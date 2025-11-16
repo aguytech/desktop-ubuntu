@@ -118,6 +118,7 @@ paths=
 
 _echot "------- btrfs/sys"
 paths+=" ${_SYSNAME}/btrfs/sys"
+paths+=" ${_SYSNAME}/btrfs/save"
 
 _echot "------- btrfs/ext"
 [ "${_DEVICE_EXT}" ] && paths+=" ${_SYSNAME}/btrfs/ext"
@@ -191,7 +192,7 @@ sudo sh -c "echo '
 UUID=${uuidsys}	/		btrfs	defaults,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/${_SYSNAME}		0	1
 UUID=${uuidsys}	/home		btrfs	defaults,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/home		0	2
 UUID=${uuidsys}	/home/${_USERNAME}	btrfs	defaults,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/user-${_SYSNAME}		0	2
-UUID=${uuidsys}	/save		btrfs	defaults,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/save		0	2' >> ${file}"
+UUID=${uuidsys}	/btrfs/save		btrfs	defaults,noauto,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/save		0	2' >> ${file}"
 
 # ext
 [ "${_DEVICE_EXT}" ] || sudo sh -c "echo 'UUID=${uuidsys}	/ext		btrfs	defaults,noatime,space_cache=v2,autodefrag,compress=zstd,subvol=/ext		0	2' >> ${file}"
@@ -222,7 +223,7 @@ fi
 # bs
 [ -d "/home/shared/repo/bs" ] && sudo sh -c "echo '
 # bind
-/home/shared/repo/bs				${S_PATH_SCRIPT}	none	defaults,bind										0	0' >> ${file}"
+/home/shared/repo/bs				${_PATH_BS}	none	defaults,bind										0	0' >> ${file}"
 
 _echot "------- ${file}"
 echo
