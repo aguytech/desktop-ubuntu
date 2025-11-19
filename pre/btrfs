@@ -79,13 +79,13 @@ _askyn "Confirm installation" && [ "${_ANSWER}" == n ] && _exit 1
 _echot "------- btrfs volumes && dirs"
 cd /
 if grep -q "^${_DEVICE_SYS}" /proc/mounts; then
-	path_sys=$( grep "^${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
-	_evalr umount ${path_sys} || _exite "Unable to unmount ${path_sys}"
+	pth_sys=$( grep "^${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
+	_evalr umount ${pth_sys} || _exite "Unable to unmount ${pth_sys}"
 fi
-path_sys=/mnt_sys
-[ -d "${path_sys}" ] || _evalr mkdir "${path_sys}"
-_evalr mount "${_DEVICE_SYS}" ${path_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${path_sys}"
-cd ${path_sys}
+pth_sys=/mnt_sys
+[ -d "${pth_sys}" ] || _evalr mkdir "${pth_sys}"
+_evalr mount "${_DEVICE_SYS}" ${pth_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${pth_sys}"
+cd ${pth_sys}
 
 _echot "------- btrfs list"
 _evalr btrfs subvolume list .
@@ -114,36 +114,36 @@ sudo sh -c "mv @home/${_USERNAME}/.??* user-${_SYSNAME}/ 2>/dev/null"
 [ -d "home/${_USERNAME}" ] || _evalr mkdir "home/${_USERNAME}"
 _evalr chown ${user_uid}:${user_gid} -R home/${_USERNAME} user-${_SYSNAME}
 
-paths=
+pths=
 
 _echot "------- btrfs/sys"
-paths+=" ${_SYSNAME}/btrfs/sys"
-paths+=" ${_SYSNAME}/btrfs/save"
+pths+=" ${_SYSNAME}/btrfs/sys"
+pths+=" ${_SYSNAME}/btrfs/save"
 
 _echot "------- btrfs/ext"
-[ "${_DEVICE_EXT}" ] && paths+=" ${_SYSNAME}/btrfs/ext"
+[ "${_DEVICE_EXT}" ] && pths+=" ${_SYSNAME}/btrfs/ext"
 
 _echot "------- ext"
-paths+=" ${_SYSNAME}/ext"
+pths+=" ${_SYSNAME}/ext"
 if ! [ "${_DEVICE_EXT}" ]; then
 	[ -d ext ] || _evalr btrfs subvolume create ext
 fi
 
 _echot "------- save"
-paths+=" ${_SYSNAME}/save"
+pths+=" ${_SYSNAME}/save"
 [ -d save ] || _evalr btrfs subvolume create save
 
 _echot "------- bs"
-paths+=" ${_SYSNAME}${_PATH_BS}"
+pths+=" ${_SYSNAME}${_PATH_BS}"
 
 _echot "------- create paths"
-for path in ${paths}; do
-	[ -d "${path}" ] || _evalr mkdir -p "${path}"
+for pth in ${pths}; do
+	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
 done
-paths="${_SYSNAME}/save ${_SYSNAME}/ext ${_SYSNAME}${_PATH_BS}"
-for path in ${paths}; do
-	[ -d "${path}" ] || _evalr mkdir -p "${path}"
-	_evalr chown ${user_uid}:${user_gid} ${path}
+pths="${_SYSNAME}/save ${_SYSNAME}/ext ${_SYSNAME}${_PATH_BS}"
+for pth in ${pths}; do
+	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
+	_evalr chown ${user_uid}:${user_gid} ${pth}
 done
 
 _echot "------- btrfs delete"
@@ -152,9 +152,9 @@ for sub in @home @cache @log; do
 done
 
 _echot "------- path delete"
-paths="create ubiquity-apt-clone var"
-for path in ${paths}; do
-	[ -e "${path}" ] && _evalr rm -fR "${path}"
+pths="create ubiquity-apt-clone var"
+for pth in ${pths}; do
+	[ -e "${pth}" ] && _evalr rm -fR "${pth}"
 done
 
 _echot "------- btrfs subvolume list ${PWD}"
@@ -239,21 +239,21 @@ _keepcp "${file}"
 grep -q '^GRUB_CMDLINE_LINUX=.*biosdevname' ${file} \
 	|| sudo sed -i '/^GRUB_CMDLINE_LINUX=/ s|"$| biosdevname=0"|' ${file}
 
-_echot "------- umount ${path_sys}"
+_echot "------- umount ${pth_sys}"
 cd
-_evalr umount ${path_sys}
+_evalr umount ${pth_sys}
 
 ############  GRUB
 
 _echot "------- grub mount devices"
 cd /
-_evalr mount -o subvol="${_SYSNAME}" "${_DEVICE_SYS}" ${path_sys} \
-	|| _exite "Unable to mount subvol=${_SYSNAME} of ${_DEVICE_SYS} in ${path_sys}"
+_evalr mount -o subvol="${_SYSNAME}" "${_DEVICE_SYS}" ${pth_sys} \
+	|| _exite "Unable to mount subvol=${_SYSNAME} of ${_DEVICE_SYS} in ${pth_sys}"
 for i in dev dev/pts sys proc run; do
-	_evalr mount --bind /$i ${path_sys}/$i
+	_evalr mount --bind /$i ${pth_sys}/$i
 done
 # uefi
-[ "${_UEFI}" ] && _evalr mount "${_UEFI}" ${path_sys}/boot/efi
+[ "${_UEFI}" ] && _evalr mount "${_UEFI}" ${pth_sys}/boot/efi
 
 _echot "------- grub install"
 _echoA "After you are 'chrooted' please enter this line :"
@@ -262,15 +262,15 @@ _echo "update-grub"
 _echo "exit"
 
 _echot "------- chrooted"
-_evalr chroot ${path_sys}
+_evalr chroot ${pth_sys}
 
 _echot "------- grub umount devices"
 # uefi
-[ "$_UEFI" ] && _evalr umount ${path_sys}/boot/efi
+[ "$_UEFI" ] && _evalr umount ${pth_sys}/boot/efi
 for i in run proc sys dev/pts dev; do
-	_evalr umount ${path_sys}/$i
+	_evalr umount ${pth_sys}/$i
 done
-_evalr umount ${path_sys}
+_evalr umount ${pth_sys}
 
 ########################  END
 
@@ -281,31 +281,31 @@ _partadd ${_PART} ${S_FILE_INSTALL_DONE}
 ########################  EXPORT
 
 _echot "------- mount ${_DEVICE_SYS}"
-_evalr mount "${_DEVICE_SYS}" ${path_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${path_sys}"
+_evalr mount "${_DEVICE_SYS}" ${pth_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${pth_sys}"
 
-path=${path_sys}/home/shared/repo
-if ! [ -d "${path}/install-desktop" ]; then
+pth=${pth_sys}/home/shared/repo
+if ! [ -d "${pth}/install-desktop" ]; then
 	_echot "------- sync repo"
-	[ -d "${path}" ] || _evalr mkdir -p "${path}"
-	path_from=
-	_evalr rsync -a "$(dirname ${_PATH_BASE})/" "${path}/"
+	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
+	pth_from=
+	_evalr rsync -a "$(dirname ${_PATH_BASE})/" "${pth}/"
 fi
 
 _echot "------- copy config"
-path="${path_sys}/user-${_SYSNAME}/${_PATH_CONF#/home/*/}"
-_keepmv ${path}
-_evalr cp -a ${_PATH_CONF} ${path}/
-#_evalr chown ${user_uid}:${user_gid} -R ${path_sys}/user-${_SYSNAME}
+pth="${pth_sys}/user-${_SYSNAME}/${_PATH_CONF#/home/*/}"
+_keepmv ${pth}
+_evalr cp -a ${_PATH_CONF} ${pth}/
+#_evalr chown ${user_uid}:${user_gid} -R ${pth_sys}/user-${_SYSNAME}
 
 _echot "------- copy log"
-path="${path_sys}/${_SYSNAME}${_PATH_LOG}"
-_keepmv ${path}
-_evalr cp -a ${_PATH_LOG} ${path}/
-_evalr chown 0:${user_uid} -R ${path}
-_evalr chmod -R 774 ${path}
+pth="${pth_sys}/${_SYSNAME}${_PATH_LOG}"
+_keepmv ${pth}
+_evalr cp -a ${_PATH_LOG} ${pth}/
+_evalr chown 0:${user_uid} -R ${pth}
+_evalr chmod -R 774 ${pth}
 
 _echot "------- umount ${_DEVICE_SYS}"
-_evalr umount ${path_sys}
+_evalr umount ${pth_sys}
 
 _echot "------- reboot ${_DEVICE_SYS}"
 _echoA "You have to restart the global installation script after the reboot"

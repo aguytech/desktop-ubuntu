@@ -60,8 +60,8 @@ echo -e 'filesystem type="mount" accessmode="mapped" '${blue}'fmode="0664" dmode
 ########################  NBD
 
 _echot "------- path"
-path="${_PATH_NBD}"
-[ -d "${path}" ] || _evalr mkdir -p ${path}
+pth="${_PATH_NBD}"
+[ -d "${pth}" ] || _evalr mkdir -p ${pth}
 
 _echot "------- install"
 packages="qemu-utils"

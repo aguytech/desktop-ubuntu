@@ -29,6 +29,6 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 ########################  CONF
 
 _echot "------- conf geany"
-path=${HOME}/.config/geany/colorschemes
-[ -d "${path}" ] || mkdir -p ${path}
-cp ${_PATH_BASE}/conf/geany/* ${path}/
+pth=${HOME}/.config/geany/colorschemes
+[ -d "${pth}" ] || mkdir -p ${pth}
+cp ${_PATH_BASE}/conf/geany/* ${pth}/

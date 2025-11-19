@@ -3,17 +3,17 @@
 ########################  REQUIRED
 
 _echot "------- required paths"
-path_install_bash_completion=${_PATH_BASE}/xtra/bash-completion
-_requirep ${path_install_bash_completion}
+pth_install_bash_completion=${_PATH_BASE}/xtra/bash-completion
+_requirep ${pth_install_bash_completion}
 
 _echot "------- required files"
 file_env=${S_PATH_SCRIPT_CONF}/.bash_env
 file_bash_aliases=${S_PATH_SCRIPT_CONF}/.bash_aliases
 file_bash_functions=${S_PATH_SCRIPT_CONF}/.bash_functions
 
-file_rsyslog_cron=${path_install_conf}/rsyslog/cron.conf
-file_rsyslog_client_auth=${path_install_conf}/rsyslog/client-auth.conf
-file_logrotate_server=${path_install_conf}/logrotate/server
+file_rsyslog_cron=${pth_install_conf}/rsyslog/cron.conf
+file_rsyslog_client_auth=${pth_install_conf}/rsyslog/client-auth.conf
+file_logrotate_server=${pth_install_conf}/logrotate/server
 
 _require ${file_env} ${file_bash_aliases} ${file_bash_functions}
 _require ${file_rsyslog_cron} ${file_rsyslog_client_auth} ${file_logrotate_server}
@@ -64,9 +64,9 @@ sudo grep 'export QT_QPA_PLATFORMTHEME' /etc -rl|xargs sudo sed -i '/export QT_Q
 ########################  USER
 
 _echot "------- user paths"
-paths="${HOME}/.local/bin ${HOME}/.local/share/icons ${HOME}/.local/share/applications"
-for path in ${paths}; do
-	[ -d "${path}" ] || mkdir -p ${path}
+pths="${HOME}/.local/bin ${HOME}/.local/share/icons ${HOME}/.local/share/applications"
+for pth in ${pths}; do
+	[ -d "${pth}" ] || mkdir -p ${pth}
 done
 
 _echot "------- .profile"
@@ -110,7 +110,7 @@ color_root='\[\033[01;31m\]'
 grep -q '####  PERSO' ${file} || echo "
 
 _echot "-------  bash-completion"
-_evalr "cp -a ${path_install_bash_completion}/* /usr/share/bash-completion/completions/"
+_evalr "cp -a ${pth_install_bash_completion}/* /usr/share/bash-completion/completions/"
 
 ########################  PERSO
 

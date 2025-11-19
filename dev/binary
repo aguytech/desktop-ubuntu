@@ -10,6 +10,6 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 #_echot "------- bless"
-#path=${HOME}/.config/bless/layouts/
-#[ -d "${path}" ] || mkdir -p ${path}
-#cp ${_PATH_BASE}/conf/bless/* ${path}/
+#pth=${HOME}/.config/bless/layouts/
+#[ -d "${pth}" ] || mkdir -p ${pth}
+#cp ${_PATH_BASE}/conf/bless/* ${pth}/

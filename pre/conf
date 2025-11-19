@@ -7,9 +7,9 @@ file_tmux_desktop=${_PATH_BASE}/xtra/org.gnome.Terminal-tmux.desktop
 file_profile=${_PATH_BS}/conf/.profile
 _require ${file_meld_conf} ${file_profile} ${file_tmux_desktop}
 
-path_vim=${_PATH_BASE}/conf/vim
-path_wp=${_PATH_BASE}/xtra/wp
-_requirep ${path_vim} ${path_wp}
+pth_vim=${_PATH_BASE}/conf/vim
+pth_wp=${_PATH_BASE}/xtra/wp
+_requirep ${pth_vim} ${pth_wp}
 
 ########################  SYSTEM
 
@@ -23,7 +23,7 @@ for file in /usr/bin/edit /usr/bin/editor; do
 done
 
 _echot "------- vim colors"
-_evalr cp ${path_vim}/* /usr/share/vim/vim*/colors/
+_evalr cp ${pth_vim}/* /usr/share/vim/vim*/colors/
 
 _echot "------- vim conf"
 file=/etc/vim/vimrc
@@ -60,52 +60,52 @@ _keepmv ${file}
 _evalr cp ${file_meld_conf} ${file}
 
 _echot "------- wp"
-path=/usr/share/backgrounds
-_evalr cp ${path_wp}/* ${path}/
-_evalr chmod 644 ${path}/*
+pth=/usr/share/backgrounds
+_evalr cp ${pth_wp}/* ${pth}/
+_evalr chmod 644 ${pth}/*
 
 ########################  USER
 
 _echot "------- path"
-path=~/.local/share/applications
-! [ -d "$path" ] && mkdir -p "$path"
+pth=~/.local/share/applications
+! [ -d "$pth" ] && mkdir -p "$pth"
 
 _echot "------- user icons"
-path=${HOME}/.local/share/icons
-_eval cp ${_PATH_BASE}/icons/* ${path}/
+pth=${HOME}/.local/share/icons
+_eval cp ${_PATH_BASE}/icons/* ${pth}/
 
 _echot "------- user conf"
 for file in .nanorc .tmux.conf .vimrc; do
-	path=${HOME}/${file}
-	_keepmv "${path}"
-	_eval ln -s "${_PATH_BS}/conf/${file}" "${path}"
+	pth=${HOME}/${file}
+	_keepmv "${pth}"
+	_eval ln -s "${_PATH_BS}/conf/${file}" "${pth}"
 done
 
 _echot "------- gtk styles"
-path_gtk=${HOME}/.local/share/gtksourceview-5/styles
-path=${_PATH_BASE}/conf/styles
-if [ -e  "${path_gtk}" ]; then
-	_eval cp -a ${path}/* ${path_gtk}/
+pth_gtk=${HOME}/.local/share/gtksourceview-5/styles
+pth=${_PATH_BASE}/conf/styles
+if [ -e  "${pth_gtk}" ]; then
+	_eval cp -a ${pth}/* ${pth_gtk}/
 else
-	_eval ln -s ${path_gtk} ${path}
+	_eval ln -s ${pth_gtk} ${pth}
 fi
 
 _echot "------- gtk languages"
-path_gtk=${HOME}/.local/share/gtksourceview-5/language-specs
-path=${_PATH_BASE}/conf/lang
-if [ -e  "${path_gtk}" ]; then
-	_eval cp -a ${path}/* ${path_gtk}/
+pth_gtk=${HOME}/.local/share/gtksourceview-5/language-specs
+pth=${_PATH_BASE}/conf/lang
+if [ -e  "${pth_gtk}" ]; then
+	_eval cp -a ${pth}/* ${pth_gtk}/
 else
-	_eval ln -s ${path_gtk} ${path}
+	_eval ln -s ${pth_gtk} ${pth}
 fi
 
 _echot "------- tmux resurect"
 file=${HOME}/.tmux.conf
 # plugins
-path=${HOME}/.tmux/plugins/resurect
-[ -d "${path}" ] || mkdir -p ${path}
-git clone https://github.com/tmux-plugins/tmux-resurrect ${path}
-grep -q resurrect.tmux ${file} || echo -e "# resurect plugin\nrun-shell ${path}/resurrect.tmux" >> ${file}
+pth=${HOME}/.tmux/plugins/resurect
+[ -d "${pth}" ] || mkdir -p ${pth}
+git clone https://github.com/tmux-plugins/tmux-resurrect ${pth}
+grep -q resurrect.tmux ${file} || echo -e "# resurect plugin\nrun-shell ${pth}/resurrect.tmux" >> ${file}
 # set conf file
 tmux source-file ${file} 2>/dev/null
 
@@ -119,9 +119,9 @@ _eval cp ${file_tmux_desktop} ${HOME}/.local/share/applications/
 _eval chmod +x ${HOME}/.local/share/applications/${file_tmux_desktop##*/}
 
 _echot "------- aegisub"
-path=${HOME}/.aegisub/
-[ -d "${path}" ] || _eval mkdir -p ${path}
-_eval cp ${_PATH_BASE}/conf/aegisub-config.json ${path}
+pth=${HOME}/.aegisub/
+[ -d "${pth}" ] || _eval mkdir -p ${pth}
+_eval cp ${_PATH_BASE}/conf/aegisub-config.json ${pth}
 
 _echot "------- gedit settings"
 #dconf write /org/nemo/extensions/nemo-terminal/default-visible false
@@ -133,41 +133,41 @@ dconf write /org/gnome/gedit/plugins/sourcecodebrowser/show-line-numbers true
 dconf write /org/gnome/gedit/plugins/filebrowser/enable-remote true
 
 _echot "------- gedit plugins path"
-path_plug=${HOME}/.local/share/gedit/plugins
-[ -d "${path_plug}" ] || mkdir -p "${path_plug}"
+pth_plug=${HOME}/.local/share/gedit/plugins
+[ -d "${pth_plug}" ] || mkdir -p "${pth_plug}"
 
 _echot "------- gedit / restore-tabs"
-path=restore-tabs
-cd ${path_plug}
-_keepmvts ${path}
+pth=restore-tabs
+cd ${pth_plug}
+_keepmvts ${pth}
 curl -o master.zip https://codeload.github.com/raelgc/gedit-restore-tabs/zip/master
 unzip master.zip
 rm master.zip
-mv gedit-restore-tabs-master ${path}
-rm ${path}/.gitignore
-sudo cp ${path}/org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
+mv gedit-restore-tabs-master ${pth}
+rm ${pth}/.gitignore
+sudo cp ${pth}/org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 _echot "------- gedit / duplicate-line"
-path=duplicate-line
-cd ${path_plug}
-_keepmvts ${path}
+pth=duplicate-line
+cd ${pth_plug}
+_keepmvts ${pth}
 curl -o master.zip https://codeload.github.com/hardpixel/gedit-duplicate-line/zip/master
 unzip master.zip
 rm master.zip
-mv gedit-duplicate-line-master ${path}
-sed -i 's|^\(\s*modifiers = event.state.*\)|#\1|' ${path}/duplicate_line.py
-sed -i 's|^\(\s*\)\(if modifiers ==.*\)|#\1\2\n\1if event.state \& Gdk.ModifierType.CONTROL_MASK and event.state \& Gdk.ModifierType.SHIFT_MASK:|' ${path}/duplicate_line.py
+mv gedit-duplicate-line-master ${pth}
+sed -i 's|^\(\s*modifiers = event.state.*\)|#\1|' ${pth}/duplicate_line.py
+sed -i 's|^\(\s*\)\(if modifiers ==.*\)|#\1\2\n\1if event.state \& Gdk.ModifierType.CONTROL_MASK and event.state \& Gdk.ModifierType.SHIFT_MASK:|' ${pth}/duplicate_line.py
 #if event.state & Gdk.ModifierType.CONTROL_MASK and event.state & Gdk.ModifierType.SHIFT_MASK:
 
 _echot "------- gedit / gedit-markdown"
-path=markdown_preview
-cd ${path_plug}
-_keepmvts ${path}
+pth=markdown_preview
+cd ${pth_plug}
+_keepmvts ${pth}
 curl -o master.zip https://codeload.github.com/maoschanz/gedit-plugin-markdown_preview/zip/master
 unzip master.zip
 rm master.zip
-mv gedit-plugin-markdown_preview-master ${path}
+mv gedit-plugin-markdown_preview-master ${pth}
 
 _echot "------- languages"
 _echoA "Close language window after validation."
