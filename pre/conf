@@ -2,19 +2,26 @@
 
 ########################  REQUIRED
 
-file_meld_conf=${_PATH_BASE}/conf/soft/meld-dark.xml
+file_meld_conf=${_PATH_BASE}/conf/soft/meld-perso-dark.style-scheme.xml
+file_aegisub_conf=${_PATH_BASE}/conf/soft/aegisub-config.json
 file_tmux_desktop=${_PATH_BASE}/xtra/org.gnome.Terminal-tmux.desktop
-file_profile=${_PATH_BS}/conf/.profile
-_require ${file_meld_conf} ${file_profile} ${file_tmux_desktop}
+_require ${file_meld_conf} ${file_aegisub_conf} ${file_tmux_desktop}
 
+pth_gtk=${_PATH_BASE}/conf/gtk
 pth_vim=${_PATH_BASE}/conf/vim
 pth_wp=${_PATH_BASE}/xtra/wp
-_requirep ${pth_vim} ${pth_wp}
+_requirep ${pth_gtk} ${pth_vim} ${pth_wp}
 
 ########################  SYSTEM
 
-_echot "------- bash-completion"
-_evalr "cp -a ${_PATH_BASE}/xtra/bash-completion/* /usr/share/bash-completion/completions/"
+_echot "------- profile desktop.sh"
+export PATH="${PATH}:${_PATH_BS}"
+export QT_QPA_PLATFORMTHEME=qt6ct
+file=/etc/profile.d/desktop.sh
+sudo sh -c "echo '# PATH
+export PATH=\${PATH}:${_PATH_BS}
+# QT6
+export QT_QPA_PLATFORMTHEME=qt6ct' > ${file}"
 
 _echot "------- vim links edit"
 for file in /usr/bin/edit /usr/bin/editor; do
@@ -46,18 +53,16 @@ sudo sed -i 's|^\(set cut.*\)$|# \1|' ${file}
 sudo sed -i 's|^\(set linenumbers.*\)$|# \1|' ${file}
 sudo sed -i '/^# *include/ s/^# //' ${file}
 # uncomment options
-# various
 opts="constantshow historylog matchbrackets multibuffer nohelp softwrap "
-# color
 opts+="errorcolor functioncolor keycolor numbercolor selectedcolor statuscolor stripecolor titlecolor"
 for opt in ${opts}; do
 	sudo sed -i "s|^.*\(set $opt .*\)$|\1|"  ${file}
 done
 
 _echot "------- meld style"
-file=/usr/share/meld/styles/meld-dark.xml
-_keepmv ${file}
-_evalr cp ${file_meld_conf} ${file}
+pth=/usr/share/meld/styles
+_keepmvts ${file}
+_evalr cp ${file_meld_conf} ${pth}
 
 _echot "------- wp"
 pth=/usr/share/backgrounds
@@ -65,10 +70,6 @@ _evalr cp ${pth_wp}/* ${pth}/
 _evalr chmod 644 ${pth}/*
 
 ########################  USER
-
-_echot "------- path"
-pth=~/.local/share/applications
-! [ -d "$pth" ] && mkdir -p "$pth"
 
 _echot "------- user icons"
 pth=${HOME}/.local/share/icons
@@ -81,23 +82,14 @@ for file in .nanorc .tmux.conf .vimrc; do
 	_eval ln -s "${_PATH_BS}/conf/${file}" "${pth}"
 done
 
-_echot "------- gtk styles"
-pth_gtk=${HOME}/.local/share/gtksourceview-5/styles
-pth=${_PATH_BASE}/conf/styles
-if [ -e  "${pth_gtk}" ]; then
-	_eval cp -a ${pth}/* ${pth_gtk}/
-else
-	_eval ln -s ${pth_gtk} ${pth}
-fi
+_echot "------- gtk4"
+pth_to="${HOME}/.local/share/gtksourceview-4"
+[ -d "${pth_to}" ] && _keepmvts "${pth_to}"
+_eval cp -a ${pth_gtk} ${pth_to}
 
-_echot "------- gtk languages"
-pth_gtk=${HOME}/.local/share/gtksourceview-5/language-specs
-pth=${_PATH_BASE}/conf/lang
-if [ -e  "${pth_gtk}" ]; then
-	_eval cp -a ${pth}/* ${pth_gtk}/
-else
-	_eval ln -s ${pth_gtk} ${pth}
-fi
+_echot "------- gtk3"
+cd "${HOME}/.local/share"
+[ -e "gtksourceview-4" ] || _eval ln -s gtksourceview-4 gtksourceview-3.0
 
 _echot "------- tmux resurect"
 file=${HOME}/.tmux.conf
@@ -118,10 +110,13 @@ _echot "------- tmux desktop"
 _eval cp ${file_tmux_desktop} ${HOME}/.local/share/applications/
 _eval chmod +x ${HOME}/.local/share/applications/${file_tmux_desktop##*/}
 
+_echot "------- tmux desktop"
+_eval cp -a ${file_tmux_desktop} ${HOME}/.local/share/applications/
+
 _echot "------- aegisub"
 pth=${HOME}/.aegisub/
 [ -d "${pth}" ] || _eval mkdir -p ${pth}
-_eval cp ${_PATH_BASE}/conf/aegisub-config.json ${pth}
+_eval cp -a ${file_aegisub_conf} ${pth}
 
 _echot "------- gedit settings"
 #dconf write /org/nemo/extensions/nemo-terminal/default-visible false
@@ -178,3 +173,4 @@ _echot "------- QT6"
 _echoA "After validation, adjust settings for qt6 and close qt6ct window"
 _askno "Validate to continue"
 qt6ct 2>/dev/null
+
