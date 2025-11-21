@@ -74,17 +74,22 @@ cat "${S_FILE_INSTALL_CONF}"
 _echo "------- --------"
 _askyn "Confirm installation" && [ "${_ANSWER}" == n ] && _exit 1
 
-########################  DEVICES
+########################  SUBVOLUMES
 
-_echot "------- btrfs volumes && dirs"
 cd /
 if grep -q "^${_DEVICE_SYS}" /proc/mounts; then
 	pth_sys=$( grep "^${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
+	_echot "------- umount ${pth_sys}"
 	_evalr umount ${pth_sys} || _exite "Unable to unmount ${pth_sys}"
 fi
+
+###########  MOUNT _DEVICE_SYS pth_sys
+
+_echot "------- mount ${_DEVICE_SYS} in ${pth_sys}"
 pth_sys=/mnt_sys
 [ -d "${pth_sys}" ] || _evalr mkdir "${pth_sys}"
-_evalr mount "${_DEVICE_SYS}" ${pth_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${pth_sys}"
+_evalr mount "${_DEVICE_SYS}" "${pth_sys}" || _exite "Unable to mount ${_DEVICE_SYS} in ${pth_sys}"
+
 cd ${pth_sys}
 
 _echot "------- btrfs list"
@@ -97,14 +102,14 @@ user_gid=$( grep ^${_USERNAME} '@/etc/group' | cut -d: -f3 )
 [ -z "${user_gid}" ] && user_gid=1000
 
 _echot "------- system"
-[ -d "${_SYSNAME}" ] && ! [ -d "${_SYSNAME}.keep" ] && _evalr mv "${_SYSNAME}" "${_SYSNAME}.keep"
+[ -d "${_SYSNAME}" ] && _evalr mv "${_SYSNAME}" "${_SYSNAME}.${_SDATE}"
 [ -d "${_SYSNAME}" ] && _evalr btrfs subvolume delete "${_SYSNAME}"
 _evalr mv '@' "${_SYSNAME}" || _exite "Unable to move @ to ${_SYSNAME}"
 
 _echot "------- home"
 [ -d home ] || _evalr btrfs subvolume create home
 # backup & create volume for user-$user
-[ -d "user-${_SYSNAME}" ] && ! [ -d user-${_SYSNAME}.keep ] && _evalr mv user-${_SYSNAME} user-${_SYSNAME}.keep
+[ -d "user-${_SYSNAME}" ] && _evalr mv user-${_SYSNAME} user-${_SYSNAME}.${_SDATE}
 [ -d "user-${_SYSNAME}" ] && _evalr btrfs subvolume delete "user-${_SYSNAME}"
 _evalr btrfs subvolume create user-${_SYSNAME}
 # move data user to user-$user
@@ -133,17 +138,16 @@ _echot "------- save"
 pths+=" ${_SYSNAME}/save"
 [ -d save ] || _evalr btrfs subvolume create save
 
-_echot "------- bs"
-pths+=" ${_SYSNAME}${_PATH_BS}"
-
-_echot "------- create paths"
+_echot "------- create: ${pths}"
 for pth in ${pths}; do
 	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
 done
+
 pths="${_SYSNAME}/save ${_SYSNAME}/ext ${_SYSNAME}${_PATH_BS}"
+_echot "------- rights: ${pths}"
 for pth in ${pths}; do
 	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
-	_evalr chown ${user_uid}:${user_gid} ${pth}
+	_evalr chown ${USER}:${USER} ${pth}
 done
 
 _echot "------- btrfs delete"
@@ -182,7 +186,7 @@ fi
 
 _echot "------- fstab"
 file=${_SYSNAME}/etc/fstab
-_keepcp ${file}
+_keepcpts ${file}
 sudo sed -i "\|/var/cache |d" ${file}
 sudo sed -i "\|/var/log |d" ${file}
 sudo sed -i '/^UUID=.* btrfs .*/ s|^|#|' ${file}
@@ -220,11 +224,6 @@ fi
 # ssd
 [ "${_SSD_SYS}" ] && sudo sed -i "/^UUID=${uuidsys}.*\sbtrfs\s/ s|noatime,|noatime,ssd,|" ${file}
 
-# bs
-[ -d "/home/shared/repo/bs" ] && sudo sh -c "echo '
-# bind
-/home/shared/repo/bs				${_PATH_BS}	none	defaults,bind										0	0' >> ${file}"
-
 _echot "------- ${file}"
 echo
 cat ${file}
@@ -239,11 +238,31 @@ _keepcp "${file}"
 grep -q '^GRUB_CMDLINE_LINUX=.*biosdevname' ${file} \
 	|| sudo sed -i '/^GRUB_CMDLINE_LINUX=/ s|"$| biosdevname=0"|' ${file}
 
+########################  REPO
+
+_echot "------- repo"
+pth=${_SYSNAME}/usr/local/install
+[ -d ${pth} ] && _keepmvts ${pth}
+url=https://github.com/aguytech/desktop-manjaro
+_evalr git clone ${url} ${pth}
+_evalr chown -R ${USER}:${USER} ${pth}
+
+_echot "------- bs"
+pth=${_SYSNAME}/usr/local/bs
+[ -d ${pth} ] && _keepmvts ${pth}
+url=https://github.com/aguytech/bs-desktop
+_evalr git clone ${pth_from} ${pth}
+_evalr chown -R ${USER}:${USER} ${pth}
+
+###########  UMOUNT _DEVICE_SYS pth_sys
+
 _echot "------- umount ${pth_sys}"
 cd
 _evalr umount ${pth_sys}
 
-############  GRUB
+########################  GRUB
+
+###########  chroot enter
 
 _echot "------- grub mount devices"
 cd /
@@ -261,7 +280,7 @@ _echo "grub-install --recheck $( [ "${_UEFI}" ] && echo "--efi-directory=/boot/e
 _echo "update-grub"
 _echo "exit"
 
-_echot "------- chrooted"
+_echot "------- grub chroot"
 _evalr chroot ${pth_sys}
 
 _echot "------- grub umount devices"
@@ -272,34 +291,27 @@ for i in run proc sys dev/pts dev; do
 done
 _evalr umount ${pth_sys}
 
+###########  chroot exit
+
 ########################  END
 
-_PART=`basename ${BASH_SOURCE[0]}`
-_echot "------- add part ${_PART}"
-_partadd ${_PART} ${S_FILE_INSTALL_DONE}
+_partadd "${_PART}" "${S_FILE_INSTALL_DONE}"
 
 ########################  EXPORT
+
+###########  MOUNT _DEVICE_SYS pth_sys
 
 _echot "------- mount ${_DEVICE_SYS}"
 _evalr mount "${_DEVICE_SYS}" ${pth_sys} || _exite "Unable to mount ${_DEVICE_SYS} in ${pth_sys}"
 
-pth=${pth_sys}/home/shared/repo
-if ! [ -d "${pth}/install-desktop" ]; then
-	_echot "------- sync repo"
-	[ -d "${pth}" ] || _evalr mkdir -p "${pth}"
-	pth_from=
-	_evalr rsync -a "$(dirname ${_PATH_BASE})/" "${pth}/"
-fi
-
 _echot "------- copy config"
 pth="${pth_sys}/user-${_SYSNAME}/${_PATH_CONF#/home/*/}"
-_keepmv ${pth}
+_keepmvts ${pth}
 _evalr cp -a ${_PATH_CONF} ${pth}/
-#_evalr chown ${user_uid}:${user_gid} -R ${pth_sys}/user-${_SYSNAME}
 
 _echot "------- copy log"
 pth="${pth_sys}/${_SYSNAME}${_PATH_LOG}"
-_keepmv ${pth}
+_keepmvts ${pth}
 _evalr cp -a ${_PATH_LOG} ${pth}/
 _evalr chown 0:${user_uid} -R ${pth}
 _evalr chmod -R 774 ${pth}
@@ -307,9 +319,15 @@ _evalr chmod -R 774 ${pth}
 _echot "------- umount ${_DEVICE_SYS}"
 _evalr umount ${pth_sys}
 
+###########  UMOUNT _DEVICE_SYS pth_sys
+
 _echot "------- reboot ${_DEVICE_SYS}"
 _echoA "You have to restart the global installation script after the reboot"
 _echoa "The computer now will reboot"
 _askno "Validate to continue"
 reboot
 exit
+
+# create an iso file '/vms/iso/desktop-install.iso' with virtual paths: /bs-desktop, /desktop-manjaro and /desktop-ubuntu
+# used for vitualized installation like virt-manager, virtualbox, vmware, ..
+# mkisofs -Jr -o /vms/iso/desktop-install.iso -graft-points /bs-desktop=/home/shared/repo/bs-desktop /desktop-manjaro=/home/shared/repo/desktop-manjaro /desktop-ubuntu=/home/shared/repo/desktop-ubuntu
