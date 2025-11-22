@@ -24,6 +24,7 @@ _keepcpts ${file}
 sudo sed -i "s|^.\?\(GRUB_TIMEOUT_STYLE\)=.*|\1=menu|" ${file}
 sudo sed -i "/^GRUB_TIMEOUT=/ s|=.*|=2|" ${file}
 sudo sed -i "/^GRUB_DEFAULT=/ s|=.*|=0|" ${file}
+sudo sed -i "/^GRUB_DISABLE_OS_PROBER=T=/ s|=.*|=false|" ${file} # manjaro
 
 file=/etc/grub.d/00_header
 _evalr cp -a ${file} ${file}.${_SDATE} && _evalr chmod -x ${file}.${_SDATE}
@@ -55,9 +56,8 @@ for pth in ${pths}; do
 done
 
 _echot "------- global conf"
-for file in ${S_PATH_CONF} ${S_GLOBAL_CONF}; do
-	[ -f "${file}" ] || touch ${file}
-done
+file=${S_GLOBAL_CONF}
+[ -f "${file}" ] || touch ${file}
 
 _echot "------- .sh_env"
 file=${HOME}/.sh_env
