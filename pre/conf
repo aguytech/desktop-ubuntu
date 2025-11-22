@@ -75,11 +75,30 @@ _echot "------- user icons"
 pth=${HOME}/.local/share/icons
 _eval cp ${_PATH_BASE}/icons/* ${pth}/
 
-_echot "------- user conf"
+_echot "------- tmux resurrect"
+pth=${HOME}/.tmux/plugins/resurrect
+_eval git clone https://github.com/tmux-plugins/tmux-resurrect ${pth}
+grep -sq resurrect.tmux ${file} || echo "# resurrect plugin
+run-shell ${pth}/resurrect.tmux" >> ${HOME}/.tmux.conf
+
+_echot "------- tmux resurrect"
+pth=${HOME}/.tmux/plugins/continuum
+_eval git clone https://github.com/tmux-plugins/tmux-continuum ${pth}
+grep -sq continuum.tmux ${file} || echo "# resurrect continuum
+run-shell ${pth}/continuum.tmux" >> ${HOME}/.tmux.conf
+
+_echot "------- tmux source"
+_eval tmux new -d
+_eval tmux source-file ${HOME}/.tmux.conf
+
+_echot "------- tmux desktop"
+_eval cp -a ${file_tmux_desktop} ${HOME}/.local/share/applications/
+
+_echot "------- configuration files"
 for file in .nanorc .tmux.conf .vimrc; do
 	pth=${HOME}/${file}
-	_keepmv "${pth}"
-	_eval ln -s "${_PATH_BS}/conf/${file}" "${pth}"
+	_keepmvts "${pth}"
+	_eval cp -a "${_PATH_BS}/conf/${file}" "${pth}"
 done
 
 _echot "------- gtk4"
@@ -90,28 +109,6 @@ _eval cp -a ${pth_gtk} ${pth_to}
 _echot "------- gtk3"
 cd "${HOME}/.local/share"
 [ -e "gtksourceview-4" ] || _eval ln -s gtksourceview-4 gtksourceview-3.0
-
-_echot "------- tmux resurect"
-file=${HOME}/.tmux.conf
-# plugins
-pth=${HOME}/.tmux/plugins/resurect
-[ -d "${pth}" ] || mkdir -p ${pth}
-git clone https://github.com/tmux-plugins/tmux-resurrect ${pth}
-grep -q resurrect.tmux ${file} || echo -e "# resurect plugin\nrun-shell ${pth}/resurrect.tmux" >> ${file}
-# set conf file
-tmux source-file ${file} 2>/dev/null
-
-_echot "------- tmux restore"
-_keepmvts ${HOME}/.tmux
-file="${_PATH_BASE}/xtra/user.tmux.tar.gz"
-_eval tar xzf ${file} -C ${HOME}/
-
-_echot "------- tmux desktop"
-_eval cp ${file_tmux_desktop} ${HOME}/.local/share/applications/
-_eval chmod +x ${HOME}/.local/share/applications/${file_tmux_desktop##*/}
-
-_echot "------- tmux desktop"
-_eval cp -a ${file_tmux_desktop} ${HOME}/.local/share/applications/
 
 _echot "------- aegisub"
 pth=${HOME}/.aegisub/
