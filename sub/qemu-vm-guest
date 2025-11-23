@@ -16,10 +16,12 @@ if [ -z ${_GUEST_SHARE+x} ]; then
 	_confset _GUEST_SHARE "${_GUEST_SHARE}"
 fi
 
-_echot "------- fstab"
-grep -q "^${_QEMU_SHARE}" /etc/fstab || sudo sh -c "echo '
-# qemu share
-${_QEMU_SHARE}                                ${_GUEST_SHARE}        9p     trans=virtio,version=9p2000.L,rw,umask=002    0 0' >> /etc/fstab"
+if ! [ -d "${_GUEST_SHARE}" ]; then
+	_echot "------- create ${_GUEST_SHARE}"
+	_evalr mkdir -p ${_GUEST_SHARE}
+fi
+
+########################  9P
 
 _echot "------- mod 9p"
 sudo modprobe 9p
@@ -34,3 +36,11 @@ grep -q ^9p ${file} || sudo sh -c "echo '
 9pnet
 9pnet_virtio' >> ${file}"
 sudo update-initramfs -u
+
+########################  MAIN
+
+_echot "------- fstab"
+grep -q "^${_QEMU_SHARE}" /etc/fstab || sudo sh -c "echo '
+# qemu share
+${_QEMU_SHARE}					${_GUEST_SHARE}		9p	trans=virtio,version=9p2000.L,rw,umask=002						0 0' >> /etc/fstab"
+

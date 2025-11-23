@@ -1,0 +1,145 @@
+#!/bin/bash
+
+_echoa "This part is to use shared path in GUEST"
+_echoe "Do not use this part in HOST"
+_askyn "Types 'y' to continue or anything else to exit"
+[ "${_ANSWER}" != "y" ] && _exit
+
+########################  REQUIRE
+
+_echot "------- required files"
+file_script_nbd=${_PATH_BASE}/bs/scripts/nbd.sh
+file_conf_ca=${_PATH_BASE}/conf/soft/ca.xml
+
+_require ${file_script_nbd} ${file_conf_ca}
+
+########################  CHECK
+
+_echot "------- cpu-checker"
+packages="cpu-checker"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+[ "$( kvm-ok 2>/dev/null )" ] || _exite "Please enable Virtualization capability in your BIOS"
+
+########################  DATA
+
+if [ -z "${_PATH_VIRT}" ]; then
+	anstmp=/vms/virt
+	_askno "Give the path for virt (${anstmp})"
+	_PATH_VIRT=${_ANSWER:-${anstmp}}
+	_confset _PATH_VIRT "${_PATH_VIRT}"
+fi
+
+if [ -z "${_PATH_SHARE}" ]; then
+	anstmp=/vms/share
+	_askno "Give the shared path from the Host (${anstmp})"
+	_PATH_SHARE=${_ANSWER:-${anstmp}}
+	_confset _PATH_SHARE "${_PATH_SHARE}"
+fi
+
+if [ -z "${_PATH_ISO}" ]; then
+	anstmp=/vms/iso
+	_askno "Give the shared path from the Host (${anstmp})"
+	_PATH_ISO=${_ANSWER:-${anstmp}}
+	_confset _PATH_ISO "${_PATH_ISO}"
+fi
+
+if [ -z "${_PATH_NBD}" ]; then
+	anstmp=/vms/nbd
+	_askno "Give the path to mount device files (${anstmp})"
+	_PATH_NBD=${_ANSWER:-$anstmp}
+	_confset _PATH_NBD "${_PATH_NBD}"
+fi
+
+########################  MAIN
+
+_echot "------- install"
+packages="qemu-kvm libvirt-bin libguestfs-tools virtinst virt-manager"
+# bridge-utils virt-backup
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+########################  CONF
+
+_echot "------- ${USER} in libvirt,libvirt-qemu,kvm"
+_evalr usermod -G libvirt-qemu -a ${USER}
+
+########################  VIRT
+
+_echot "------- ${_PATH_VIRT}"
+[ -d "${_PATH_VIRT}" ] || _evalr mkdir -p ${_PATH_VIRT}
+_evalr chown libvirt-qemu:libvirt-qemu ${_PATH_VIRT}
+
+########################  ISO
+
+_echot "------- ${_PATH_ISO}"
+[ -d "${_PATH_ISO}" ] || _evalr mkdir -p "${_PATH_ISO}"
+_evalr chown ${USER}:${USER} ${_PATH_ISO}
+# to give group write modifications for mkisofs and virt-manager
+_evalr setfacl -dm o::rx,g::rwx,o::r ${_PATH_ISO}
+
+########################  SHARE
+
+_echot "------- ${_PATH_SHARE}"
+[ -d "${_PATH_SHARE}" ] || _evalr mkdir -p "${_PATH_SHARE}"
+_evalr chown ${USER}:${USER} ${_PATH_SHARE}
+_echot "------- ACL permissions"
+_evalr setfacl -Rm u:libvirt-qemu:rwx ${_PATH_SHARE}
+_evalr setfacl -d -Rm u:libvirt-qemu:rwx ${_PATH_SHARE}
+_evalr setfacl -Rm g:libvirt-qemu:rwx ${_PATH_SHARE}
+_evalr setfacl -d -Rm g:libvirt-qemu:rwx ${_PATH_SHARE}
+
+_echoA "Configure your guest in virt-manager to share path with this parameters: "
+echo "Source path: ${_PATH_SHARE}"
+echo "Target path: /hostshare"
+_echoA "\nAnd add fmode and dmode by modifying XML settings options in virt-manager:"
+echo -e 'filesystem type="mount" accessmode="mapped" '${blue}'fmode="0664" dmode="0775"'${cclear}'>
+  <source dir="/vms/share"/>
+  <target dir="/hostshare"/>
+  <address type="pci" domain="0x0000" bus="0x07" slot="0x00" function="0x0"/>
+</filesystem>'
+
+########################  NBD
+
+_echot "------- ${_PATH_NBD}"
+[ -d "${_PATH_NBD}" ] || _evalr mkdir -p ${_PATH_NBD}
+_evalr chown ${USER}:${USER} ${_PATH_NBD}
+
+_echot "------- install"
+packages="qemu-utils"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- script"
+file=/usr/local/bin/nbd
+_evalr cp ${file_script_nbd} ${file}
+_evalr chmod +x ${file}
+sudo sed -i "/^_PATH_NBD=/ s|=.*$|=\"${_PATH_NBD}\"|" ${file}
+
+_echot "------- bookmarks"
+file=${HOME}/.config/gtk-3.0/bookmarks
+grep -q "file://${_PATH_NBD}" ${file} || echo "file://${_PATH_NBD}" >> ${file}
+
+_echot "------- thunar CA"
+file=~/.config/Thunar/uca.xml
+[ -d ~/.config/Thunar ] || mkdir -p ~/.config/Thunar
+if [ -f "${file}" ]; then
+	_keepcpts ${file}
+else
+	echo -e '<?xml version="1.0" encoding="UTF-8"?>\n<actions>\n</actions>' > ${file}
+fi
+# not already made
+if ! grep -q 1655620394868230-1 ${file}; then
+	sed -i '$,1d' ${file}
+	cat ${file} ${file_conf_ca} > ${file}.tmp
+	_eval mv ${file}.tmp ${file}
+fi
+
+########################  REBOOT
+
+_echot "------- soft-reboot"
+_echoA "Be careful, close others softwares the system will soft-reboot"
+_echoA "This session will be closed"
+_askno "Validate to continue"
+_evalr systemctl soft-reboot 
