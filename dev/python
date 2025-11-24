@@ -3,7 +3,7 @@
 ########################  MAIN
 
 _echot "------- install"
-packages="cython3 python3-pip"
+packages="cython3 python3-pip python3-pipx"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
@@ -11,3 +11,9 @@ _echot "------- pip"
 packages="pip grip"
 python3 -m pip install -U ${packages} \
 	|| { _echoE "Unable to install pip: ${packages}"; return 1; }
+
+packages="virtualenv"
+for package in ${packages}; do
+	_echot "------- pipx"
+	_evalr pipx install ${package}
+done
