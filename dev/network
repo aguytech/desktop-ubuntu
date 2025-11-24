@@ -1,22 +1,9 @@
 #!/bin/bash
 
-_echot "------- network"
+_echot "------- tools"
 packages="dnsutils net-tools netcat-traditional traceroute whois xinetd"
 packages+=" bmon darkstat dstat hping3 iftop ifstat tcpdump vnstat"
 # ibmonitor
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- apt repository"
-sudo add-apt-repository -yn ppa:wireshark-dev/stable
-${_CMD} update
-
-_echot "------- install"
-packages="tshark wireshark"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
-
-####################  CONF
-
-_echot "------- conf wireshark"
-_eval cp ${_PATH_BASE}/xtra/org.wireshark.Wireshark.desktop ~/.local/share/applications/
