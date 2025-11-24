@@ -232,6 +232,13 @@ _askno "Confirm to continue"
 
 ########################  REPO
 
+if ! which git; then
+_echot "------- apt update"
+_evalr apt update
+_echot "------- git install"
+_evalr apt -y install git
+fi
+
 _echot "------- repo - ${_GIT_BR}"
 pth=${_SYSNAME}/usr/local/install
 [ -d ${pth} ] && _keepmvts ${pth}
