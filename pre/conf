@@ -98,6 +98,7 @@ for file in .nanorc .tmux.conf .vimrc; do
 	pth=${HOME}/${file}
 	_keepmvts "${pth}"
 	_eval cp -a "${_PATH_BS}/conf/${file}" "${pth}"
+	_evalr chmod 644 ${pth}/${file}
 done
 
 _echot "------- tmux source"
@@ -106,6 +107,7 @@ _eval tmux source-file ${HOME}/.tmux.conf
 
 _echot "------- tmux desktop"
 _eval cp -a ${file_tmux_desktop} ${HOME}/.local/share/applications/
+_evalr chmod 644 ${HOME}/.local/share/applications/${file_tmux_desktop##*/}
 
 _echot "------- gtk4"
 pth_to="${HOME}/.local/share/gtksourceview-4"
@@ -120,6 +122,7 @@ _echot "------- aegisub"
 pth=${HOME}/.aegisub/
 [ -d "${pth}" ] || _eval mkdir -p ${pth}
 _eval cp -a ${file_aegisub_conf} ${pth}
+_evalr chmod 644 ${pth}/${file_aegisub_conf##*/}
 
 _echot "------- gedit settings"
 #dconf write /org/nemo/extensions/nemo-terminal/default-visible false
