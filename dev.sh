@@ -4,33 +4,27 @@
 
 S_TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
-_PATH_CONF=${HOME}/.config/desktop-install
+_PATH_CONF=/usr/local/conf
 _PATH_LOG=/var/log/desktop-install
 _CMD="sudo apt"
 _CMD_INS="sudo apt install -y"
 
-S_FILE_INSTALL_CONF=${_PATH_CONF}/dev.conf
-S_FILE_INSTALL_DONE=${_PATH_CONF}/dev.done
-
+# inc
 file=${_PATH_BASE}/bs/inc
 ! [ -f "${file}" ] && echo "Unable to find file: ${file}" && exit 1
 ! . ${file} && echo "Errors while sourcing file: ${file}" && exit 1
 
-########################  DATA
+########################  VARIABLES
 
-# halt
-if [ -z ${_HALT+x} ]; then
-	_askyn "Enable halt between each parts?"
-	_HALT=${_ANSWER/n/}
-	_confset _HALT "${_HALT}"
-fi
+export DEBIAN_FRONTEND=noninteractive
 
 ########################  SUB
 
+subpart=dev
 parts_sub="global python"
 
 for _PART in ${parts_sub}; do
-	_source_sub "${_PART}" dev
+	_source_sub "${_PART}" ${subpart}
 done
 
 ########################  MENU
