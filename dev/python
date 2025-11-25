@@ -3,7 +3,7 @@
 ########################  MAIN
 
 _echot "------- install"
-packages="cython3 python3-pip python3-pipx"
+packages="cython3 python3-pip pipx"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
@@ -15,5 +15,5 @@ python3 -m pip install -U ${packages} \
 packages="virtualenv"
 for package in ${packages}; do
 	_echot "------- pipx"
-	_evalr pipx install ${package}
+	_eval pipx install ${package}
 done
