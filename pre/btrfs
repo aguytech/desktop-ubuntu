@@ -242,7 +242,7 @@ fi
 _echot "------- repo - ${_GIT_BR}"
 pth=${_SYSNAME}/usr/local/install
 [ -d ${pth} ] && _keepmvts ${pth}
-url=https://github.com/aguytech/desktop-manjaro
+url=https://github.com/aguytech/desktop-ubuntu
 _evalr git clone -b ${_GIT_BR} ${url} ${pth}
 _evalr chown -R ${uid}:${gid} ${pth}
 
