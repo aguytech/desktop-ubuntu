@@ -1,0 +1,71 @@
+#!/bin/bash
+
+#########################  VARIABLES
+
+export ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
+
+#########################  ZSH
+
+_echot "------- install"
+packages="zsh"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- zprofile"
+file=/etc/zsh/zprofile
+_keepcpts ${file}
+sudo sh -c "echo '
+# source /etc/profile 
+emulate sh -c 'source /etc/profile'> ${file}"
+
+#########################  OH-MY-ZSH
+
+_echot "------- .zshrc keep"
+file=${HOME}/.zshrc
+[ -f ${file} ] && mv ${file} ${file}.before-ohmyovh
+
+_echot "------- needed packages"
+packages="git fonts-font-awesome"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- oh-my-zsh"
+_echo "Launch this following command in an other terminal:"
+_echoA 'sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"'
+_echo 'After it, you can then close the terminal in which you launched the command'
+_askno "Validate to continue"
+
+_echot "------- zsh-autosuggestions"
+_eval git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+
+_echot "------- zsh-syntax-highlighting"
+_eval git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+
+_echot "------- powerlevel10k"
+_eval git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k
+
+#########################  CONF
+
+_echot "-------- .zshrc"
+plugins='zsh-autosuggestions zsh-syntax-highlighting'
+sed -i.ohmyovh "s|^\(plugins=(.*\))|\1 ${plugins})|" ${file}
+theme='powerlevel10k/powerlevel10k'
+sed -i "/^ZSH_THEME=/ s|=.*$|=\"${theme}\"|" ${file}
+cat ${file} ${file}.before-ohmyovh > ${file}.tmp
+mv ${file}.tmp ${file}
+
+_echot "------- powerlevel10k"
+_echo "Now you have to finish by configuring powerlevel10k :o)"
+_echo "Launch this following command in an other terminal:"
+_echoA 'zsh'
+_askno "Validate to continue"
+
+########################  END
+
+_partadd "${_SPATH}_${_PART}" "${S_FILE_INSTALL_DONE}"
+
+########################  RESTART
+
+_echoA "Restart your computer to append configuration"
+_askno "Validate to reboot"
+_evalr reboot
