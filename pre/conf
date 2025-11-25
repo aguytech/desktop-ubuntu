@@ -88,6 +88,8 @@ grep -sq continuum.tmux ${file} || echo "# resurrect continuum
 run-shell ${pth}/continuum.tmux" >> ${HOME}/.tmux.conf
 
 _echot "------- tmux themepack"
+${_CMD_INS} fonts-powerline && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install packages: ${packages}"; return 1; }
 pth=${HOME}/.tmux/themes/tmux-themepack
 _eval git clone https://github.com/jimeh/tmux-themepack.git ${pth}
 grep -sq tmux-themepack ${file} || echo "# source themepack
