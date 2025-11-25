@@ -1,15 +1,14 @@
 #!/bin/bash
 
-_echot "------- tlp"
-packages="tlp tlp-rdw"
-# acpi
+_echot "------- install"
+packages="tlp tlp-rdw acpi acpid"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-_echot "------- tlp"
+_echot "------- tlp enable"
 _service enable tlp
 
-_echot "------- enable acpid"
+_echot "------- acpid enable"
 service=acpid
 _service enable ${service}
 _service start ${service}
