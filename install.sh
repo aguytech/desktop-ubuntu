@@ -6,8 +6,8 @@ S_TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
 _PATH_CONF=/usr/local/conf
 _PATH_LOG=/var/log/desktop-install
-_CMD="sudo apt"
-_CMD_INS="sudo apt install -y"
+_CMD="_evalr apt"
+_CMD_INS="_evalr apt install -y"
 
 # inc
 file=${_PATH_BASE}/bs/inc
