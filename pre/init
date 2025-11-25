@@ -91,18 +91,10 @@ if ! [ -f ${file} ]; then
 	_evalr chmod 644 ${file}
 fi
 
-file=~/.zshrc
-if ! [ -f ${file} ]; then
-	_echot "------- init .zshrc"
-	touch ${file}
-	_evalr chown ${USER}:${USER} ${file}
-	_evalr chmod 644 ${file}
-fi
-
 _echot "------- common .*hrc"
 for file in ~/.bashrc ~/.zshrc; do
 	_keepcpts ${file}
-	grep -q '####  PERSO' ${file} || echo "
+	grep -sq '####  PERSO' ${file} || echo "
 ########################  PERSO
 
 # HISTORY
@@ -118,6 +110,7 @@ HISTFILESIZE=50000
 # functions
 [ -f ~/.sh_functions ] && . ~/.sh_functions
 " >> ${file}
+	_evalr chmod 644 ${file}
 done
 
 _echot "------- .bashrc"
