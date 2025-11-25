@@ -91,6 +91,9 @@ if ! [ -f ${file} ]; then
 	_evalr chmod 644 ${file}
 fi
 
+# force color
+sudo sed -i '/^#force_color_prompt=/ s|#||' ~/.bashrc
+
 _echot "------- common .*hrc"
 for file in ~/.bashrc ~/.zshrc; do
 	_keepcpts ${file}
