@@ -16,3 +16,6 @@ sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
 #sudo apt-add-repository -yn ppa:webupd8team/y-ppa-manager # y-ppa-manager
 #sudo apt-add-repository -yn ppa:mc3man/mpv-tests # mpv
 #sudo apt-add-repository -yn ppa:otto-kesselgulasch/gimp # gimp gmic
+
+_echot "------- apt update"
+_evalr apt update
