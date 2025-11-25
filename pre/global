@@ -4,7 +4,7 @@
 
 _echot "------- libdvd"
 _echo "Launch this following command in an other terminal:"
-_echoA "${_CMD_INS} libdvdnav4 libdvd-pkg libdvdread8t64"
+_echoA "sudo apt install -y libdvdnav4 libdvd-pkg libdvdread8t64"
 _askno "After it, Validate to continue"
 
 _echot "------- libdvd conf"
@@ -14,7 +14,7 @@ _askno "After it, Validate to continue"
 
 _echot "------- ttf"
 _echo "Launch this following command in an other terminal:"
-_echoA "${_CMD_INS} -y ttf-mscorefonts-installer"
+_echoA "sudo apt install -y ttf-mscorefonts-installer"
 _askno "After it, Validate to continue"
 
 ########################  MAIN
