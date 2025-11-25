@@ -5,6 +5,6 @@ sudo add-apt-repository -yn ppa:wireshark-dev/stable
 ${_CMD} update
 
 _echot "------- install"
-packages="tshark wireshark"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo apt install -y tshark wireshark"
+_askno "After it, Validate to continue"
