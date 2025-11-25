@@ -20,21 +20,21 @@ export DEBIAN_FRONTEND=noninteractive
 
 ########################  SUB
 
-subpart=dev
+_SPATH=dev
 parts_sub="global python"
 
 for _PART in ${parts_sub}; do
-	_source_sub "${_PART}" ${subpart}
+	_source_sub "${_PART}" ${_SPATH}
 done
 
 ########################  MENU
 
-subpart=dev
-parts_install=$( ls ${_PATH_BASE}/${subpart} )
+_SPATH=dev
+parts_install=$( ls ${_PATH_BASE}/${_SPATH} )
 
 while [ "${_PART}" != "quit" ]; do
 	_SDATE=$(date +%s) # renew _SDATE
-	parts_made=" $( grep "^${subpart}_" "${S_FILE_INSTALL_DONE}" | cut -d'_' -f2 | xargs ) "
+	parts_made=" $( grep "^${_SPATH}_" "${S_FILE_INSTALL_DONE}" | cut -d'_' -f2 | xargs ) "
 	parts2do=" "
 	for part in ${parts_install}; do
 		[ "${parts_made/ ${part} }" = "${parts_made}" ] && parts2do+="$part "
@@ -47,7 +47,7 @@ while [ "${_PART}" != "quit" ]; do
 	PS3="Give your choice: "
 	select _PART in quit ${parts2do}; do
 		if [ "${parts2do/ ${_PART} /}" != "${parts2do}" ] ; then
-			_source_sub ${_PART} ${subpart}
+			_source_sub ${_PART} ${_SPATH}
 			break
 		elif [ "${_PART}" = quit ]; then
 			break
