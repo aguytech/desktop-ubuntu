@@ -139,38 +139,36 @@ _echot "------- gedit plugins path"
 pth_plug=${HOME}/.local/share/gedit/plugins
 [ -d "${pth_plug}" ] || mkdir -p "${pth_plug}"
 
-_echot "------- gedit / restore-tabs"
-pth=restore-tabs
+pth=gedit-restore-tabs
+_echot "------- gedit / ${pth}"
 cd ${pth_plug}
 _keepmvts ${pth}
-curl -o master.zip https://codeload.github.com/raelgc/gedit-restore-tabs/zip/master
-unzip master.zip
-rm master.zip
-mv gedit-restore-tabs-master ${pth}
-rm ${pth}/.gitignore
+git clone https://github.com/raelgc/gedit-restore-tabs ${pth}
 sudo cp ${pth}/org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
-_echot "------- gedit / duplicate-line"
-pth=duplicate-line
+pth=gedit-duplicate-line
+_echot "------- gedit / ${pth}"
 cd ${pth_plug}
 _keepmvts ${pth}
-curl -o master.zip https://codeload.github.com/hardpixel/gedit-duplicate-line/zip/master
-unzip master.zip
-rm master.zip
-mv gedit-duplicate-line-master ${pth}
-sed -i 's|^\(\s*modifiers = event.state.*\)|#\1|' ${pth}/duplicate_line.py
-sed -i 's|^\(\s*\)\(if modifiers ==.*\)|#\1\2\n\1if event.state \& Gdk.ModifierType.CONTROL_MASK and event.state \& Gdk.ModifierType.SHIFT_MASK:|' ${pth}/duplicate_line.py
-#if event.state & Gdk.ModifierType.CONTROL_MASK and event.state & Gdk.ModifierType.SHIFT_MASK:
+git clone https://github.com/hardpixel/gedit-duplicate-line ${pth}
+# use ALT-d instead of CTRL-d
+sed -i.bak 's|\(Gdk.ModifierType.\).*:|\1MOD1_MASK:|' ${pth}/duplicate_line.py
 
-_echot "------- gedit / gedit-markdown"
-pth=markdown_preview
+pth=duplicate
+_echot "------- gedit / ${pth}"
 cd ${pth_plug}
 _keepmvts ${pth}
-curl -o master.zip https://codeload.github.com/maoschanz/gedit-plugin-markdown_preview/zip/master
-unzip master.zip
-rm master.zip
-mv gedit-plugin-markdown_preview-master ${pth}
+git clone https://github.com/hannenz/duplicate ${pth}
+# use Shift-Ctrl-d, Shift-Alt-d or Alt-d
+sed -i.bak "/\s'key': \[.*\],/ s|\[.*\]|['<Shift><Ctrl>d', '<Shift><Alt>d', '<Alt>d']|" ${pth}/duplicateline.py
+tar czf ${pth}.tgz ${pth} && rm -fR ${pth}
+
+pth=gedit-plugin-markdown_preview
+_echot "------- gedit / ${pth}"
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/maoschanz/gedit-plugin-markdown_preview ${pth}
 
 _echot "------- languages"
 _echoA "Close language window after validation."
