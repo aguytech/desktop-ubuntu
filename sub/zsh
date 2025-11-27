@@ -16,7 +16,7 @@ file=/etc/zsh/zprofile
 _keepcpts ${file}
 sudo sh -c "echo '
 # source /etc/profile 
-emulate sh -c 'source /etc/profile'> ${file}"
+emulate sh -c \"source /etc/profile\"'> ${file}"
 
 #########################  OH-MY-ZSH
 
