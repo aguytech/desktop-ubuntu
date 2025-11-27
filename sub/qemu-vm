@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://www.freecodecamp.org/news/turn-ubuntu-2404-into-a-kvm-hypervisor/#heading-why-kvm-on-ubuntukubuntu-2404
+
 _echoa "This part is to use shared path in GUEST"
 _echoe "Do not use this part in HOST"
 _askyn "Types 'y' to continue or anything else to exit"
@@ -68,30 +70,37 @@ fi
 
 ########################  9P
 
-# _echot "------- autoload 9p"
-# file=/etc/initramfs-tools/modules
-# grep -q ^9p ${file} || sudo sh -c "echo '
-# # qemu share 
-# 9p
-# 9pnet
-# 9pnet_virtio' >> ${file}"
-# sudo update-initramfs -u
-
-_echot "------- mod 9p"
+_echot "------- 9p install"
+packages="9mount"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+	
+_echot "------- 9p modprobe"
 _evalr modprobe 9p
+
+_echot "------- 9p check"
+! lsmod | grep -q 9p && _exite "Unbale to find module 9p"
 
 ########################  MAIN
 
 _echot "------- install"
-packages="qemu-kvm libvirt-bin libguestfs-tools virtinst virt-manager"
-# bridge-utils virt-backup
+packages="qemu-system-x86 qemu-utils bridge-utils dnsmasq"
+packages+=" libvirt-daemon-system libvirt-clients virt-manager virt-viewer virtinst"
+packages+=" guestfs-tools libguestfs-tools ovmf"
+
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+_echot "------- tpm support"
+# for windows 11
+packages="swtpm"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
 ########################  CONF
 
 _echot "------- ${USER} in libvirt,libvirt-qemu,kvm"
-_evalr usermod -G libvirt-qemu -a ${USER}
+_evalr usermod -aG libvirt,libvirt-qemu,kvm ${USER}
 
 ########################  VIRT
 
