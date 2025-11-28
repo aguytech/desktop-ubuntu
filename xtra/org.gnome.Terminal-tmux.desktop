@@ -11,6 +11,8 @@ X-GNOME-SingleWindow=false
 OnlyShowIn=GNOME;Unity;
 Actions=new-window;preferences;Ssh;Separator;SshcDev;Sshc;SshcLxd;Separator;Nautilus;NautilusComputer;NautilusNetwork;
 X-Ubuntu-Gettext-Domain=ttmux
+StartupNotify=true
+StartupWMClass=gnome-terminal-server
 
 [Desktop Action new-window]
 Name=New Window
