@@ -21,9 +21,7 @@ export DEBIAN_FRONTEND=noninteractive
 ########################  PRE
 
 _SPATH=pre
-_source_sub data ${_SPATH}
-
-parts_sub="${part_fs} init ssh upgrade repo global conf end"
+parts_sub="data ${part_fs} init ssh upgrade repo global conf end"
 for _PART in ${parts_sub}; do
 	_source_sub "${_PART}" ${_SPATH}
 done
