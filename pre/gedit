@@ -1,0 +1,87 @@
+#!/bin/bash
+
+########################  INSTALL
+
+packages="gedit-plugins gedit-source-code-browser-plugin stopwatch"
+# gedit-developer-plugins
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
+########################  CONF
+
+_echot "------- gedit plugins path"
+pth_plug=${HOME}/.local/share/gedit/plugins
+[ -d "${pth_plug}" ] || mkdir -p "${pth_plug}"
+
+pth=gedit-restore-tabs
+_echot "------- gedit / ${pth}"
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/raelgc/gedit-restore-tabs ${pth}
+sudo cp ${pth}/org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+pth=gedit-duplicate-line
+_echot "------- gedit / ${pth}"
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/hardpixel/gedit-duplicate-line ${pth}
+# use ALT-d instead of CTRL-d
+sed -i.bak 's|\(Gdk.ModifierType.\).*:|\1MOD1_MASK:|' ${pth}/duplicate_line.py
+
+pth=duplicate
+_echot "------- gedit / ${pth}"
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/hannenz/duplicate ${pth}
+# use Shift-Ctrl-d, Shift-Alt-d or Alt-d
+sed -i.bak "/\s'key': \[.*\],/ s|\[.*\]|['<Shift><Ctrl>d', '<Shift><Alt>d', '<Alt>d']|" ${pth}/duplicateline.py
+tar czf ${pth}.tgz ${pth} && rm -fR ${pth}
+
+pth=gedit-restore-minimap
+_echot "------- gedit / ${pth}"
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/johnfactotum/gedit-restore-minimap.git ${pth}
+
+pth=gedit-markdown_preview
+_echot "------- gedit / ${pth}"
+${_CMD_INS} python3-markdown gir1.2-webkit2-4.1 libglib2.0-bin && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install packages: ${packages}"; return 1; }
+cd ${pth_plug}
+_keepmvts ${pth}
+git clone https://github.com/maoschanz/gedit-plugin-markdown_preview ${pth}
+cd {pth_plug}/${pth} && _eval ./install.sh
+
+_echot "------- gedit settings"
+dconf write /org/gnome/gedit/preferences/editor/use-default-font true
+dconf write /org/gnome/gedit/preferences/editor/tabs-size 4
+dconf write /org/gnome/gedit/preferences/ui/side-panel-visible true
+dconf write /org/gnome/gedit/preferences/editor/bracket-matching true
+dconf write /org/gnome/gedit/preferences/editor/display-line-numbers true
+dconf write /org/gnome/gedit/preferences/editor/highlight-current-line true
+dconf write /org/gnome/gedit/plugins/active-plugins ['git', 'bookmarks', 'spell', 'sort', 'quickhighlight', 'modelines', 'filebrowser', 'docinfo', 'duplicate_line', 'restoretabs']
+
+########################  AUTOSTART
+
+pth=~/.config/autostart
+! [ -d ${pth} ] && mkdir ${pth}
+
+_echot "------- gedit add disabled"
+
+file=${pth}/60-org.gnome.gedit.desktop
+echo "[Desktop Entry]
+Name=gedit
+GenericName=Text Editor
+Comment=Edit text files
+Exec=gedit %U
+Terminal=false
+Type=Application
+Icon=accessories-text-editor
+Categories=GNOME;GTK;Utility;TextEditor;
+StartupNotify=true
+DBusActivatable=true
+X-GNOME-Autostart-Delay=6
+X-GNOME-Autostart-enabled=false" > ${file}
+chmod +x "${file}"
+
