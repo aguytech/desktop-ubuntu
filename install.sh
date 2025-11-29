@@ -14,6 +14,10 @@ file=${_PATH_BASE}/bs/inc
 ! [ -f "${file}" ] && echo "Unable to find file: ${file}" && exit 1
 ! . ${file} && echo "Errors while sourcing file: ${file}" && exit 1
 
+########################  WWW
+
+sudo ping -c1 google.com >/dev/null || _exite "Installation needs internet connection"
+
 ########################  VARIABLES
 
 export DEBIAN_FRONTEND=noninteractive
@@ -21,7 +25,9 @@ export DEBIAN_FRONTEND=noninteractive
 ########################  PRE
 
 _SPATH=pre
-parts_sub="data ${part_fs} init ssh upgrade repo global conf end"
+_source_sub "data" ${_SPATH}
+
+parts_sub="${part_fs} init ssh upgrade repo global conf end"
 for _PART in ${parts_sub}; do
 	_source_sub "${_PART}" ${_SPATH}
 done
