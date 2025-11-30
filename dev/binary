@@ -9,7 +9,16 @@ packages="ghex wxhexeditor"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
 
-#_echot "------- bless"
-#pth=${HOME}/.config/bless/layouts/
-#[ -d "${pth}" ] || mkdir -p ${pth}
-#cp ${_PATH_BASE}/conf/bless/* ${pth}/
+if ! which imhex >/dev/null; then
+	_echot "------- imhex"
+	pth=/tmp
+	anstmp=1.37.4-Ubuntu-24.04-x86_64
+	_echoa "url to see available releases: https://github.com/WerWolv/ImHex/tags"
+	_askno "Give the version to download imhex from github (${anstmp})"
+	imhex_version=${_ANSWER:-${anstmp}}
+	file=${pth}/imhex-${imhex_version}.deb
+	url=https://github.com/WerWolv/ImHex/releases/download/v${imhex_version%%-*}/${file}
+	_eval wget -O ${file} ${url} || _exite "Error while downloading url: ${url}"
+	_evalr apt install -f ${file} || _exite "Unable to install ${file}"
+fi
+
