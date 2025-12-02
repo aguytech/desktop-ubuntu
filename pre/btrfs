@@ -47,7 +47,7 @@ if [ "${_DEVICE_EXT}" ]; then
 fi
 
 if [ -z ${_DEVICE_VMS+x} ]; then
-	_menu "Select a dedicated device for /ext or none" none ${devices}
+	_menu "Select a dedicated device for /vms or none" none ${devices}
 	_DEVICE_VMS=${_ANSWER/none/}
 	_confset _DEVICE_VMS "${_DEVICE_VMS}"
 fi
@@ -99,7 +99,28 @@ _askyn "Confirm installation" && [ "${_ANSWER}" == n ] && _exit 1
 
 ########################  SUBVOLUMES
 
-cd /
+if [ "${_DEVICE_VMS}" ]; then
+
+	###########  MOUNT _DEVICE_VMS /mnt
+
+	pth=/mnt
+	_echot "------- mount ${_DEVICE_VMS} ${pth}"
+	_evalr mount "${_DEVICE_VMS}" ${pth} || _exite "Unable to mount ${_DEVICE_VMS} in ${pth}"
+
+	if ! sudo btrfs subvolume list -o ${pth} | cut -d' ' -f9 | grep -q ^vms; then
+		_echot "------- btrfs create vms"
+		_evalr btrfs subvolume create ${pth}/vms || _exite "Unable to: btrfs subvolume create ${pth}/vms"
+	fi
+
+	_echot "------- umount ${_DEVICE_VMS} ${pth}"
+	_evalr umount ${pth} || _exite "Unable to umount ${pth}"
+
+	###########  UMOUNT _DEVICE_VMS /mnt
+
+	_echot "------- mount ${_DEVICE_SYS} in ${pth_sys}"
+
+fi
+
 if grep -q "^${_DEVICE_SYS}" /proc/mounts; then
 	pth_sys=$( grep "^${_DEVICE_SYS}" /proc/mounts | cut -d' ' -f2 )
 	_echot "------- umount ${pth_sys}"
@@ -150,13 +171,13 @@ pths_btrfs+=" ${_SYSNAME}/btrfs/save"
 
 _echot "------- ext"
 pths_btrfs+=" ${_SYSNAME}/ext"
-! [ "${_DEVICE_EXT}" ]; then
+if ! [ "${_DEVICE_EXT}" ]; then
 	[ -d ext ] || _evalr btrfs subvolume create ext
 fi
 
 _echot "------- vms"
 pths_btrfs+=" ${_SYSNAME}/vms"
-! [ "${_DEVICE_VMS}" ]; then
+if ! [ "${_DEVICE_VMS}" ]; then
 	[ -d vms ] || _evalr btrfs subvolume create vms
 fi
 
@@ -193,7 +214,7 @@ _evalr btrfs subvolume list -t .
 ########################  FSTAB
 
 _echot "------- device sys"
-uuidsys=$(sudo blkid ${_DEVICE_SYS} -o value | sed -n '2p')
+uuidsys=$( sudo blkid -o export ${_DEVICE_SYS} | grep '^UUID=' | cut -d= -f2 )
 if [ -z "${uuidsys}" ]; then
 	_ask "Please give the UUID for sys"
 	uuidsys=${_ANSWER}
@@ -201,7 +222,7 @@ fi
 
 if [ "${_DEVICE_EXT}" ]; then
 	_echot "------- device ext"
-	uuidext=$(sudo blkid ${_DEVICE_EXT} -o value | sed -n '2p')
+	uuidsys=$( sudo blkid -o export ${_DEVICE_EXT} | grep '^UUID=' | cut -d= -f2 )
 	if [ -z "${uuidext}" ]; then
 		_ask "Please give the UUID for ext"
 		uuidext=${_ANSWER}
@@ -210,7 +231,7 @@ fi
 
 if [ "${_DEVICE_VMS}" ]; then
 	_echot "------- device ext"
-	uuidvms=$(sudo blkid ${_DEVICE_VMS} -o value | sed -n '2p')
+	uuidsys=$( sudo blkid -o export ${_DEVICE_VMS} | grep '^UUID=' | cut -d= -f2 )
 	if [ -z "${uuidvms}" ]; then
 		_ask "Please give the UUID for vms"
 		uuidvms=${_ANSWER}
@@ -229,13 +250,13 @@ sudo sh -c "echo '
 # sys ${_DEVICE_SYS}
 UUID=${uuidsys}	/		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/${_SYSNAME}		0 1
 UUID=${uuidsys}	/home		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/home		0 2
-UUID=${uuidsys}	/home/${_USERNAME}	btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/user-${_SYSNAME}		0 2' >> ${file}"
+UUID=${uuidsys}	/home/${_USERNAME}	btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/user-${_SYSNAME}	0 2' >> ${file}"
 # /ext
-[ "${_DEVICE_EXT}" ] || sudo sh -c "echo 'UUID=${uuidsys}	/ext		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/ext		0	2' >> ${file}"
+[ "${_DEVICE_EXT}" ] || sudo sh -c "echo 'UUID=${uuidsys}	/ext		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/ext		0 2' >> ${file}"
 # /vms
-[ "${_DEVICE_VMS}" ] || sudo sh -c "echo 'UUID=${uuidsys}	/vms		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/vms		0	2' >> ${file}"
+[ "${_DEVICE_VMS}" ] || sudo sh -c "echo '#UUID=${uuidsys}	/vms		btrfs	defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/vms		0 2' >> ${file}"
 # btrfs/sys
-sudo sh -c "echo '/btrfs
+sudo sh -c "echo '# /btrfs/
 UUID=${uuidsys}	/btrfs/sys	btrfs	noauto,defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd			0 2
 UUID=${uuidsys}	/btrfs/save	btrfs	noauto,defaults,noatime,${ssd}space_cache=v2,autodefrag,compress=zstd,subvol=/save	0 2' >> ${file}"
 
@@ -271,15 +292,15 @@ cat ${file}
 echo
 _echoA "Check above file: /etc/fstab"
 _askno "Confirm to continue"
-[ "${_ANSWER}" = n ] && exit 1
+[ "${_ANSWER}" = n ] && _exit
 
 ########################  REPO
 
 if ! which git; then
 _echot "------- update"
-_CMD update
+${_CMD} update
 _echot "------- git install"
-_CMD_INS git
+${_CMD_INS} git
 fi
 
 _echot "------- repo - ${_GIT_BR}"
