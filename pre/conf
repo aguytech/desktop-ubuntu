@@ -114,6 +114,10 @@ _echot "------- tmux desktop"
 _eval cp -a ${file_tmux_desktop} ${HOME}/.local/share/applications/
 _evalr chmod 644 ${HOME}/.local/share/applications/${file_tmux_desktop##*/}
 
+_echot "------- tmux .bash_profile"
+file=~/.bash_profile
+[ -f ${file} ] || echo '[ -f ~/.bashrc ] && source ~/.bashrc' >> ${file}
+
 _echot "------- gtk4"
 pth_to="${HOME}/.local/share/gtksourceview-4"
 [ -d "${pth_to}" ] && _keepmvts "${pth_to}"
