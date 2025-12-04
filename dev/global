@@ -3,7 +3,7 @@
 ########################  INSTALL
 
 _echot "------- tools"
-packages="jq lnav kpartx openssh-server pv squashfs-tools"
+packages="jq lnav kpartx neovim openssh-server pv squashfs-tools"
 packages+=" genisoimage net-tools xsysinfo"
 ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 	|| { _echoE "Unable to install: ${packages}"; return 1; }
