@@ -13,6 +13,9 @@ service=acpid
 _service enable ${service}
 _service start ${service}
 
+_echot "------- show battery percentage"
+_eval "gsettings set org.gnome.desktop.interface show-battery-percentage true"
+
 #str=" acpi_backlight=vendor" # just try
 #str+=" fbcon=nodefer" # just try
 #if [ "${str}" ] && ! grep -q '^GRUB_CMDLINE_LINUX=.*${str}' ${file}; then
