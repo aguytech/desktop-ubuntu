@@ -31,7 +31,7 @@ ${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
 
 _echot "------- oh-my-zsh"
 _echo "Launch this following command in an other terminal:"
-_echoA 'sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"'
+_echoA 'sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -qO -)"'
 _echo 'After it, you can then close the terminal in which you launched the command'
 _askno "Validate to continue"
 
