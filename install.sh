@@ -6,8 +6,6 @@ S_TRACE=debug
 _PATH_BASE=$( readlink -f ${0%/*} )
 _PATH_CONF=/usr/local/conf
 _PATH_LOG=/var/log/desktop-install
-_CMD="_evalr apt"
-_CMD_INS="_evalr apt install -y"
 _VER_NAME=ubuntu
 
 # inc

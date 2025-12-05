@@ -8,8 +8,7 @@ export ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
 
 _echot "------- install"
 packages="zsh"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- zprofile"
 file=/etc/zsh/zprofile
@@ -26,8 +25,7 @@ file=${HOME}/.zshrc
 
 _echot "------- needed packages"
 packages="git fonts-font-awesome"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- oh-my-zsh"
 _echo "Launch this following command in an other terminal:"

@@ -2,7 +2,7 @@
 
 _echot "------- apt repository"
 sudo add-apt-repository -yn ppa:wireshark-dev/stable
-${_CMD} update
+_evalr apt update
 
 _echot "------- install"
 _echo "Launch this following command in an other terminal:"

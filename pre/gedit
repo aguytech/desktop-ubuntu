@@ -4,8 +4,7 @@
 
 packages="gedit-plugins gedit-source-code-browser-plugin stopwatch"
 # gedit-developer-plugins
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 ########################  CONF
 
@@ -46,8 +45,7 @@ git clone https://github.com/johnfactotum/gedit-restore-minimap.git ${pth}
 
 pth=gedit-markdown_preview
 _echot "------- gedit / ${pth}"
-${_CMD_INS} python3-markdown gir1.2-webkit2-4.1 libglib2.0-bin && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install packages: ${packages}"; return 1; }
+_install_pcks python3-markdown gir1.2-webkit2-4.1 libglib2.0-bin
 cd ${pth_plug}
 _keepmvts ${pth}
 git clone https://github.com/maoschanz/gedit-plugin-markdown_preview ${pth}

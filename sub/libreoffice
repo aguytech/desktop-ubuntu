@@ -2,12 +2,10 @@
 
 _echot "------- parts"
 packages="libreoffice-calc libreoffice-draw libreoffice-gnome libreoffice-impress libreoffice-math"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- tools"
 packages=" libreoffice-sdbc-mysql libreoffice-templates libreoffice-wiki-publisher libreoffice-writer"
 # libreoffice-sdbc-postgresql
 # libreoffice-dmaths libreoffice-librelogo libreoffice-style-breeze libreoffice-style-elementary libreoffice-style-sifr
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}

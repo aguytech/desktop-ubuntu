@@ -19,8 +19,7 @@ _require ${file_script_nbd} ${file_conf_ca}
 
 _echot "------- cpu-checker"
 packages="cpu-checker"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 [ "$( kvm-ok 2>/dev/null )" ] || _exite "Please enable Virtualization capability in your BIOS"
 
@@ -75,14 +74,12 @@ packages="qemu-system-x86 qemu-utils bridge-utils dnsmasq virtiofsd"
 packages+=" libvirt-daemon-system libvirt-clients virt-manager virt-viewer virtinst"
 packages+=" guestfs-tools libguestfs-tools ovmf"
 
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- tpm support"
 # for windows 11 guest
 packages="swtpm"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 ########################  CONF
 
@@ -133,8 +130,7 @@ _evalr chown ${USER}:${USER} ${_PATH_NBD}
 
 _echot "------- install"
 packages="qemu-utils"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- script"
 file=/usr/local/bin/nbd

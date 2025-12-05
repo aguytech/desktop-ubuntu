@@ -4,7 +4,7 @@
 
 _echot "------- apt repository"
 file=/etc/apt/sources.list
-_keepcp ${file}
+_keepcpts ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
 sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser

@@ -3,12 +3,12 @@
 ########################  MAIN
 
 _echot "------- update"
-${_CMD} update
+_evalr apt update
 
 _echot "------- dist-upgrade"
-${_CMD} -y dist-upgrade
+_evalr apt -y dist-upgrade
 
 _echot "------- clean"
-${_CMD} -y autoremove
-${_CMD} clean
-${_CMD} autoclean
+_evalr apt -y autoremove
+_evalr apt clean
+_evalr apt autoclean

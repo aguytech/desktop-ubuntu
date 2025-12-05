@@ -18,8 +18,7 @@ fi
 
 _echot "------- libfuse2t64"
 packages="libfuse2t64"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- get"
 anstmp=1.10.0

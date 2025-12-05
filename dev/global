@@ -5,26 +5,22 @@
 _echot "------- tools"
 packages="jq lnav kpartx neovim openssh-server pv squashfs-tools"
 packages+=" genisoimage net-tools xsysinfo"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- softs"
 packages=" geany git gitg gitk gtkhash vim"
 # bless mkisofs sysstat
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- extra"
 packages+=" openjdk-21-jre"
 # sysstat
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- nautilus"
 packages="nautilus-admin nautilus-script-manager nautilus-scripts-manager nautilus-share"
 packages+=" nautilus-extension-gnome-terminal nautilus-wipe nautilus-hide"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 ########################  CONF
 

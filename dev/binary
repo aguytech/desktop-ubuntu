@@ -6,8 +6,7 @@ _echot "------- install"
 packages="ghex wxhexeditor"
 # for bless SEE https://miloserdov.org/?p=5666
 # sysstat mkisofs bless
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 if ! which imhex >/dev/null; then
 	_echot "------- imhex"

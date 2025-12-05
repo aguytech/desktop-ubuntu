@@ -24,8 +24,7 @@ packages="curl wget duf exfatprogs gnupg hfsprogs htop most ncdu pv testdisk tre
 packages+=" git gparted tmux vim"
 packages+=" p7zip-full p7zip-rar zip unzip rar unrar"
 # kpartx ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install packages: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- tools"
 packages="dconf-editor font-manager gnome-sushi meld qt6ct stopwatch"
@@ -36,15 +35,13 @@ packages+=" nautilus-image-converter nautilus-sendto"
 # nautilus-image-manipulator filemanager-actions nautilus-emblems
 # uget-chrome-wrapper nautilus-dropbox nautilus-filename-repairer nautilus-image-converter nautilus-terminal
 # compiz-fusion-plugins-extra compizconfig-settings-manager exfat-utils exfat-fuse freefilesync qshutdown solaar unetbootin
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- office"
 packages="libreoffice  libreoffice-gtk4 libreoffice-math libreoffice-numbertext libreoffice-qt6"
 packages+=" libreoffice-style-breeze libreoffice-style-sifr libreoffice-sdbc-mysql"
 packages+=" scribus"
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
 
 _echot "------- graphic"
 packages="inkscape"
@@ -59,5 +56,4 @@ packages+=" audacity easytag gmusicbrowser sayonara soundconverter sound-juicer"
 packages+=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
 packages+=" libavcodec-extra ubuntu-restricted-extras"
 # chrome-gnome-shell
-${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
-	|| { _echoE "Unable to install: ${packages}"; return 1; }
+_install_pcks ${packages}
