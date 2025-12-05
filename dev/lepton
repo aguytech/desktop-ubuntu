@@ -5,32 +5,39 @@
 _echot "------- required files"
 file_lepton_bin=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager
 file_lepton_desktop=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager.desktop
-file_lepton_png=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager.png
+file_lepton_png=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager-png.tgz
 file_lepton_conf=${_PATH_BASE}/conf/soft/.leptonrc
 _require ${file_lepton_bin} ${file_lepton_desktop} ${file_lepton_png} ${file_lepton_conf}
 
 ########################  MAIN
 
 if which lepton-snippet-manager >/dev/null; then
-	_echa "lepton-snippet-manager has already installed"
+	_echoa "lepton-snippet-manager has already installed"
 	return
 fi
 
+_echot "------- libfuse2t64"
+packages="libfuse2t64"
+${_CMD_INS} ${packages} && _partadd "${packages}" ${_FILE_PCK} \
+	|| { _echoE "Unable to install: ${packages}"; return 1; }
+
 _echot "------- get"
-pth=/tmp
 anstmp=1.10.0
 _echoa "url to see available releases: https://github.com/hackjutsu/Lepton/releases"
 _askno "Give the version to download lepton from github (${anstmp})"
 version=${_ANSWER:-${anstmp}}
 file=Lepton-${version}.AppImage
-pth=/tmp/${file}
-if ! [ -f ${pth} ]; then
+pth_file=/tmp/${file}
+if ! [ -f ${pth_file} ]; then
 	url=https://github.com/hackjutsu/Lepton/releases/download/v${version%%-*}/${file}
-	_eval wget -qO ${pth} ${url} || _exite "Error while downloading url: ${url}"
+	_eval wget -qO ${pth_file} ${url} || _exite "Error while downloading url: ${url}"
 fi
 
 _echot "------- install"
-_evalr apt install -y -f ${pth} || _exite "Unable to install ${pth}"
+pth_opt=/opt/appimages
+[ -d ${pth_opt} ] || _evalr mkdir -p ${pth_opt}
+_evalr cp ${pth_file} ${pth_opt}/lepton-snippet-manager.appimage
+_evalr chmod +x ${pth_opt}/lepton-snippet-manager.appimage
 
 file=/usr/bin/lepton-snippet-manager
 _echot "------- ${file}"
@@ -43,10 +50,8 @@ _echot "------- ${file}"
 _keepmvts ${file}
 _evalr cp ${file_lepton_desktop} ${file}
 
-file=/usr/share/icons/hicolor/128x128/apps/lepton-snippet-manager.png
-_echot "------- ${file}"
-_keepmvts ${file}
-_evalr cp ${file_lepton_png} ${file}
+_echot "------- icons"
+_evalr tar xzf ${file_lepton_png} -C /usr/share/icons/hicolor
 
 file=~/.leptonrc
 _echot "------- ${file}"
