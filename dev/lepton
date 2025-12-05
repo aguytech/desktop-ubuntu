@@ -51,6 +51,8 @@ _evalr cp ${file_lepton_desktop} ${file}
 
 _echot "------- icons"
 _evalr tar xzf ${file_lepton_png} -C /usr/share/icons/hicolor
+_evalr gtk4-update-icon-cache
+_evalr update-icon-caches /usr/share/icons/*
 
 file=~/.leptonrc
 _echot "------- ${file}"
