@@ -1,0 +1,54 @@
+#!/bin/bash
+
+########################  REQUIRED
+
+_echot "------- required files"
+file_lepton_bin=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager
+file_lepton_desktop=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager.desktop
+file_lepton_png=${_PATH_BASE}/xtra/lepton/lepton-snippet-manager.png
+file_lepton_conf=${_PATH_BASE}/conf/soft/.leptonrc
+_require ${file_lepton_bin} ${file_lepton_desktop} ${file_lepton_png} ${file_lepton_conf}
+
+########################  MAIN
+
+if which lepton-snippet-manager >/dev/null; then
+	_echa "lepton-snippet-manager has already installed"
+	return
+fi
+
+_echot "------- get"
+pth=/tmp
+anstmp=1.10.0
+_echoa "url to see available releases: https://github.com/hackjutsu/Lepton/releases"
+_askno "Give the version to download lepton from github (${anstmp})"
+version=${_ANSWER:-${anstmp}}
+file=Lepton-${version}.AppImage
+pth=/tmp/${file}
+if ! [ -f ${pth} ]; then
+	url=https://github.com/hackjutsu/Lepton/releases/download/v${version%%-*}/${file}
+	_eval wget -O ${pth} ${url} || _exite "Error while downloading url: ${url}"
+fi
+
+_echot "------- install"
+_evalr apt install -y -f ${pth} || _exite "Unable to install ${pth}"
+
+file=/usr/bin/lepton-snippet-manager
+_echot "------- ${file}"
+_keepmvts ${file}
+_evalr cp ${file_lepton_bin} ${file}
+_evalr chmod +x ${file}
+
+file=/usr/share/applications/lepton-snippet-manager.desktop
+_echot "------- ${file}"
+_keepmvts ${file}
+_evalr cp ${file_lepton_desktop} ${file}
+
+file=/usr/share/icons/hicolor/128x128/apps/lepton-snippet-manager.png
+_echot "------- ${file}"
+_keepmvts ${file}
+_evalr cp ${file_lepton_png} ${file}
+
+file=~/.leptonrc
+_echot "------- ${file}"
+_keepmvts ${file}
+_eval cp -a ${file_lepton_conf} ${file}

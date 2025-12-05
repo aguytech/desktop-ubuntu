@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Lepton
+Exec=lepton-snippet-manager
+Terminal=false
+Type=Application
+Icon=lepton-snippet-manager
+StartupWMClass=Lepton
+X-AppImage-Version=1.10.0
+Comment=Democratizing Code Snippets Management (macOS/Win/Linux)
+Categories=Development;
