@@ -52,7 +52,7 @@ packages+=" gimp gimp-lensfun gimp-texturize"
 _echot "------- media"
 packages+=" aegisub cheese gnome-subtitles handbrake mkvtoolnix-gui mpv totem totem-plugins"
 packages+=" obs-studio simplescreenrecorder"
-packages+=" audacity easytag gmusicbrowser sayonara soundconverter sound-juicer"
+packages+=" audacity easytag gmusicbrowser soundconverter sound-juicer"
 packages+=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
 packages+=" libavcodec-extra ubuntu-restricted-extras"
 # chrome-gnome-shell

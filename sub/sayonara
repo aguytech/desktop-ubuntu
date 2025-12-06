@@ -1,0 +1,10 @@
+#!/bin/bash
+
+_echot "------- repo"
+sudo add-apt-repository -yn ppa:lucioc/sayonara # sayonara
+
+_echot "------- apt update"
+_evalr apt update
+
+_echot "------- install"
+_install_pcks sayonara

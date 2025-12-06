@@ -8,7 +8,6 @@ _keepcpts ${file}
 
 sudo add-apt-repository -yn ppa:mozillateam/ppa # mozilla
 sudo add-apt-repository -yn ppa:tomtomtom/gmusicbrowser # gmusicbrowser
-sudo add-apt-repository -yn ppa:lucioc/sayonara # sayonara
 sudo apt-add-repository -yn ppa:vincent-vandevyvre/vvv # qarte
 sudo apt-add-repository -yn ppa:kdenlive/kdenlive-stable
 sudo apt-add-repository -yn ppa:inkscape.dev/stable # inkscape
