@@ -60,6 +60,57 @@ dconf write /org/gnome/gedit/preferences/editor/display-line-numbers true
 dconf write /org/gnome/gedit/preferences/editor/highlight-current-line true
 dconf write /org/gnome/gedit/plugins/active-plugins ['git', 'bookmarks', 'spell', 'sort', 'quickhighlight', 'modelines', 'filebrowser', 'docinfo', 'duplicate_line', 'restoretabs']
 
+########################  LAUNCHER
+
+_echot "------- gedit"
+name=org.gnome.gedit
+file=/usr/share/applications/${name}.desktop
+if [ -f ${file} ]; then
+	_eval cp --update=all ${file} ${pth}
+	if ! grep -q '\[Desktop Action Separator\]' ${pth}/${name}.desktop; then
+		menuadd="Meld;GHex;Separator;Terminal;SshcDev;Sshc;SshcLxd"
+		grep -q '^Actions=' ${pth}/${name}.desktop \
+			&& sed -i "s|^\(Actions=.*\)$|\1${menuadd}|" ${pth}/${name}.desktop \
+			|| echo "Actions=${menuadd}" >> ${pth}/${name}.desktop
+		echo "
+[Desktop Action Separator]
+Name=−−−−−−−−−−
+Exec=
+
+[Desktop Action Meld]
+Name=Meld
+Exec=meld
+
+[Desktop Action GHex]
+Name=GHex
+Exec=ghex
+
+[Desktop Action SnapperGui]
+Name=Snapper GUI
+Exec=gksudo snapper-gui
+
+[Desktop Action Terminal]
+Name=Terminal
+Exec=gnome-terminal
+
+[Desktop Action SshcDev]
+Name=sshc dev
+Exec=gnome-terminal --tab --tab-with-profile node1
+
+[Desktop Action Sshc]
+Name=sshc
+Exec=gnome-terminal -e ssh-server
+
+[Desktop Action SshcLxd]
+Name=sshcl
+Exec=gnome-terminal -e ssh-lxd
+" >> ${pth}/${name}.desktop
+	fi
+else
+	_echoe "${name} are skipped"
+	_echoe "${file} file not found"
+fi
+
 ########################  AUTOSTART
 
 pth=~/.config/autostart
