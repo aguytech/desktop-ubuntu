@@ -1,12 +1,5 @@
 #!/bin/bash
 
-########################  PRE OUTSIDE
-
-_echot "------- ttf"
-_echo "Launch this following command in an other terminal:"
-_echoA "sudo apt install -y ttf-mscorefonts-installer"
-_askno "After it, Validate to continue"
-
 ########################  MAIN
 
 _echot "------- install"
