@@ -8,12 +8,12 @@ packages+=" genisoimage net-tools xsysinfo"
 _install_pcks ${packages}
 
 _echot "------- softs"
-packages=" geany git gitg gitk gtkhash vim"
+packages="geany git gitg gitk gtkhash vim"
 # bless mkisofs sysstat
 _install_pcks ${packages}
 
 _echot "------- extra"
-packages+=" openjdk-21-jre"
+packages=" openjdk-21-jre"
 # sysstat
 _install_pcks ${packages}
 
