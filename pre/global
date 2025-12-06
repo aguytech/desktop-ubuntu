@@ -1,22 +1,5 @@
 #!/bin/bash
 
-########################  PRE OUTSIDE
-
-_echot "------- libdvd"
-_echo "Launch this following command in an other terminal:"
-_echoA "sudo apt install -y libdvdnav4 libdvd-pkg libdvdread8t64"
-_askno "After it, Validate to continue"
-
-_echot "------- libdvd conf"
-_echo "Launch this following command in an other terminal:"
-_echoA "sudo dpkg-reconfigure libdvd-pkg"
-_askno "After it, Validate to continue"
-
-_echot "------- ttf"
-_echo "Launch this following command in an other terminal:"
-_echoA "sudo apt install -y ttf-mscorefonts-installer"
-_askno "After it, Validate to continue"
-
 ########################  MAIN
 
 _echot "------- system"
@@ -38,22 +21,30 @@ packages+=" nautilus-image-converter nautilus-sendto"
 _install_pcks ${packages}
 
 _echot "------- office"
-packages="libreoffice  libreoffice-gtk4 libreoffice-math libreoffice-numbertext libreoffice-qt6"
-packages+=" libreoffice-style-breeze libreoffice-style-sifr libreoffice-sdbc-mysql"
-packages+=" scribus"
+packages=" scribus"
 _install_pcks ${packages}
 
-_echot "------- graphic"
+_echot "------- graphic "
 packages="inkscape"
 # inkscape-speleo inkscape-textext inkscape-tutorials inkscape-open-symbols inkscape-survex-export"
 packages+=" gimp gimp-lensfun gimp-texturize"
 # gimp-plugin-registry
+_install_pcks ${packages}
 
 _echot "------- media"
-packages+=" aegisub cheese gnome-subtitles handbrake mkvtoolnix-gui mpv totem totem-plugins"
-packages+=" obs-studio simplescreenrecorder"
-packages+=" audacity easytag gmusicbrowser soundconverter sound-juicer"
-packages+=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
+packages=" cheese mpv totem totem-plugins"
+packages+=" simplescreenrecorder obs-studio"
+_install_pcks ${packages}
+
+_echot "------- media-extras"
+packages=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
 packages+=" libavcodec-extra ubuntu-restricted-extras"
+_install_pcks ${packages}
+
+_echot "------- audio"
+packages=" audacity easytag gmusicbrowser soundconverter sound-juicer"
 # chrome-gnome-shell
 _install_pcks ${packages}
+
+_echot "------- video"
+packages=" aegisub gnome-subtitles handbrake mkvtoolnix-gui"

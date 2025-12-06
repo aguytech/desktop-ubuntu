@@ -1,11 +1,27 @@
 #!/bin/bash
 
-_echot "------- parts"
-packages="libreoffice-calc libreoffice-draw libreoffice-gnome libreoffice-impress libreoffice-math"
+########################  PRE OUTSIDE
+
+_echot "------- ttf"
+_echo "Launch this following command in an other terminal:"
+_echoA "sudo apt install -y ttf-mscorefonts-installer"
+_askno "After it, Validate to continue"
+
+########################  MAIN
+
+_echot "------- install"
+packages="libreoffice libreoffice-gnome libreoffice-gtk4"
+# libreoffice-qt6
 _install_pcks ${packages}
 
 _echot "------- tools"
-packages=" libreoffice-sdbc-mysql libreoffice-templates libreoffice-wiki-publisher libreoffice-writer"
+packages=" libreoffice-sdbc-mysql libreoffice-templates libreoffice-wiki-publisher"
 # libreoffice-sdbc-postgresql
-# libreoffice-dmaths libreoffice-librelogo libreoffice-style-breeze libreoffice-style-elementary libreoffice-style-sifr
+packages+=" libreoffice-numbertext"
+# libreoffice-dmaths libreoffice-librelogo
+_install_pcks ${packages}
+
+_echot "------- styles"
+packages+=" libreoffice-style-breeze libreoffice-style-sifr"
+# libreoffice-style-elementary libreoffice-style-sifr
 _install_pcks ${packages}
