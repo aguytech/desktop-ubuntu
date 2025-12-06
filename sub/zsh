@@ -60,10 +60,5 @@ _askno "Validate to continue"
 
 ########################  END
 
-_partadd "${_SPATH}_${_PART}" "${S_FILE_INSTALL_DONE}"
-
-########################  RESTART
-
-_echoA "Restart your computer to append configuration"
-_askno "Validate to reboot"
-_evalr reboot
+_echoA 'To complete installation restart the computer as you wish'
+_askno "Validate to continue"
