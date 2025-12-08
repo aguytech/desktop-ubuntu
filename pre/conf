@@ -155,6 +155,11 @@ _echoA "Close language window after validation."
 _askno "Validate to continue"
 _eval gnome-language-selector
 
+_echot "------- QT5"
+_echoA "After validation, adjust settings for qt5 and close qt5ct window"
+_askno "Validate to continue"
+qt5ct 2>/dev/null
+
 _echot "------- QT6"
 _echoA "After validation, adjust settings for qt6 and close qt6ct window"
 _askno "Validate to continue"
