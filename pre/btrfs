@@ -69,7 +69,8 @@ if [ -z ${_DEVICE_GRUB+x} ]; then
 fi
 
 if [ -z ${_SYSNAME+x} ]; then
-	anstmp=$( sed -n 's|^DISTRIB_CODENAME=\(.*\)$|\1|p' /etc/lsb-release | sed 's/"//g' | sed 's/.*/\L&/g' )
+	file=/etc/lsb-release
+	anstmp=$( sed -n 's|^.*_CODENAME=\(.*\)$|\1|p' ${file} | sed 's/"//g' | sed 's/.*/\L&/g' )
 	_askno "Give a NAME for system btrfs volume: ${_DEVICE_SYS} (${anstmp})"
 	_SYSNAME=${_ANSWER:-${anstmp}}
 	_confset _SYSNAME "${_SYSNAME}"
@@ -394,4 +395,4 @@ exit
 
 # create an iso file '/vms/iso/desktop-install.iso' with virtual paths: /bs-desktop, /desktop-manjaro and /desktop-ubuntu
 # used for vitualized installation like virt-manager, virtualbox, vmware, ..
-# mkisofs -Jr -o /vms/iso/desktop-install.iso -graft-points /bs-desktop=/home/shared/repo/bs-desktop /desktop-manjaro=/home/shared/repo/desktop-manjaro /desktop-ubuntu=/home/shared/repo/desktop-ubuntu
+# mkisofs -Jr -o /vms/iso/desktop-install.iso -graft-points /bs=/home/shared/repo/bs /desktop-manjaro=/home/shared/repo/desktop-manjaro /desktop-ubuntu=/home/shared/repo/desktop-ubuntu /desktop-debian=/home/shared/repo/desktop-debian
