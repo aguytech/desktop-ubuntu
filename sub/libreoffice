@@ -15,6 +15,6 @@ packages+=" libreoffice-numbertext"
 _install_pcks ${packages}
 
 _echot "------- styles"
-packages+=" libreoffice-style-breeze libreoffice-style-sifr"
+packages=" libreoffice-style-breeze libreoffice-style-sifr"
 # libreoffice-style-elementary libreoffice-style-sifr
 _install_pcks ${packages}
