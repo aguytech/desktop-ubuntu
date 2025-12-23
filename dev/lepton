@@ -38,7 +38,7 @@ pth_opt=/opt/appimages
 _evalr cp ${pth_file} ${pth_opt}/lepton-snippet-manager.appimage
 _evalr chmod +x ${pth_opt}/lepton-snippet-manager.appimage
 
-file=/usr/bin/lepton-snippet-manager
+file=/usr/local/bin/lepton-snippet-manager
 _echot "------- ${file}"
 _keepmvts ${file}
 _evalr cp ${file_lepton_bin} ${file}
