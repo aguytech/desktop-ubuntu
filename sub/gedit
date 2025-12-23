@@ -49,7 +49,7 @@ _install_pcks python3-markdown gir1.2-webkit2-4.1 libglib2.0-bin
 cd ${pth_plug}
 _keepmvts ${pth}
 git clone https://github.com/maoschanz/gedit-plugin-markdown_preview ${pth}
-cd {pth_plug}/${pth} && _eval ./install.sh
+cd ${pth_plug}/${pth} && _eval ./install.sh
 
 _echot "------- gedit settings"
 dconf write /org/gnome/gedit/preferences/editor/use-default-font true
@@ -58,7 +58,7 @@ dconf write /org/gnome/gedit/preferences/ui/side-panel-visible true
 dconf write /org/gnome/gedit/preferences/editor/bracket-matching true
 dconf write /org/gnome/gedit/preferences/editor/display-line-numbers true
 dconf write /org/gnome/gedit/preferences/editor/highlight-current-line true
-dconf write /org/gnome/gedit/plugins/active-plugins ['git', 'bookmarks', 'spell', 'sort', 'quickhighlight', 'modelines', 'filebrowser', 'docinfo', 'duplicate_line', 'restoretabs']
+dconf write /org/gnome/gedit/plugins/active-plugins "['git', 'bookmarks', 'spell', 'sort', 'quickhighlight', 'modelines', 'filebrowser', 'docinfo', 'duplicate_line', 'restoretabs']"
 
 ########################  LAUNCHER
 
@@ -131,6 +131,6 @@ Categories=GNOME;GTK;Utility;TextEditor;
 StartupNotify=true
 DBusActivatable=true
 X-GNOME-Autostart-Delay=6
-X-GNOME-Autostart-enabled=false" > ${file}
+X-GNOME-Autostart-enabled=false
+Hidden=true" > ${file}
 chmod +x "${file}"
-
