@@ -29,7 +29,8 @@ _keepcpts ${file}
 sudo sed -i "s|^.\?\(GRUB_TIMEOUT_STYLE\)=.*|\1=menu|" ${file}
 sudo sed -i "/^GRUB_TIMEOUT=/ s|=.*|=2|" ${file}
 sudo sed -i "/^GRUB_DEFAULT=/ s|=.*|=0|" ${file}
-sudo sed -i "/^GRUB_DISABLE_OS_PROBER=T=/ s|=.*|=false|" ${file} # manjaro
+sudo sed -i "/^GRUB_SAVEDEFAULT=/ s|=.*|=false|" ${file} # manjaro
+sudo sed -i "/^GRUB_DISABLE_OS_PROBER=T=/ s|=.*|=false|" ${file}
 grep -q '^GRUB_DISABLE_OS_PROBER' ${file} || sudo sh -c "echo 'GRUB_DISABLE_OS_PROBER=false' >> ${file}"
 
 file=/etc/grub.d/00_header
@@ -52,7 +53,7 @@ _evalr swapon -v
 _echot "------- conf mirror sources"
 _echoA "After validation, select the country for software sources mirror"
 _askno "Validate to continue"
-_evalr software-properties-gtk
+software-properties-gtk
 
 ########################  USER
 
