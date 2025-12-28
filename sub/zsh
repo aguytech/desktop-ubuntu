@@ -57,8 +57,3 @@ _echo "Now you have to finish by configuring powerlevel10k :o)"
 _echo "Launch this following command in an other terminal:"
 _echoA 'zsh'
 _askno "Validate to continue"
-
-########################  END
-
-_echoA 'To complete installation restart the computer as you wish'
-_askno "Validate to continue"

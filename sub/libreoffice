@@ -8,13 +8,13 @@ packages="libreoffice libreoffice-gnome libreoffice-gtk4"
 _install_pcks ${packages}
 
 _echot "------- tools"
-packages=" libreoffice-sdbc-mysql libreoffice-templates libreoffice-wiki-publisher"
+packages="libreoffice-sdbc-mysql libreoffice-templates libreoffice-wiki-publisher"
 # libreoffice-sdbc-postgresql
 packages+=" libreoffice-numbertext"
 # libreoffice-dmaths libreoffice-librelogo
 _install_pcks ${packages}
 
 _echot "------- styles"
-packages=" libreoffice-style-breeze libreoffice-style-sifr"
+packages="libreoffice-style-breeze libreoffice-style-sifr"
 # libreoffice-style-elementary libreoffice-style-sifr
 _install_pcks ${packages}
