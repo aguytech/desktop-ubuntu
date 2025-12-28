@@ -2,14 +2,8 @@
 
 _echot "------- apt repository"
 sudo apt-add-repository -yn ppa:freecad-maintainers/freecad-stable # freecad
-sudo apt-add-repository -yn ppa:freecad-community/ppa # freecad addons
 _evalr apt update
 
 _echot "------- install"
 packages="freecad"
-#packages="freecad freecad-extras-drawing-dimensioning freecad-extras-lattice2 freecad-extras-eaglepcb2freecad"
-#packages+=" freecad-extras-macroparttovrml freecad-doc freecad-extras-fasteners freecad-extras-sheetmetal"
-#packages+=" freecad-extras-animation freecad-extras-idfimporter freecad-extras-timber freecad-extras-assembly2"
-#packages+=" freecad-extras-kicadstepuptools freecad-extras-workfeature freecad-extras-bolts freecad-extras-kicadstepuptools-wb"
-#packages+=" freecad-extras-cadquery freecad-extras-lattice"
 _install_pcks ${packages}
