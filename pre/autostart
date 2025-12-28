@@ -71,4 +71,3 @@ DBusActivatable=true
 X-GNOME-Autostart-Delay=4
 X-GNOME-Autostart-enabled=false" > ${file}
 chmod +x "${file}"
-

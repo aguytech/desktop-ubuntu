@@ -28,7 +28,7 @@ packages+=" nautilus-image-converter nautilus-sendto"
 _install_pcks ${packages}
 
 _echot "------- office"
-packages=" scribus"
+packages="scribus"
 _install_pcks ${packages}
 
 _echot "------- graphic "
@@ -39,19 +39,19 @@ packages+=" gimp gimp-lensfun gimp-texturize"
 _install_pcks ${packages}
 
 _echot "------- media"
-packages=" cheese mpv totem totem-plugins"
+packages="cheese mpv totem totem-plugins"
 packages+=" simplescreenrecorder obs-studio"
 _install_pcks ${packages}
 
 _echot "------- media-extras"
-packages=" gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
+packages="gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
 packages+=" libavcodec-extra ubuntu-restricted-extras"
 _install_pcks ${packages}
 
 _echot "------- audio"
-packages=" audacity easytag gmusicbrowser soundconverter sound-juicer"
+packages="audacity easytag gmusicbrowser soundconverter sound-juicer"
 # chrome-gnome-shell
 _install_pcks ${packages}
 
 _echot "------- video"
-packages=" aegisub gnome-subtitles handbrake mkvtoolnix-gui"
+packages="aegisub gnome-subtitles handbrake mkvtoolnix-gui"
