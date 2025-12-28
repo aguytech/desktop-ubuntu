@@ -62,6 +62,9 @@ dconf write /org/gnome/gedit/plugins/active-plugins "['git', 'bookmarks', 'spell
 
 ########################  LAUNCHER
 
+pth=~/.local/share/applications
+[ -d "${pth}" ] || mkdir -p ${pth}
+
 _echot "------- gedit"
 name=org.gnome.gedit
 file=/usr/share/applications/${name}.desktop
