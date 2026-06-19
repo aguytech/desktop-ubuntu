@@ -1,0 +1,21 @@
+#!/bin/bash
+
+########################  MAIN
+
+if ! which imhex >/dev/null; then
+	_echot "------- imhex"
+	version=$(sed -n 's|^DISTRIB_RELEASE=\(.*\)$|\1|p' /etc/lsb-release)
+	anstmp=1.38.1-Ubuntu-${version}-x86_64
+	_echoa "url to see available releases: https://github.com/WerWolv/ImHex/tags"
+	_askno "Give the version to download imhex from github (${anstmp})"
+	imhex_version=${_ANSWER:-${anstmp}}
+	file=imhex-${imhex_version}.deb
+	pth=/tmp/${file}
+	if ! [ -f ${pth} ]; then
+		url=https://github.com/WerWolv/ImHex/releases/download/v${imhex_version%%-*}/${file}
+		_eval wget -qO ${pth} ${url} || _exite "Error while downloading url: ${url}"
+	fi
+
+	_echot "------- install"
+	_evalr apt install -y -f ${pth} || _exite "Unable to install ${pth}"
+fi
