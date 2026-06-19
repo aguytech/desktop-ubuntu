@@ -40,10 +40,10 @@ if ! [ -d ${id} ]; then
 fi
 [ -d "${id}" ] || _eval git clone https://github.com/vinceliuice/${id} ${id}
 _eval git -C ${id} pull
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -l
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -l --round 8px
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t teal
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t orange
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t teal
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t orange
 [ "${file}" ] && _eval rm ${file}
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
@@ -59,10 +59,10 @@ if ! [ -d ${id} ]; then
 fi
 [ -d "${id}" ] || _eval git clone https://github.com/vinceliuice/${id} ${id}
 _eval git -C ${id} pull
-_eval ${pth}/install.sh -d ~/.themes -c dark -s nord -l
-_eval ${pth}/install.sh -d ~/.themes -c dark -s nord -l --round
-_eval ${pth}/install.sh -d ~/.themes -c dark -s nord -l --round -t pink
-_eval ${pth}/install.sh -d ~/.themes -c dark -s nord -l --round -t orange
+_eval ${id}/install.sh -d ~/.themes -c dark -s nord -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round
+_eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round -t pink
+_eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round -t orange
 [ "${file}" ] && _eval rm ${file}
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
@@ -78,11 +78,11 @@ if ! [ -d ${id} ]; then
 fi
 [ -d "${id}" ] || _eval git clone https://github.com/vinceliuice/${id} ${id}
 _eval git -C ${id} pull
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -l
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -t teal -l
-_eval ${pth}/install.sh -d ~/.themes -c dark -t orange -l
-_eval ${pth}install.sh -d ~/.themes -c dark -s compact -t orange -l
-_eval ${pth}/install.sh -d ~/.themes -c dark -s compact -t orange --tweaks round -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -t teal -l
+_eval ${id}/install.sh -d ~/.themes -c dark -t orange -l
+_eval ${id}install.sh -d ~/.themes -c dark -s compact -t orange -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -t orange --tweaks round -l
 [ "${file}" ] && _eval rm ${file}
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
@@ -102,6 +102,7 @@ _askno "Validate to continue"
 
 ########################  BACKUP
 
+_echot "------- please wait, backuping ${ls}"
 for i in $(ls); do
 	tar czf ${i}_$(date "+%Y%m%d").tgz $i
 done
