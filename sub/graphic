@@ -2,9 +2,9 @@
 
 _echot "------- install"
 packages="inkscape ink-generator scribus"
-packages+=" gimp gimp-gap gimp-cbmplugs gimp-data gimp-gmic gimp-texturize"
-packages+=" gimp-data-extras gimp-gutenprint gimp-lensfun gtkam-gimp create-resources"
+packages+=" gimp gimp-data-extras gimp-texturize create-resources"
 packages+=" darktable krita"
+# gimp-gap gimp-cbmplugs gimp-data gimp-gmic gimp-gutenprint gimp-lensfun gtkam-gimp
 # darkroom shotwell
 # ijsgutenprint gimp-save-for-web gimp-normal-map gimp-plugin-registry gimp-dbg gimp-ufraw sozi pandora xsane
 _install_pcks ${packages}
