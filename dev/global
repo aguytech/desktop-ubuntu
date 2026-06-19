@@ -4,7 +4,7 @@
 
 _echot "------- tools"
 packages="jq lnav kpartx neovim openssh-server pv squashfs-tools"
-packages+=" genisoimage net-tools xsysinfo"
+packages+=" genisoimage net-tools sysstat xsysinfo"
 _install_pcks ${packages}
 
 _echot "------- softs"
