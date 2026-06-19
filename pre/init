@@ -50,11 +50,6 @@ _evalr swapoff -av
 sudo sh -c 'echo vm.swappiness=40 > /etc/sysctl.d/99-swappiness.conf' # limit swap
 _evalr swapon -v
 
-_echot "------- conf mirror sources"
-_echoA "After validation, select the country for software sources mirror"
-_askno "Validate to continue"
-software-properties-gtk
-
 ########################  USER
 
 _echot "------- user paths"
