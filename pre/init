@@ -19,6 +19,9 @@ export S_PATH_SCRIPT=/usr/local/bs
 export S_GLOBAL_CONF=/usr/local/conf/global.conf
 export S_GLOBAL_FUNCTIONS="/usr/local/bs/inc-functions"
 
+_echot "------- reduce minlen for pam_pwquality.so"
+sudo sed -i "/pam_pwquality.so/ s|pam_pwquality.so.*$|pam_pwquality.so retry=3 minlen=6|'" /etc/pam.d/common-password
+
 _echot "------- root user"
 _askno "Give the password for root or leave blank to let unset"
 [ "${_ANSWER}" ] && echo -e "${_ANSWER}\n${_ANSWER}" | sudo passwd root
