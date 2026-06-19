@@ -10,7 +10,8 @@ _install_pcks ${packages}
 
 if ! which imhex >/dev/null; then
 	_echot "------- imhex"
-	anstmp=1.37.4-Ubuntu-24.04-x86_64
+	version=$(sed -n 's|^DISTRIB_RELEASE=\(.*\)$|\1|p' /etc/lsb-release)
+	anstmp=1.38.1-Ubuntu-${version}-x86_64
 	_echoa "url to see available releases: https://github.com/WerWolv/ImHex/tags"
 	_askno "Give the version to download imhex from github (${anstmp})"
 	imhex_version=${_ANSWER:-${anstmp}}
