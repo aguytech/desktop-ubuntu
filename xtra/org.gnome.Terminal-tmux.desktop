@@ -2,7 +2,7 @@
 Name=Gnome-Terminal & Tmux
 Comment=Use the command line
 Keywords=shell;prompt;command;commandline;cmd;
-Exec=ttmux
+Exec=ptyxis -- tmux attach-session
 Icon=tmux.svg
 Type=Application
 Categories=GNOME;GTK;System;TerminalEmulator;
