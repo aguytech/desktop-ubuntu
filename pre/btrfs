@@ -298,8 +298,8 @@ _askno "Confirm to continue"
 ########################  REPO
 
 if ! which git; then
-_echot "------- git install"
-_install_pcks git
+	_echot "------- git install"
+	_install_pcks git
 fi
 
 _echot "------- repo - ${_GIT_BR}"
