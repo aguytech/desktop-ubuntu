@@ -13,13 +13,8 @@ packages="geany git gitg gitk gtkhash vim"
 _install_pcks ${packages}
 
 _echot "------- extra"
-packages=" openjdk-21-jre"
+packages=" openjdk-26-jre"
 # sysstat
-_install_pcks ${packages}
-
-_echot "------- nautilus"
-packages="nautilus-admin nautilus-script-manager nautilus-scripts-manager nautilus-share"
-packages+=" nautilus-extension-gnome-terminal nautilus-wipe nautilus-hide"
 _install_pcks ${packages}
 
 ########################  CONF
