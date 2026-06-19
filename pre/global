@@ -12,14 +12,14 @@ _askno "After it, Validate to continue"
 _echot "------- system"
 packages="curl wget duf exfatprogs gnupg hfsprogs htop most ncdu pv testdisk tree"
 packages+=" git gparted tmux vim"
-packages+=" p7zip-full p7zip-rar pigz zstd"
-# kpartx ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin
+packages+=" p7zip-full pigz zstd"
+# kpartx ntfsprogs grsync gtk2-engines-pixbuf libnss-myhostname atop fslint dstat icedtea-8-plugin p7zip-rar
 _install_pcks ${packages}
 
 _echot "------- tools"
-packages="dconf-editor font-manager gnome-sushi meld qt5ct qt6ct stopwatch"
+packages="dconf-editor font-manager gnome-sushi meld qt6ct stopwatch"
 packages+=" gnome-activity-journal gnome-system-monitor gnome-system-tools gnome-tweaks"
-# boot-repair backintime-gnome y-ppa-manager numlockx multisystem baobab
+# qt5ct boot-repair backintime-gnome y-ppa-manager numlockx multisystem baobab
 packages+=" nautilus-image-converter nautilus-sendto"
 # easytag-nautilus nautilus-script-audio-convert nautilus-columns
 # nautilus-image-manipulator filemanager-actions nautilus-emblems
@@ -34,24 +34,27 @@ _install_pcks ${packages}
 _echot "------- graphic "
 packages="inkscape"
 # inkscape-speleo inkscape-textext inkscape-tutorials inkscape-open-symbols inkscape-survex-export"
-packages+=" gimp gimp-lensfun gimp-texturize"
-# gimp-plugin-registry
+packages+=" gimp gimp-data-extras gimp-texturize"
+# gimp-lensfun gimp-plugin-registry
 _install_pcks ${packages}
 
 _echot "------- media"
-packages="cheese mpv totem totem-plugins"
-packages+=" simplescreenrecorder obs-studio"
+packages="mpv totem totem-plugins"
+packages+=" simplescreenrecorder"
+# cheese obs-studio vlc
 _install_pcks ${packages}
 
 _echot "------- media-extras"
-packages="gnome-video-effects-extra gstreamer1.0-plugins-bad gstreamer1.0-plugins-good"
+packages="gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
 packages+=" libavcodec-extra ubuntu-restricted-extras"
 _install_pcks ${packages}
 
 _echot "------- audio"
-packages="audacity easytag gmusicbrowser soundconverter sound-juicer"
+packages="audacity easytag soundconverter sound-juicer"
 # chrome-gnome-shell
 _install_pcks ${packages}
 
 _echot "------- video"
-packages="aegisub gnome-subtitles handbrake mkvtoolnix-gui"
+packages="aegisub handbrake mkvtoolnix-gui"
+# gnome-subtitles
+_install_pcks ${packages}
