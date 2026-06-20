@@ -1,5 +1,15 @@
 #!/bin/bash
 
+########################  REQUIRED
+
+_echot "------- get font Meslo"
+file=Meslo.tar.xz
+file_meslo=/tmp/${file}
+if ! [ -f ${file_meslo} ]; then
+	url=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/${file}
+	_eval wget -qO ${pth} ${url} || _exite "Error while downloading url: ${url}"
+fi
+
 #########################  VARIABLES
 
 export ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
@@ -28,6 +38,12 @@ fi
 _echot "------- needed packages"
 packages="git fonts-font-awesome"
 _install_pcks ${packages}
+
+_echot "------- install font Meslo"
+pth=/usr/share/fonts/truetype/font-meslo
+[ -d "${pth}" ] || _evalr mkdir -p ${pth}
+_evalr tar xf ${file_meslo} -C ${pth}
+_evalr fc-cache -fv
 
 _echot "------- oh-my-zsh"
 _echo "Launch this following command in an other terminal:"
