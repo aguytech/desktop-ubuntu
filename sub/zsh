@@ -21,7 +21,9 @@ emulate sh -c \"source /etc/profile\"' >> ${file}"
 
 _echot "------- .zshrc keep"
 file=${HOME}/.zshrc
-[ -f ${file} ] && mv ${file} ${file}.before-ohmyovh
+if [ -f ${file} ] && ! [ -f "${file}.before-ohmyovh" ]; then
+	 mv ${file} ${file}.before-ohmyovh
+fi
 
 _echot "------- needed packages"
 packages="git fonts-font-awesome"
@@ -33,24 +35,35 @@ _echoA 'sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/instal
 _echo 'After it, you can then close the terminal in which you launched the command'
 _askno "Validate to continue"
 
-_echot "------- zsh-autosuggestions"
-_eval git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+pth=${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+if ! [ -d "${pth}" ]; then
+	_echot "------- zsh-autosuggestions"
+	_eval git clone https://github.com/zsh-users/zsh-autosuggestions ${pth}
+fi
 
-_echot "------- zsh-syntax-highlighting"
-_eval git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+pth=${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+if ! [ -d "${pth}" ]; then
+	_echot "------- zsh-syntax-highlighting"
+	_eval git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${pth}
+fi
 
-_echot "------- powerlevel10k"
-_eval git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k
+pth=${ZSH_CUSTOM}/themes/powerlevel10k
+if ! [ -d "${pth}" ]; then
+	_echot "------- powerlevel10k"
+	_eval git clone https://github.com/romkatv/powerlevel10k.git ${pth}
+fi
 
 #########################  CONF
 
-_echot "-------- .zshrc"
-plugins='zsh-autosuggestions zsh-syntax-highlighting'
-sed -i.ohmyovh "s|^\(plugins=(.*\))|\1 ${plugins})|" ${file}
-theme='powerlevel10k/powerlevel10k'
-sed -i "/^ZSH_THEME=/ s|=.*$|=\"${theme}\"|" ${file}
-cat ${file} ${file}.before-ohmyovh > ${file}.tmp
-mv ${file}.tmp ${file}
+if ! [ -f "${file}.ohmyovh" ]; then
+	_echot "-------- .zshrc"
+	plugins='zsh-autosuggestions zsh-syntax-highlighting'
+	sed -i.ohmyovh "s|^\(plugins=(.*\))|\1 ${plugins})|" ${file}
+	theme='powerlevel10k/powerlevel10k'
+	sed -i "/^ZSH_THEME=/ s|=.*$|=\"${theme}\"|" ${file}
+	cat ${file} ${file}.before-ohmyovh > ${file}.tmp
+	mv ${file}.tmp ${file}
+fi
 
 _echot "------- powerlevel10k"
 _echo "Now you have to finish by configuring powerlevel10k :o)"
