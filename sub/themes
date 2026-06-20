@@ -81,7 +81,7 @@ _eval git -C ${id} pull
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -t teal -l
 _eval ${id}/install.sh -d ~/.themes -c dark -t orange -l
-_eval ${id}install.sh -d ~/.themes -c dark -s compact -t orange -l
+_eval ${id}/install.sh -d ~/.themes -c dark -s compact -t orange -l
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -t orange --tweaks round -l
 [ "${file}" ] && _eval rm ${file}
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
