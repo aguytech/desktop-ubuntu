@@ -45,6 +45,9 @@ pth=/usr/share/fonts/truetype/font-meslo
 _evalr tar xf ${file_meslo} -C ${pth}
 _evalr fc-cache -fv
 
+_echot "------- update font cache"
+_evalr fc-cache -fv
+
 _echot "------- oh-my-zsh"
 _echo "Launch this following command in an other terminal:"
 _echoA 'sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -qO -)"'
