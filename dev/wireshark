@@ -1,7 +1,7 @@
 #!/bin/bash
 
 _echot "------- apt repository"
-sudo add-apt-repository -yn ppa:wireshark-dev/stable
+_evalr add-apt-repository -yn ppa:wireshark-dev/stable
 _evalr apt update
 
 _echot "------- install"
