@@ -26,6 +26,8 @@ _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --shell --round 8px
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --shell --round 8px -t teal
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --shell --round 8px -t orange
 [ "${file}" ] && _eval rm ${file}
+
+_echot "------- please wait, backuping ${id}"
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
 theme=Orchis-Orange-Dark-Compact
@@ -45,6 +47,8 @@ _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t teal
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -l --round 8px -t orange
 [ "${file}" ] && _eval rm ${file}
+
+_echot "------- please wait, backuping ${id}"
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
 theme=WhiteSur-Dark
@@ -64,6 +68,8 @@ _eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round
 _eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round -t pink
 _eval ${id}/install.sh -d ~/.themes -c dark -s nord -l --round -t orange
 [ "${file}" ] && _eval rm ${file}
+
+_echot "------- please wait, backuping ${id}"
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
 theme=WhiteSur-Dark-orange-nord
@@ -84,6 +90,8 @@ _eval ${id}/install.sh -d ~/.themes -c dark -t orange -l
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -t orange -l
 _eval ${id}/install.sh -d ~/.themes -c dark -s compact -t orange --tweaks round -l
 [ "${file}" ] && _eval rm ${file}
+
+_echot "------- please wait, backuping ${id}"
 tar czf ${id}_$(date "+%Y%m%d").tgz ${id}
 
 theme=Fluent-orange-Dark-compact
@@ -99,10 +107,3 @@ fi
 
 _echoA "You can change the theme from 'gnome-tweaks'"
 _askno "Validate to continue"
-
-########################  BACKUP
-
-_echot "------- please wait, backuping ${ls}"
-for i in $(ls); do
-	tar czf ${i}_$(date "+%Y%m%d").tgz $i
-done
