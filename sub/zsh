@@ -2,6 +2,11 @@
 
 ########################  REQUIRED
 
+file_p10k_conf=${_PATH_BASE}/conf/p10k/.p10k.zsh
+_require ${file_p10k_conf}
+
+########################  FONTS
+
 _echot "------- get font Meslo"
 file=Meslo.tar.xz
 file_meslo=/tmp/${file}
@@ -43,7 +48,6 @@ _echot "------- install font Meslo"
 pth=/usr/share/fonts/truetype/font-meslo
 [ -d "${pth}" ] || _evalr mkdir -p ${pth}
 _evalr tar xf ${file_meslo} -C ${pth}
-_evalr fc-cache -fv
 
 _echot "------- update font cache"
 _evalr fc-cache -fv
@@ -89,3 +93,8 @@ _echo "Now you have to finish by configuring powerlevel10k :o)"
 _echo "Launch this following command in an other terminal:"
 _echoA 'zsh'
 _askno "Validate to continue"
+
+_echot "------- powerlevel10k configuration"
+file=~/.p10k.zsh
+_keepcpts ${file}
+cp -a ${file_p10k_conf} ${file}
