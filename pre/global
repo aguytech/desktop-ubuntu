@@ -49,7 +49,7 @@ packages+=" libavcodec-extra ubuntu-restricted-extras"
 _install_pcks ${packages}
 
 _echot "------- audio"
-packages="audacity easytag soundconverter sound-juicer"
+packages="audacity easytag sayonara soundconverter sound-juicer"
 # chrome-gnome-shell
 _install_pcks ${packages}
 
