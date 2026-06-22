@@ -39,9 +39,8 @@ packages+=" gimp gimp-data-extras gimp-texturize"
 _install_pcks ${packages}
 
 _echot "------- media"
-packages="mpv totem totem-plugins"
-packages+=" simplescreenrecorder"
-# cheese obs-studio vlc
+packages="guvcview mpv totem totem-plugins vlc vokoscreen-ng"
+# obs-studio simplescreenrecorder
 _install_pcks ${packages}
 
 _echot "------- media-extras"
