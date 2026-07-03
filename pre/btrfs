@@ -24,7 +24,7 @@ if [ -z ${_DEVICE_SYS+x} ]; then
 	_confset _DEVICE_SYS "${_DEVICE_SYS}"
 fi
 if [ "${_DEVICE_SYS}" ]; then
-	${devices/ ${_DEVICE_SYS} / }
+	devices=${devices/ ${_DEVICE_SYS} / }
 	if [ -z ${_SSD_SYS+x} ]; then
 		_askyn "The SYSTEM device '${_DEVICE_SYS}' are they a SSD disk ?"
 		_SSD_SYS=${_ANSWER/n/}
@@ -38,7 +38,7 @@ if [ -z ${_DEVICE_EXT+x} ]; then
 	_confset _DEVICE_EXT "${_DEVICE_EXT}"
 fi
 if [ "${_DEVICE_EXT}" ]; then
-	${devices/ ${_DEVICE_EXT} / }
+	devices=${devices/ ${_DEVICE_EXT} / }
 	if [ -z ${_SSD_EXT+x} ]; then
 		_askyn "The SYSTEM device '${_DEVICE_EXT}' are they a SSD disk ?"
 		_SSD_EXT=${_ANSWER/n/}
@@ -52,7 +52,7 @@ if [ -z ${_DEVICE_VMS+x} ]; then
 	_confset _DEVICE_VMS "${_DEVICE_VMS}"
 fi
 if [ "${_DEVICE_VMS}" ]; then
-	${devices/ ${_DEVICE_VMS} / }
+	devices=${devices/ ${_DEVICE_VMS} / }
 	if [ -z ${_SSD_VMS+x} ]; then
 		_askyn "The SYSTEM device '${_DEVICE_VMS}' are they a SSD disk ?"
 		_SSD_VMS=${_ANSWER/n/}
