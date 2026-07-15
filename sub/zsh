@@ -12,7 +12,7 @@ file=Meslo.tar.xz
 file_meslo=/tmp/${file}
 if ! [ -f ${file_meslo} ]; then
 	url=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/${file}
-	_eval wget -qO ${pth} ${url} || _exite "Error while downloading url: ${url}"
+	_eval wget -qO ${file_meslo} ${url} || _exite "Error while downloading url: ${url}"
 fi
 
 #########################  VARIABLES
