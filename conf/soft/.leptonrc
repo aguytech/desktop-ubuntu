@@ -2,44 +2,67 @@
 	"theme": "dark",
 	"autoUpdate": false,
 	"snippet": {
+		"downloadAll": false,
 		"expanded": false,
 		"newSnippetPrivate": false,
-		"sorting": "updated_at", 
+		"sorting": "updated_at",
 		"sortingReverse": true
 	},
-	"editor" : {
+	"editor": {
 		"tabSize": 4,
 		"validateFilename": true
 	},
 	"userPanel": {
-		"hideProfilePhoto": true
+		"hideProfilePhoto": false
+	},
+	"startAtLogin": false,
+	"i18n": {
+		"locale": "en"
+	},
+	"window": {
+		"closeToTray": false,
+		"minimizeToTray": false
+	},
+	"avatar": {
+		"type": "github",
+		"boringAvatarVariant": "beam"
 	},
 	"logger": {
 		"level": "info"
+	},
+	"security": {
+		"cachedAccessTokenStorage": "auto"
 	},
 	"proxy": {
 		"enable": false,
 		"address": "socks://localhost:1080"
 	},
+	"tag": {
+		"showInSnippetList": false,
+		"colored": false
+	},
 	"notifications": {
 		"success": true,
 		"failure": true
 	},
+	"zoom": {
+		"percent": 100
+	},
 	"shortcuts": {
-		"keyShortcutForSearch": "CommandOrControl+F",
+		"keyShortcutForSearch": "Shift+Space",
 		"keyNewGist": "CommandOrControl+N",
 		"keyEditGist": "CommandOrControl+E",
+		"keyDeleteGist": "CommandOrControl+Delete",
 		"keySubmitGist": "CommandOrControl+S",
 		"keyImmersiveMode": "CommandOrControl+I",
 		"keyAboutPage": "CommandOrControl+,",
 		"keyDashboard": "CommandOrControl+D",
-		"keyEditorExit": "CommandOrControl+Escape",
 		"keySyncGists": "CommandOrControl+R"
 	},
 	"enterprise": {
 		"enable": false,
-		"host": "github_enterprise_host",
-		"token": "token_with_gist_enabled",
-		"avatarUrl": "optional_avatar_url"
+		"host": "",
+		"token": "",
+		"avatarUrl": ""
 	}
 }
